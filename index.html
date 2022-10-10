@@ -276,7 +276,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-10-10 18:09:04" itemprop="dateModified" datetime="2022-10-10T18:09:04+08:00">2022-10-10</time>
+      <time title="Modified: 2022-10-10 18:19:39" itemprop="dateModified" datetime="2022-10-10T18:19:39+08:00">2022-10-10</time>
     </span>
 
   
@@ -289,18 +289,15 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>一个已经停掉的项目，关于裸机上自动部署数据中心的方案，最近挺流行，写一点对 Bare Metal Provisioning 的想法</p>
-<hr>
-<p>Bare Metal Provisioning ，有一个前提性依赖技术，<del>比较老</del>，但是很有用的技术<br>叫做<strong>IPMI</strong>  <br>服务器往往需要远程管理，远程管理往往依赖OS. 那么，OS挂了的时候，或者还没有OS的时候，怎么远程控制服务器?<br>你猜对了，就是通过<code>IPMI</code>  </p>
-<blockquote>
-<p>IPMI 定义管理员如何监测系统硬件，传感器，控制系统组件，日志等<br>即使系统崩溃也可以获得机器状态、重要系统日志，还能实现系统的重启、关机等控制</p>
-</blockquote>
-<p>IPMI的实现需要一个专门的芯片，叫做<strong>BMC</strong>. 主流厂商的服务器都有这个芯片，HP，IBM，Cisco，还有Dell. BMC 不依赖于服务器的处理器、BIOS或操作系统，有的是服务器上一个独立板卡，有的直接集成在主板上，而IPMI定义了BMC做事情的规范。远程访问即是用到了IPMI定义 <code>Serial Over LAN</code> 的特性, SOL 通过 IPMI截取数据，将本来发往串口的信息重定向到局域网端口，这就提供了远程查看 BOOT、OS 加载等功能</p>
-<p>继续，我的粗浅理解，不一定对：<br>云，对资源的调度还是有层次之分的。上层，对服务的管理，对租户的管理，做得比较成熟了；底层，就是我们说的IaaS，对于V系而言，针对的是装有Hypervisor的Host，对于OpenStack而言，针对资源组的provisioning. 再往下，V系很难下去了，O系有，但是一直做得不是很好。<br>那么问题来了，如果没有先装好Hypervisor呢？所以需要Bare Metal Provisioning ，可以说是填补了cloud stack 比较薄弱的一环。机智如EMC看到了问题，所以搞了个RackHD，就是新来的那个部门。</p>
-<br/>
-
-<p><strong><a target="_blank" rel="noopener" href="https://github.com/RackHD">RackHD</a></strong> 是EMC开源的，一个平台无关的堆栈，目的是要解决大规模环境下管理和组织协调服务器与网络，存储资源这个vmware，openstack还没有解决好的问题，是不是很NB？网络和存储先不多说，存储目前看还是要调用wipr；网络，不晓得怎么弄，这是后两步，但是服务器这一步，是比较清楚的，就是Bare Metal Provisioning. RackHD想做到可以自动发现、描述、调配、编程各种服务器。<br>开发方面，可使用 RackHD API 作为组织协调系统的一个组件，或者创建一个用户界面管理硬件服务而<strong>无需考虑底层硬件是否就绪</strong>，这就很厉害了，就是说有了它，通过vRealize 或者openstack 之类的直接调用RackHD，之后的数据中心就可以完全从物理硬件到服务，全部自动化起来了。</p>
-
+          <p>本篇文章是关于一个裸机自动部署项目终结之后的想法</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/09/21/Bare%20Metal%20Provisioning%20%E7%9A%84%E4%B8%80%E4%BA%9B%E6%83%B3%E6%B3%95/">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
