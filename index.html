@@ -119,16 +119,16 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-count">4</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
-        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-count">2</span>
         <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-count">4</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>
@@ -398,6 +398,127 @@
             </div>
           <!--/noindex-->
         
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2016/08/21/Brocade%E6%B5%81%E9%87%8F%E7%9B%91%E8%A7%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Mightoon">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="MeeToon's Blog">
+      <meta itemprop="description" content="一个长期主义实践">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | MeeToon's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2016/08/21/Brocade%E6%B5%81%E9%87%8F%E7%9B%91%E8%A7%86/" class="post-title-link" itemprop="url">Brocade流量监视</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2016-08-21 14:01:33" itemprop="dateCreated datePublished" datetime="2016-08-21T14:01:33+08:00">2016-08-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Switch/" itemprop="url" rel="index"><span itemprop="name">Switch</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="Brocade-Flow-Vision"><a href="#Brocade-Flow-Vision" class="headerlink" title="Brocade Flow Vision"></a>Brocade Flow Vision</h1><p>最近 CMCNE 有新版本14.2.1发布，功能大致跟以前无异，注意到 Flow Vision 这一部分比较有意思，简单列举一下。  <br>Flow Vision 是 Brocade 上的用来诊断 FC SAN 的工具，主要有三个功能</p>
+<ul>
+<li>监测traffic flow</li>
+<li>复制traffic flow用以分析bottleneck, bandwidth utilization, slow drain 之类</li>
+<li>主动generate flow用以检测SAN的各种connectivity</li>
+</ul>
+<h1 id="关于-Flow"><a href="#关于-Flow" class="headerlink" title="关于 Flow"></a>关于 Flow</h1><p><code>Flow</code>在这里指的是具有相同特征的一系列frame，包含两方面信息：一是port，比如他们都要通过同一个ingress port 或 egress port，二是frame内容信息，比如他都具有相同的source ID，Des ID，LUN …</p>
+<img src="flow.PNG" width=75%>
+
+<h1 id="Flow-Vision-操作"><a href="#Flow-Vision-操作" class="headerlink" title="Flow Vision 操作"></a>Flow Vision 操作</h1><p>Flow Vision 监测的对象是 flow, 一般有下面操作</p>
+<ol>
+<li>通过指定上面所说的这些参数，create flow</li>
+<li>指定 flow 的属性，是 monitor IO, 是 copy 流量，还是 generate 流量</li>
+<li>Activate flow</li>
+<li>Show 出 collect 到的 data</li>
+</ol>
+<br/>
+
+<h2 id="Flow-Monitor"><a href="#Flow-Monitor" class="headerlink" title="Flow Monitor"></a><strong>Flow Monitor</strong></h2><p>Flow monitor 最为直观，主要是monitor flow上的各种statistics, 包括  </p>
+<ul>
+<li>Frame statistics (比如 frame count &amp; rate)</li>
+<li>Throughput statistics (byte&#x2F;sec)</li>
+<li>I&#x2F;O statistics (I&#x2F;O count, IOPS)</li>
+</ul>
+<h3 id="e-g"><a href="#e-g" class="headerlink" title="e.g."></a>e.g.</h3><p>监测特定端口上SCSI frame 的数量</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flow --create scsicsflow -feature monitor -egrport 9 –frametype scsicheckstatus</span><br></pre></td></tr></table></figure>
+
+<p>监测端到端（某个initiator - target）的throughput</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flow --create endtoendflow -feature monitor -ingrport 5 -srcdev 0x010500 -dstdev 0x040900 –bidir</span><br></pre></td></tr></table></figure>
+
+<p>监测经过某条路径上的指定LUN的I&#x2F;O</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flow –-create lunFlow1 -feature monitor –ingrport 5 -srcdev 0x010502 -dstdev 0x030700 -lun 4</span><br></pre></td></tr></table></figure>
+<br/>
+
+<h2 id="Flow-Generator"><a href="#Flow-Generator" class="headerlink" title="Flow Generator"></a><strong>Flow Generator</strong></h2><p>可在Fabric中配置多个sim port, 并在sim port之间模拟流量，从而不需要连接真实的设备。</p>
+<p><img src="/flow-generator.PNG" alt="flow mirror"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flow –-create flowCase1 –feature generator -ingrPort 1/1 –srcDev 0x040100 –dstDev 0x050200</span><br></pre></td></tr></table></figure>
+<br/>
+
+<h2 id="Flow-Mirror"><a href="#Flow-Mirror" class="headerlink" title="Flow Mirror"></a><strong>Flow Mirror</strong></h2><p>把指定flow上的流量mirror一份出来，不影响原来的流量，相当于抓包。</p>
+<h3 id="E-g"><a href="#E-g" class="headerlink" title="E.g."></a>E.g.</h3><p>在fc device 0x040500 和 0x010200 之间的 通过port 1&#x2F;5的双向流量mirror下来 </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flow --create flow_slowdrain -feature mirror –egrport1/5 –dstdev 0x040500 –srcdev 0x010200 -bidir</span><br></pre></td></tr></table></figure>
+
+<p>然后根据 SCSI 的 request&#x2F;response 情况判断 slow drain device.</p>
+
       
     </div>
 
