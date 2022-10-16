@@ -185,7 +185,7 @@ body {
   box-sizing: border-box;
   color: var(--text-color);
   font-family: Lato, 'PingFang SC', 'Microsoft YaHei', sans-serif;
-  font-size: 1em;
+  font-size: 0.925em;
   line-height: 2;
   min-height: 100%;
   position: relative;
@@ -1256,7 +1256,7 @@ header.header {
 }
 .site-description {
   color: #999;
-  font-size: 1em;
+  font-size: 0.925em;
   margin-top: 5px;
 }
 .links-of-author a {
@@ -2532,7 +2532,7 @@ ul.breadcrumb li:last-child {
   vertical-align: middle;
 }
 .links-of-author a::before {
-  background: #1254ff;
+  background: #b4bd71;
   display: inline-block;
   margin-right: 3px;
   transform: translateY(-2px);
