@@ -1,7 +1,7 @@
 ---
 title: Bare Metal Provisioning 的一些想法
 date: 2017/8/19 18:07:25
-description: 一个已经终结的项目，是关于数据中心种裸机的自动部署方案。本篇文章写一点对 Bare Metal Provisioning 的想法。
+description: 最近终结了一个项目，是关于数据中心种裸机的自动部署方案。 本篇文章写一点对 Bare Metal Provisioning 的想法。
 categories: Automation
 tags: [devops, baremetal]
 photos: https://www.codeclouds.com/wp-content/uploads/2019/01/38.png

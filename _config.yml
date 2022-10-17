@@ -107,4 +107,4 @@ theme: next
 deploy:
   type: git
   repo: git@github.com:mightoon/mightoon.github.io.git
-  branch: main
+  branch: master

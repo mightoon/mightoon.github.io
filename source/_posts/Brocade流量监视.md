@@ -1,7 +1,7 @@
 ---
 title: Brocade流量监视
 date: 2016-8-21 14:01:33
-description: 最近CMCNE有新版本v14.2.1发布，功能大致跟以前无异，注意到 Flow Vision 这一部分比较有意思，本篇文章即是关于Switch Flow Vision的一些尝试。 
+description: CMCNE有新版本v14.2.1发布，功能大致跟以前没有太大变化，注意到 Flow Vision 这一部分比较有意思，本篇文章即记录一些关于Switch Flow Vision的尝试。 
 categories: Switch
 tags: [FC, flow]
 ---
