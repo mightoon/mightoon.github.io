@@ -1,5 +1,6 @@
 .DS_Store
 Thumbs.db
+.github
 db.json
 *.log
 node_modules/*
