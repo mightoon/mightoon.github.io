@@ -52,8 +52,9 @@ flow –-create lunFlow1 -feature monitor –ingrport 5 -srcdev 0x010502 -dstdev
 ## **Flow Generator**
 可在Fabric中配置多个sim port, 并在sim port之间模拟流量，从而不需要连接真实的设备。
 
-; {% asset_img flow-generator.PNG" %}
-<img src="flow-generator.PNG" width=75%>
+[^_^]:
+    {% asset_img flow-generator.PNG" %}
+<img src="flow-generator.PNG" width=50%>
 
 ```
 flow –-create flowCase1 –feature generator -ingrPort 1/1 –srcDev 0x040100 –dstDev 0x050200
