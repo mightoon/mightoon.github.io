@@ -54,7 +54,7 @@ flow –-create lunFlow1 -feature monitor –ingrport 5 -srcdev 0x010502 -dstdev
 
 [^_^]:
     {% asset_img flow-generator.PNG" %}
-<img src="flow-generator.PNG" width=50%>
+<img src="flow-generator.PNG" width=70%>
 
 ```
 flow –-create flowCase1 –feature generator -ingrPort 1/1 –srcDev 0x040100 –dstDev 0x050200
