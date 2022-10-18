@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha256-AbA177XfpSnFEvgpYu1jMygiLabzPCJCRIBtR5jGc0k=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.13.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="在 Hybird-cloud 数据中心环境中，折腾几个企业客户使用 S3 服务的典型场景，在这里做个记录">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Amazon S3 使用场景及原理分析">
+<meta property="og:url" content="http://example.com/AWS/AWS-S3-User-Scenario/index.html">
+<meta property="og:site_name" content="MeeToon&#39;s Blog">
+<meta property="og:description" content="在 Hybird-cloud 数据中心环境中，折腾几个企业客户使用 S3 服务的典型场景，在这里做个记录">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/AWS/AWS-S3-User-Scenario/route.png">
+<meta property="article:published_time" content="2022-06-19T07:04:34.000Z">
+<meta property="article:modified_time" content="2022-06-19T07:04:34.000Z">
+<meta property="article:author" content="Mightoon">
+<meta property="article:tag" content="S3">
+<meta property="article:tag" content="hybird-cloud">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/AWS/AWS-S3-User-Scenario/route.png">
+
+
+<link rel="canonical" href="http://example.com/AWS/AWS-S3-User-Scenario/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://example.com/AWS/AWS-S3-User-Scenario/","path":"AWS/AWS-S3-User-Scenario/","title":"Amazon S3 使用场景及原理分析"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Amazon S3 使用场景及原理分析 | MeeToon's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">MeeToon's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#User-Story-1%EF%BC%9A-%E9%80%9A%E8%BF%87URL%E7%9B%B4%E6%8E%A5%E8%AE%BF%E9%97%AE-S3-Bucket"><span class="nav-number">1.</span> <span class="nav-text">User Story 1： 通过URL直接访问 S3 Bucket</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#User-Story2%EF%BC%9A-%E9%80%9A%E8%BF%87-Access-Point-%E8%AE%BF%E9%97%AE"><span class="nav-number">2.</span> <span class="nav-text">User Story2： 通过 Access Point 访问</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#User-Story3%EF%BC%9A%E4%BC%81%E4%B8%9A%E5%AE%A2%E6%88%B7%E5%9C%A8%E5%85%AC%E6%9C%89%E4%BA%91%E7%8E%AF%E5%A2%83%E8%AE%BF%E9%97%AE-S3-%E6%9C%8D%E5%8A%A1"><span class="nav-number">3.</span> <span class="nav-text">User Story3：企业客户在公有云环境访问 S3 服务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#User-Story4%EF%BC%9A%E5%B0%86-Amazon-S3-%E4%BD%9C%E4%B8%BA-on-prem-%E5%AD%98%E5%82%A8%E7%9A%84-cloud-tier"><span class="nav-number">4.</span> <span class="nav-text">User Story4：将 Amazon S3 作为 on-prem 存储的 cloud tier</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Mightoon"
+      src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">Mightoon</p>
+  <div class="site-description" itemprop="description">一个长期主义实践</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/AWS/AWS-S3-User-Scenario/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Mightoon">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="MeeToon's Blog">
+      <meta itemprop="description" content="一个长期主义实践">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Amazon S3 使用场景及原理分析 | MeeToon's Blog">
+      <meta itemprop="description" content="在 Hybird-cloud 数据中心环境中，折腾几个企业客户使用 S3 服务的典型场景，在这里做个记录">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Amazon S3 使用场景及原理分析
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2022-06-19 15:04:34" itemprop="dateCreated datePublished" datetime="2022-06-19T15:04:34+08:00">2022-06-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/AWS/" itemprop="url" rel="index"><span itemprop="name">AWS</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+            <div class="post-description">在 Hybird-cloud 数据中心环境中，折腾几个企业客户使用 S3 服务的典型场景，在这里做个记录</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>作为公有云上基础的存储组件，Amazon S3 被用在相当多的场景中，本文列举了几种企业客户在 Public cloud 环境以及 Hybird cloud 环境中 S3 的集中典型使用场景。<br></br></p>
+<p>先看两种最基础的场景：</p>
+<h2 id="User-Story-1：-通过URL直接访问-S3-Bucket"><a href="#User-Story-1：-通过URL直接访问-S3-Bucket" class="headerlink" title="User Story 1： 通过URL直接访问 S3 Bucket"></a>User Story 1： 通过URL直接访问 S3 Bucket</h2><p>Bucket 以及其中具体的 object 的URL类似这样的形式：</p>
+<blockquote>
+<p>https:&#x2F;&#x2F;<bucket-name>.s3.amazonaws.com</p>
+</blockquote>
+<p>通过配置，这样的URL可以在任何地方利用浏览器像访问网盘一样访问，或者通过客户端工具，应用程序等直接访问。<br>这是S3中最基本的场景，这种<code>简单</code>的访问背后，需要配合相当多安全因素的考虑。除了非常小心地添加 policy，还有访问端诸如 Authorization，特定的 header，Signature Version 等设置。实际上，直接对 bucket 的访问，并不是推荐的使用场景。</p>
+<h2 id="User-Story2：-通过-Access-Point-访问"><a href="#User-Story2：-通过-Access-Point-访问" class="headerlink" title="User Story2： 通过 Access Point 访问"></a>User Story2： 通过 Access Point 访问</h2><p>通过 AP 访问 S3 bucket是更为合理也更为安全的方式。<br>AP 仍然是全球可达的，对比上面的场景1，AP克服了直接访问bucket的诸多缺点：</p>
+<ul>
+<li>AP 可以隐藏 bucket 的真实名字</li>
+<li>AP 可以限定请求的来源 （来自 internet 或来自 VPC 内部）</li>
+<li>可以为不同 client 配置相应的访问权限</li>
+<li>AP 支持跨账户访问 </li>
+<li>另外，AP 的访问时是受限的，仅限于对 object 的存取，而把对 bucket 的管理留给API，显然这样更加安全</li>
+</ul>
+<p>接下来是企业客户比较常用到的场景：</p>
+<h2 id="User-Story3：企业客户在公有云环境访问-S3-服务"><a href="#User-Story3：企业客户在公有云环境访问-S3-服务" class="headerlink" title="User Story3：企业客户在公有云环境访问 S3 服务"></a>User Story3：企业客户在公有云环境访问 S3 服务</h2><p>上面的场景1，2，客户端应用可以在全球任何地方，只要有 internet，就可以通过 internet 访问 S3 服务.<br>而企业客户的公有云环境，有时候是没有 internet 的访问权限的，或者说是客户的主动选择，VPC 与 internet 隔离，以保证安全。那么 VPC 中的 instance，如何访问 S3? Amazon 提供的解决方案是  <strong><a target="_blank" rel="noopener" href="https://docs.aws.amazon.com/vpc/latest/privatelink/vpc-endpoints-s3.html">S3 VPC Endpoint</a></strong>.</p>
+<p>Endpoint 有两种形式，多数以 interface 的形态存在，而少数，以 gateway 的形态存在，S3 VPC Endpoint 就是一种gateway endpoint.</p>
+<p>简单来讲，Amazon 提供的这个 endpoint 位于 VPC 的边缘，作为一个访问 S3 的 gateway，当与 VPC 上的 route table 绑定之后，在路由表中生成一条新的路由，所有从 VPC 到 S3 的请求，被导向 endpoint，再通过 Amazon 自己的网络，送到 S3，从而达到绕过 internet 的目的。</p>
+<p>这条路由看起来比较特殊：</p>
+<img src="route.png">
+
+<p>其中：</p>
+<ul>
+<li>pl-xxx 是一个 prefixlist 对象，定义了 S3 所有可能的 IP 前缀</li>
+<li>vpce-xxx 就是 endpoint gateway</li>
+</ul>
+<h2 id="User-Story4：将-Amazon-S3-作为-on-prem-存储的-cloud-tier"><a href="#User-Story4：将-Amazon-S3-作为-on-prem-存储的-cloud-tier" class="headerlink" title="User Story4：将 Amazon S3 作为 on-prem 存储的 cloud tier"></a>User Story4：将 Amazon S3 作为 on-prem 存储的 cloud tier</h2><p>User Story3 中 gateway endpoint 解决了从 VPC privately 访问 S3 服务的问题，接下来又出现一个新问题。</p>
+<p>我们的存储设备在 on-prem 数据中心，已经与 AWS 建立了 Direct Connect. 存储设备需要访问 S3 并将 S3 bucket 作为 cloud tier，当然，因为 on-prem 数据中心可以访问 internet，所以从公网确实可以访问到 S3，但这样实际上没有利用到 DX，而 DX 不管从带宽和安全性上，都远好于 internet。所以我们需要将访问 S3 的路径切换到 DX 上。<br>如果套用 user story3 的方案，虽然存储设备与 AWS 的 VPC 能通，却不在 VPC 之中， 这就是面临的问题。<br>实际上，这是一个 hyper-cloud 数据中心中非常典型的场景:</p>
+<blockquote>
+<p>客户使用了 Amazon S3 服务，需要从 on-prem 数据中心访问，不管是出于合规性还是性能原因，不能走 internet.</p>
+</blockquote>
+<p>以前的思路，依然是基于 user story 3，额外需要在 VPC 中部署一个代理服务器，从 on-prem 对 S3 的访问，发送到 proxy 上，然后在 VPC 内部，由 proxy 转发到 S3 VPC Endpoint. 这样是可行的，但是结构变得比较复杂，引入了多个依赖，直到去年。</p>
+<p>去年（2021），AWS 发布了一个新的方案，**<a target="_blank" rel="noopener" href="https://aws.amazon.com/blogs/aws/aws-privatelink-for-amazon-s3-now-available/">AWS PrivateLink for Amazon S3</a>**. 简单来说，AWS 提供一个新的 endpoint，跟 user story3 不同，这个 endpoint 以 interface 的形态，存在于 VPC 的内部，在每个 subnet 占据一个 IP 地址，并提供一个域名，确保能够在公网的 DNS，解析到这个 private 的 IP 地址上。</p>
+<p>这样的话，S3 的访问点，被映射到这个 endpoint 上，而 S3 的访问问题变成了 endpoint 的可达问题。 恰好，on-prem 的存储设备从 DNS 拿到 endpoint 的 private 地址，通过路由，选择经 DX 达到 VPC 的路径， 完美绕开了 internet. </p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/S3/" rel="tag"># S3</a>
+              <a href="/tags/hybird-cloud/" rel="tag"># hybird-cloud</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/DevOps/%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7%E7%9A%84%E9%80%89%E6%8B%A9/" rel="prev" title="自动部署管理工具的选择">
+                  <i class="fa fa-chevron-left"></i> 自动部署管理工具的选择
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/Test/hello-world2/" rel="next" title="Hello World 4 from LT again">
+                  Hello World 4 from LT again <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Mightoon</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
