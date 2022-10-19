@@ -1,12 +1,12 @@
 ---
-title: 自动部署管理工具的选择
+title: "[DevOps]自动部署管理工具的选择"
 date: 2017-9-3 16:10:15
-description: 最近team提出对switch automation的需求，通过比较主流自动化部署和管理的工具，正好借此梳理一下包括func, puppet, chef, saltstack等诸多工具的设计思路和发展轨迹。 
+description: 随着数据中心设备的增加和对效率的要求，部门提出了对设备的自动化管理需求。为此，特意比较了主流自动化部署和管理的工具，本文借此梳理一下包括 func, puppet, chef, saltstack 等诸多种工具的设计思路和发展轨迹。 
 categories:
 - DevOps
 tags:
-- automation
-- devops
+- Automation
+- DevOps
 ---
 
  > **Working in IT, you're likely doing the same tasks over and over. What if you could solve problems once and then automate your solutions going forward?**
@@ -45,4 +45,4 @@ Salt通过daemon能更好的控制异构的系统，分发的命令不依赖于�
 Salt和Ansible的执行均以Push为基础，而Slat的requisite机制让server对彼此有所感知，在赋予执行过程极大的自由度的同时，也使得结果在一定程度上失去预见性，相同的配置脚本对同一组目标服务器的执行可能得到不同结果。因此，实时性处理那些在执行中需要同步信息的任务是Salt比较擅长的。Ansible以脚本定义的执行顺序推送，简明和直接，辅之于简单事件驱动和handler，配合“提前崩溃”机制，让执行结果可靠，稳定。  
 名如其人，Salt拟定规程(state), 设想各种情况以及应对，让执行者在任何情况下有章可循。Ansible犹如一个导演，提供剧本(playbook), 监督拍戏并随时叫cut, 保证演绎出一个层层递进，艺术完整的剧情。Salt和Ansible在执行顺序上坚持不同的逻辑，源自对系统管理和资源依赖不同的理解，而这背后，隐约能够看到前辈Puppet和Chef的影子。
 
-行文至此，你大概应该知道team对自动部署工具的选择。
+行文至此，大概明白了对自动部署工具的选择。

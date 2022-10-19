@@ -1,11 +1,8 @@
 ---
-title: Hello World 3 from Hm
-description: Test for Hexo and Next
+title: Hello World for testing
+description: About Hexo and Next Theme
 categories:
 - Test
-tags:
-- devops
-- automation
 ---
 
 Welcome to [Hexo](https://hexo.io/)! This is your very first post. Check [documentation](https://hexo.io/docs/) for more info. If you get any problems when using Hexo, you can find the answer in [troubleshooting](https://hexo.io/docs/troubleshooting.html) or you can ask me on [GitHub](https://github.com/hexojs/hexo/issues).
@@ -26,7 +23,7 @@ More info: [Writing](https://hexo.io/docs/writing.html)
 $ hexo server
 ```
 
-More info: [Server](https://hexo.io/docs/server.html)
+More info: [Server](https://hexo.io/docs/server.html "悬浮文字")
 
 ### Generate static files
 
@@ -38,8 +35,23 @@ More info: [Generating](https://hexo.io/docs/generating.html)
 
 ### Deploy to remote sites
 
+- 减1
+    + 加1
+    - 加2
+        + 星1
+        + 星2
+- 减3
+- 减4
+
+
+
+
+
+
+
 ``` bash
 $ hexo deploy
 ```
 
 More info: [Deployment](https://hexo.io/docs/one-command-deployment.html)
+
