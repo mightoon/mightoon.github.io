@@ -20,32 +20,32 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.13.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="CMCNE有新版本v14.2.1发布，功能大致跟以前没有太大变化，注意到 Flow Vision 这一部分比较有意思，本篇文章即记录一些关于Switch Flow Vision的尝试。">
+    <meta name="description" content="CMCNE有新版本v14.2.1发布，功能大致跟以前没有太大变化，注意到 Flow Vision 这一部分比较有意思，本篇文章即记录一些关于Switch Flow Vision 的尝试。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Brocade流量监视">
-<meta property="og:url" content="http://example.com/Switch/Brocade%E6%B5%81%E9%87%8F%E7%9B%91%E8%A7%86/index.html">
+<meta property="og:title" content="Flow Vision 流量监视">
+<meta property="og:url" content="http://example.com/Switch/Brocade-Flow-Vision/index.html">
 <meta property="og:site_name" content="MeeToon&#39;s Blog">
-<meta property="og:description" content="CMCNE有新版本v14.2.1发布，功能大致跟以前没有太大变化，注意到 Flow Vision 这一部分比较有意思，本篇文章即记录一些关于Switch Flow Vision的尝试。">
+<meta property="og:description" content="CMCNE有新版本v14.2.1发布，功能大致跟以前没有太大变化，注意到 Flow Vision 这一部分比较有意思，本篇文章即记录一些关于Switch Flow Vision 的尝试。">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://example.com/Switch/Brocade%E6%B5%81%E9%87%8F%E7%9B%91%E8%A7%86/flow.PNG">
-<meta property="og:image" content="http://example.com/Switch/Brocade%E6%B5%81%E9%87%8F%E7%9B%91%E8%A7%86/flow-generator.PNG">
+<meta property="og:image" content="http://example.com/Switch/Brocade-Flow-Vision/flow.PNG">
+<meta property="og:image" content="http://example.com/Switch/Brocade-Flow-Vision/flow-generator.PNG">
 <meta property="article:published_time" content="2016-08-21T06:01:33.000Z">
 <meta property="article:modified_time" content="2016-08-21T06:01:33.000Z">
 <meta property="article:author" content="Mightoon">
 <meta property="article:tag" content="FC">
 <meta property="article:tag" content="flow">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/Switch/Brocade%E6%B5%81%E9%87%8F%E7%9B%91%E8%A7%86/flow.PNG">
+<meta name="twitter:image" content="http://example.com/Switch/Brocade-Flow-Vision/flow.PNG">
 
 
-<link rel="canonical" href="http://example.com/Switch/Brocade%E6%B5%81%E9%87%8F%E7%9B%91%E8%A7%86/">
+<link rel="canonical" href="http://example.com/Switch/Brocade-Flow-Vision/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://example.com/Switch/Brocade%E6%B5%81%E9%87%8F%E7%9B%91%E8%A7%86/","path":"Switch/Brocade流量监视/","title":"Brocade流量监视"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://example.com/Switch/Brocade-Flow-Vision/","path":"Switch/Brocade-Flow-Vision/","title":"Flow Vision 流量监视"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>Brocade流量监视 | MeeToon's Blog</title>
+<title>Flow Vision 流量监视 | MeeToon's Blog</title>
   
 
 
@@ -114,7 +114,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Brocade-Flow-Vision"><span class="nav-number">1.</span> <span class="nav-text">Brocade Flow Vision</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E-Flow"><span class="nav-number">2.</span> <span class="nav-text">关于 Flow</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Flow-Vision-%E6%93%8D%E4%BD%9C"><span class="nav-number">3.</span> <span class="nav-text">Flow Vision 操作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Flow-Monitor"><span class="nav-number">3.1.</span> <span class="nav-text">Flow Monitor</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#e-g"><span class="nav-number">3.1.1.</span> <span class="nav-text">e.g.</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Flow-Generator"><span class="nav-number">3.2.</span> <span class="nav-text">Flow Generator</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Flow-Mirror"><span class="nav-number">3.3.</span> <span class="nav-text">Flow Mirror</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#e-g-1"><span class="nav-number">3.3.1.</span> <span class="nav-text">e.g.</span></a></li></ol></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Brocade-Flow-Vision"><span class="nav-number">1.</span> <span class="nav-text">Brocade Flow Vision</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E-Flow"><span class="nav-number">2.</span> <span class="nav-text">关于 Flow</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Flow-Vision-Operation"><span class="nav-number">3.</span> <span class="nav-text">Flow Vision Operation</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Flow-Monitor"><span class="nav-number">3.1.</span> <span class="nav-text">Flow Monitor</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#e-g"><span class="nav-number">3.1.1.</span> <span class="nav-text">e.g.</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Flow-Generator"><span class="nav-number">3.2.</span> <span class="nav-text">Flow Generator</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Flow-Mirror"><span class="nav-number">3.3.</span> <span class="nav-text">Flow Mirror</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#e-g-1"><span class="nav-number">3.3.1.</span> <span class="nav-text">e.g.</span></a></li></ol></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -179,7 +179,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/Switch/Brocade%E6%B5%81%E9%87%8F%E7%9B%91%E8%A7%86/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/Switch/Brocade-Flow-Vision/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -192,12 +192,12 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="Brocade流量监视 | MeeToon's Blog">
-      <meta itemprop="description" content="CMCNE有新版本v14.2.1发布，功能大致跟以前没有太大变化，注意到 Flow Vision 这一部分比较有意思，本篇文章即记录一些关于Switch Flow Vision的尝试。">
+      <meta itemprop="name" content="Flow Vision 流量监视 | MeeToon's Blog">
+      <meta itemprop="description" content="CMCNE有新版本v14.2.1发布，功能大致跟以前没有太大变化，注意到 Flow Vision 这一部分比较有意思，本篇文章即记录一些关于Switch Flow Vision 的尝试。">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Brocade流量监视
+          Flow Vision 流量监视
         </h1>
 
         <div class="post-meta-container">
@@ -223,7 +223,7 @@
   
 </div>
 
-            <div class="post-description">CMCNE有新版本v14.2.1发布，功能大致跟以前没有太大变化，注意到 Flow Vision 这一部分比较有意思，本篇文章即记录一些关于Switch Flow Vision的尝试。</div>
+            <div class="post-description">CMCNE有新版本v14.2.1发布，功能大致跟以前没有太大变化，注意到 Flow Vision 这一部分比较有意思，本篇文章即记录一些关于Switch Flow Vision 的尝试。</div>
         </div>
       </header>
 
@@ -233,19 +233,19 @@
     <div class="post-body" itemprop="articleBody">
         <h1 id="Brocade-Flow-Vision"><a href="#Brocade-Flow-Vision" class="headerlink" title="Brocade Flow Vision"></a>Brocade Flow Vision</h1><p>Flow Vision 是 Brocade 上的用来诊断 FC SAN 的工具，主要有三个功能</p>
 <ul>
-<li>监测traffic flow</li>
-<li>复制traffic flow用以分析bottleneck, bandwidth utilization, slow drain 之类</li>
-<li>主动generate flow用以检测SAN的各种connectivity</li>
+<li>监测 traffic flow</li>
+<li>复制 traffic flow 用以分析 bottleneck, bandwidth utilization, slow drain 之类</li>
+<li>主动 generate flow 用以检测 SAN 的各种 connectivity</li>
 </ul>
-<h1 id="关于-Flow"><a href="#关于-Flow" class="headerlink" title="关于 Flow"></a>关于 Flow</h1><p><code>Flow</code>在这里指的是具有相同特征的一系列frame，包含两方面信息：一是port，比如他们都要通过同一个ingress port 或 egress port，二是frame内容信息，比如他都具有相同的source ID，Des ID，LUN …</p>
+<h1 id="关于-Flow"><a href="#关于-Flow" class="headerlink" title="关于 Flow"></a>关于 Flow</h1><p><code>Flow</code>在这里指的是具有相同特征的一系列 frame，包含两方面信息：一是port，比如他们都要通过同一个 ingress port 或 egress port，二是frame内容信息，比如他都具有相同的 source ID，Des ID，LUN 等等</p>
 <img src="flow.PNG" width=75%>
 
-<h1 id="Flow-Vision-操作"><a href="#Flow-Vision-操作" class="headerlink" title="Flow Vision 操作"></a>Flow Vision 操作</h1><p>Flow Vision 监测的对象是 flow, 一般有下面操作</p>
+<h1 id="Flow-Vision-Operation"><a href="#Flow-Vision-Operation" class="headerlink" title="Flow Vision Operation"></a>Flow Vision Operation</h1><p>Flow Vision 监测的对象是 flow, 一般有下面操作</p>
 <ol>
 <li>通过指定上面所说的这些参数，create flow</li>
 <li>指定 flow 的属性，是 monitor IO, 是 copy 流量，还是 generate 流量</li>
 <li>Activate flow</li>
-<li>Show 出 collect 到的 data</li>
+<li>显示出 collect 到的 data</li>
 </ol>
 <br/>
 
@@ -255,26 +255,33 @@
 <li>Throughput statistics (byte&#x2F;sec)</li>
 <li>I&#x2F;O statistics (I&#x2F;O count, IOPS)</li>
 </ul>
-<h3 id="e-g"><a href="#e-g" class="headerlink" title="e.g."></a>e.g.</h3><p>监测特定端口上SCSI frame 的数量</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flow --create scsicsflow -feature monitor -egrport 9 –frametype scsicheckstatus</span><br></pre></td></tr></table></figure>
-
-<p>监测端到端（某个initiator - target）的throughput</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flow --create endtoendflow -feature monitor -ingrport 5 -srcdev 0x010500 -dstdev 0x040900 –bidir</span><br></pre></td></tr></table></figure>
-
-<p>监测经过某条路径上的指定LUN的I&#x2F;O</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flow –-create lunFlow1 -feature monitor –ingrport 5 -srcdev 0x010502 -dstdev 0x030700 -lun 4</span><br></pre></td></tr></table></figure>
+<h3 id="e-g"><a href="#e-g" class="headerlink" title="e.g."></a>e.g.</h3><p>监测特定端口上 SCSI frame 的数量</p>
+<blockquote>
+<p>flow –create scsicsflow -feature monitor -egrport 9 –frametype scsicheckstatus</p>
+</blockquote>
+<p>监测端到端（某个 initiator - target）的 throughput</p>
+<blockquote>
+<p>flow –create endtoendflow -feature monitor -ingrport 5 -srcdev 0x010500 -dstdev 0x040900 –bidir</p>
+</blockquote>
+<p>监测经过某条路径上的指定 LUN 的 I&#x2F;O</p>
+<blockquote>
+<p>flow –-create lunFlow1 -feature monitor –ingrport 5 -srcdev 0x010502 -dstdev 0x030700 -lun 4</p>
+</blockquote>
 <br/>
 
-<h2 id="Flow-Generator"><a href="#Flow-Generator" class="headerlink" title="Flow Generator"></a><strong>Flow Generator</strong></h2><p>可在Fabric中配置多个sim port, 并在sim port之间模拟流量，从而不需要连接真实的设备。</p>
+<h2 id="Flow-Generator"><a href="#Flow-Generator" class="headerlink" title="Flow Generator"></a><strong>Flow Generator</strong></h2><p>可在 Fabric 中配置多个 sim port, 并在 sim port 之间模拟流量，从而不需要连接真实的设备。</p>
 <img src="flow-generator.PNG" width=70%>
 
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flow –-create flowCase1 –feature generator -ingrPort 1/1 –srcDev 0x040100 –dstDev 0x050200</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>flow –-create flowCase1 –feature generator -ingrPort 1&#x2F;1 –srcDev 0x040100 –dstDev 0x050200</p>
+</blockquote>
 <br/>
 
-<h2 id="Flow-Mirror"><a href="#Flow-Mirror" class="headerlink" title="Flow Mirror"></a><strong>Flow Mirror</strong></h2><p>把指定flow上的流量mirror一份出来，不影响原来的流量，相当于抓包。</p>
-<h3 id="e-g-1"><a href="#e-g-1" class="headerlink" title="e.g."></a>e.g.</h3><p>在fc device 0x040500 和 0x010200 之间的 通过port 1&#x2F;5的双向流量mirror下来 </p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flow --create flow_slowdrain -feature mirror –egrport1/5 –dstdev 0x040500 –srcdev 0x010200 -bidir</span><br></pre></td></tr></table></figure>
-
+<h2 id="Flow-Mirror"><a href="#Flow-Mirror" class="headerlink" title="Flow Mirror"></a><strong>Flow Mirror</strong></h2><p>把指定 flow 上的流量 mirror 一份出来，不影响原来的流量，类似抓包。</p>
+<h3 id="e-g-1"><a href="#e-g-1" class="headerlink" title="e.g."></a>e.g.</h3><p>在 fc device 0x040500 和 0x010200 之间的 通过 port 1&#x2F;5 的双向流量 mirror 下来 </p>
+<blockquote>
+<p>flow –create flow_slowdrain -feature mirror –egrport1&#x2F;5 –dstdev 0x040500 –srcdev 0x010200 -bidir</p>
+</blockquote>
 <p>然后根据 SCSI 的 request&#x2F;response 情况判断 slow drain device.</p>
 
     </div>
