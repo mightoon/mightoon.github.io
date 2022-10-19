@@ -12,7 +12,7 @@ tags: [S3, hybird-cloud]
 先看两种最基础的场景：
 ## User Story 1： 通过URL直接访问 S3 Bucket
 Bucket 以及其中具体的 object 的URL类似这样的形式：
-> https://<bucket-name>.s3.amazonaws.com
+> https://\<bucket-name>.s3.amazonaws.com
 
 通过配置，这样的URL可以在任何地方利用浏览器像访问网盘一样访问，或者通过客户端工具，应用程序等直接访问。
 这是S3中最基本的场景，这种`简单`的访问背后，需要配合相当多安全因素的考虑。除了非常小心地添加 policy，还有访问端诸如 Authorization，特定的 header，Signature Version 等设置。实际上，直接对 bucket 的访问，并不是推荐的使用场景。

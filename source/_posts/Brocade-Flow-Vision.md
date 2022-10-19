@@ -1,6 +1,6 @@
 ---
 title: Flow Vision 流量监视
-date: 2016-8-21 14:01:33
+date: 2017-7-21 14:01:33
 description: CMCNE 发布 v14.2.1 版本，功能跟以前没有太大变化。注意到 Flow Vision 这一部分比较有意思，本篇文章即记录一些关于 Switch Flow Vision 的尝试。 
 categories: Switch
 tags: [FC, Flow]

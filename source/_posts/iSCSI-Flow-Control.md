@@ -1,14 +1,14 @@
 ---
-title: 一个由 Flow Control 引起的 iSCSI Performance 的问题
-date: 2016-7-14 13:20:04
+title: 一个由 Flow Control 引起的 iSCSI Performance 问题
+date: 2017-7-11 13:20:04
 description: 从 iSCSI Performance 下降的问题中，探寻 Flow Control 在普通网络和数据中心增强以太网（DCB）中的不同表现
 categories: Debug
-tags: [Performance, network]
+tags: [Performance, Network]
 ---
 
 
 # 问题
-> 在 Unity CNA 卡（iSCSI offload）上跑 large sequential write IO 的时候发现 performance 有下降
+> 在 Unity 上通过 iSCSI 跑 large sequential write IO, iSCSI offload 到网卡， 发现 performance 下降明显。
 
 # 描述
 > 当 Cisco 5020 switch 上多个 port 接受来自 host 的 connection 到 Unity CNA 的时候，产生 congestion  

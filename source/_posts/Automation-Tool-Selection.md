@@ -1,5 +1,5 @@
 ---
-title: "[DevOps]自动部署管理工具的选择"
+title: "[DevOps] 自动部署管理工具的选择"
 date: 2017-9-3 16:10:15
 description: 随着数据中心设备的增加和对效率的要求，部门提出了对设备的自动化管理需求。为此，特意比较了主流自动化部署和管理的工具，本文借此梳理一下包括 func, puppet, chef, saltstack 等诸多种工具的设计思路和发展轨迹。 
 categories:
