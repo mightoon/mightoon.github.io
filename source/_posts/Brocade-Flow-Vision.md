@@ -1,9 +1,9 @@
 ---
 title: Flow Vision 流量监视
 date: 2016-8-21 14:01:33
-description: CMCNE有新版本v14.2.1发布，功能大致跟以前没有太大变化，注意到 Flow Vision 这一部分比较有意思，本篇文章即记录一些关于Switch Flow Vision 的尝试。 
+description: CMCNE 发布 v14.2.1 版本，功能跟以前没有太大变化。注意到 Flow Vision 这一部分比较有意思，本篇文章即记录一些关于 Switch Flow Vision 的尝试。 
 categories: Switch
-tags: [FC, flow]
+tags: [FC, Flow]
 ---
 
 # Brocade Flow Vision 
@@ -13,7 +13,7 @@ Flow Vision 是 Brocade 上的用来诊断 FC SAN 的工具，主要有三个功
 - 主动 generate flow 用以检测 SAN 的各种 connectivity
 
 # 关于 Flow
-`Flow`在这里指的是具有相同特征的一系列 frame，包含两方面信息：一是port，比如他们都要通过同一个 ingress port 或 egress port，二是frame内容信息，比如他都具有相同的 source ID，Des ID，LUN 等等
+`Flow` 在这里指的是具有相同特征的一系列 frame，包含两方面信息：一是 port，比如他们都要通过同一个 ingress port 或 egress port，二是frame内容信息，比如他都具有相同的 source ID，Des ID，LUN 等等
 
 <img src="flow.PNG" width=75%>
 
@@ -22,7 +22,7 @@ Flow Vision 监测的对象是 flow, 一般有下面操作
 1. 通过指定上面所说的这些参数，create flow
 2. 指定 flow 的属性，是 monitor IO, 是 copy 流量，还是 generate 流量
 3. Activate flow
-4. 显示出 collect 到的 data
+4. 显示出收集到的 data
 
 <br/>
 

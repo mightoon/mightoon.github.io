@@ -1,9 +1,9 @@
 ---
-title: 一个 iSCSI performance 的问题
-date: 2016-8-21 13:20:04
-description: 这是关于一个 iSCSI performance degrade 的问题，总结为下文。
+title: 一个由 Flow Control 引起的 iSCSI Performance 的问题
+date: 2016-7-14 13:20:04
+description: 从 iSCSI Performance 下降的问题中，探寻 Flow Control 在普通网络和数据中心增强以太网（DCB）中的不同表现
 categories: Debug
-tags: [performance, network]
+tags: [Performance, network]
 ---
 
 
