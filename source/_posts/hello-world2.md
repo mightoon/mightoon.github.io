@@ -26,7 +26,7 @@ More info: [Writing](https://hexo.io/docs/writing.html)
 $ hexo server
 ```
 
-More info: [Server](https://hexo.io/docs/server.html)
+More info: [Server](https://hexo.io/docs/server.html "悬浮文字")
 
 ### Generate static files
 
@@ -38,8 +38,23 @@ More info: [Generating](https://hexo.io/docs/generating.html)
 
 ### Deploy to remote sites
 
+- 减1
+    + 加1
+    - 加2
+        + 星1
+        + 星2
+- 减3
+- 减4
+
+
+
+
+
+
+
 ``` bash
 $ hexo deploy
 ```
 
 More info: [Deployment](https://hexo.io/docs/one-command-deployment.html)
+
