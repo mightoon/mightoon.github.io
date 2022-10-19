@@ -234,7 +234,7 @@
 <p>先看两种最基础的场景：</p>
 <h2 id="User-Story-1：-通过URL直接访问-S3-Bucket"><a href="#User-Story-1：-通过URL直接访问-S3-Bucket" class="headerlink" title="User Story 1： 通过URL直接访问 S3 Bucket"></a>User Story 1： 通过URL直接访问 S3 Bucket</h2><p>Bucket 以及其中具体的 object 的URL类似这样的形式：</p>
 <blockquote>
-<p>https:&#x2F;&#x2F;<bucket-name>.s3.amazonaws.com</p>
+<p>https:&#x2F;&#x2F;&lt;bucket-name&gt;.s3.amazonaws.com</p>
 </blockquote>
 <p>通过配置，这样的URL可以在任何地方利用浏览器像访问网盘一样访问，或者通过客户端工具，应用程序等直接访问。<br>这是S3中最基本的场景，这种<code>简单</code>的访问背后，需要配合相当多安全因素的考虑。除了非常小心地添加 policy，还有访问端诸如 Authorization，特定的 header，Signature Version 等设置。实际上，直接对 bucket 的访问，并不是推荐的使用场景。</p>
 <h2 id="User-Story2：-通过-Access-Point-访问"><a href="#User-Story2：-通过-Access-Point-访问" class="headerlink" title="User Story2： 通过 Access Point 访问"></a>User Story2： 通过 Access Point 访问</h2><p>通过 AP 访问 S3 bucket是更为合理也更为安全的方式。<br>AP 仍然是全球可达的，对比上面的场景1，AP克服了直接访问bucket的诸多缺点：</p>
