@@ -52,42 +52,62 @@ If you do not have permission for the specified home Virtual Fabric, this reques
 
 
 ```
-Switch1:FID20:user1> snmpconfig --show snmpv3
-User 5 (ro): user1
-        Auth Protocol: noAuth
-        Priv Protocol: noPriv
-        Engine ID: 00:00:00:00:00:00:00:00:00
+    Switch1:FID20:user1> snmpconfig --show snmpv3
+    User 5 (ro): user1
+            Auth Protocol: noAuth
+            Priv Protocol: noPriv
+            Engine ID: 00:00:00:00:00:00:00:00:00
 
-Switch1:FID20:user1> userconfig --show user1
-    Account name: uesr1
-    Description:
-    Enabled: Yes
-    Password Last Change Date: Tue Apr 16 2020 (UTC)
-    Password Expiration Date: Not Applicable (UTC)
-    Locked: No
-    Home LF Role: basicswitchadmin
-    Role-LF List: basicswitchadmin: 1-128
-    No chassis permission
-    Home LF: 20
-    Day Time Access: N/A
+    Switch1:FID20:user1> userconfig --show user1
+        Account name: uesr1
+        Description:
+        Enabled: Yes
+        Password Last Change Date: Tue Apr 16 2020 (UTC)
+        Password Expiration Date: Not Applicable (UTC)
+        Locked: No
+        Home LF Role: basicswitchadmin
+        Role-LF List: basicswitchadmin: 1-128
+        No chassis permission
+        Home LF: 20
+        Day Time Access: N/A
 ```
 
 
 ### SNMP Exporter
-以用户 user1 向 SNMP agent 发起请求，跨越 virtual fabric，取到 base switch （FID 15）的性能指标
+以用户 user1 向 SNMP agent 发起请求，跨越 virtual fabric，取到 base switch （FID 15）的性能指标。
+
+根据前面 Note 中的说明，user1 工作在它的 home fabric，也就 FID 20，要跨越到 FID 15 访问 uplink，应该需要一个参数。查看 exporter的[源码](https://github.com/prometheus/snmp_exporter/blob/74f0ae5162f0e373f5da0e6dda0c6feb05b1153d/config/config.go)，找到这个参数叫做 `context_name`
+
+```go
+        type Auth struct {
+                        Community     Secret `yaml:"community,omitempty"`
+                        SecurityLevel string `yaml:"security_level,omitempty"`
+                        Username      string `yaml:"username,omitempty"`
+                        Password      Secret `yaml:"password,omitempty"`
+                        AuthProtocol  string `yaml:"auth_protocol,omitempty"`
+                        PrivProtocol  string `yaml:"priv_protocol,omitempty"`
+                        PrivPassword  Secret `yaml:"priv_password,omitempty"`
+                        ContextName   string `yaml:"context_name,omitempty"`
+        }
+
+```
+
+加到 SNMP exporter 的配置文件中：
 
 ``` yaml
     brocade_mib:
       version: 3
       auth:
-        username: emc
+        username: user1
         security_level: noAuthNoPriv
         context_name: "VF:15"
 ```
 
 
+<br>
+
 ### Prometheus Jobs
-在 Prometheus job 中添加 SNMP 数据收集
+在 Prometheus job 中添加 SNMP 数据收集的 job
 
 ```yaml
     - honor_timestamps: true
