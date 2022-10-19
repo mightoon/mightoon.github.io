@@ -113,7 +113,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%97%AE%E9%A2%98"><span class="nav-number">1.</span> <span class="nav-text">问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8F%8F%E8%BF%B0"><span class="nav-number">2.</span> <span class="nav-text">描述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%86%E6%9E%90"><span class="nav-number">3.</span> <span class="nav-text">分析</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="nav-number">4.</span> <span class="nav-text">解决方案</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%97%AE%E9%A2%98"><span class="nav-number">1.</span> <span class="nav-text">问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8F%8F%E8%BF%B0"><span class="nav-number">2.</span> <span class="nav-text">描述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%86%E6%9E%90"><span class="nav-number">3.</span> <span class="nav-text">分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#A%EF%BC%89"><span class="nav-number">3.1.</span> <span class="nav-text">A）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#B%EF%BC%89"><span class="nav-number">3.2.</span> <span class="nav-text">B）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="nav-number">4.</span> <span class="nav-text">解决方案</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -241,21 +241,22 @@
 
 
 <h1 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h1><p>首先，应该明确 iSCSI 是要跑在传统 Ethernet 上还是跑在 DCB 上，从原理上分两种情况来讨论。</p>
-<p>A）<br>如果确定了 iSCSI 跑在传统以太网上，那么就要利用也只能利用<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Ethernet_flow_control">802.3x</a>来做二层的流控，所以 Host CNA, 中途的交换机，以及 array 的 port&#x2F;SLIC 都应该打开802.3x (这是个老协议，这些设备都应该支持的)。另外，上面提到的：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">“ 但是在 cisco switch 连接 host initiator 的地方并没有抓到 pause ”</span><br></pre></td></tr></table></figure>
-
+<h2 id="A）"><a href="#A）" class="headerlink" title="A）"></a>A）</h2><p>如果确定了 iSCSI 跑在传统以太网上，那么就要利用也只能利用<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Ethernet_flow_control">802.3x</a>来做二层的流控，所以 Host CNA, 中途的交换机，以及 array 的 port&#x2F;SLIC 都应该打开802.3x (这是个老协议，这些设备都应该支持的)。另外，上面提到的：</p>
+<blockquote>
+<p>“ 但是在 cisco switch 连接 host initiator 的地方并没有抓到 pause ”</p>
+</blockquote>
 <p>这个值得再考虑原因。因为在传统以太网中，是没有协议来保证 congestion control 主动向上传递的，也就是说即使 array 扛不住了，发了 pause 到交换机，交换机虽然不会再发向 array 了，但是还是会继续收包，直到缓存被装满，才会往 initiator 发 pause. 这两个 pause 是<code>异步</code>的，可能会间隔一段时间。</p>
-<p>B）<br>如果确定 iSCSI 跑在 DCB 上，那将是完全另外一套工作方式。交换机上需要设置 DCB mapping, 主要有以下三个方面。</p>
+<h2 id="B）"><a href="#B）" class="headerlink" title="B）"></a>B）</h2><p>如果确定 iSCSI 跑在 DCB 上，那将是完全另外一套工作方式。交换机上需要设置 DCB mapping, 主要有以下三个方面。</p>
 <ol>
 <li>指定 iSCSI 流量的优先级  </li>
 <li>该优先级所匹配的服务等级（CoS）  </li>
 <li>为该等级指定带宽百分比</li>
 </ol>
 <p>这几点配置的理论依据来自于 BDC 框架下的<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Ethernet_flow_control">802.1Qbb</a>(PFC) 和 <a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/windows-hardware/drivers/network/enhanced-transmission-selection--ets--algorithm">802.1Qaz</a>(ETS), 利用 <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Link_Layer_Discovery_Protocol#Data_Center_Bridging_Capabilities_Exchange_Protocol">DCBX</a>, 通过 TLV 获取到与交换机相连的 end 设备的信息，并根据 mapping, 将 QoS 同步到 end 设备上，以实现统一的 QoS. 另外需要 host CNA, array port&#x2F;SLIC 都打开 DCB. 然后在这样的环境中，流控是 PFC 来做的，而且做的是针对 iSCSI 所在的服务等级上的<code>精细流控</code>。</p>
-<p>实验环境中，默认打开了 PFC, 而针对 cos&#x3D;3 的 traffic 进行 pause 并没有 apply 到其他的类型的 traffic. 换句话说，iSCSI traffic 并不会被识别为cos&#x3D;3, 当然也就不会被 map 到所在的 class, 因此 PFC 无法作用于 iSCSI. 同时，因为打开了 PFC, 传统 Ethernet 下的 pause 没起作用，当 ingress cache 被装满，switch 并没有发 standard pause 给 host, 而是直接将大量的数据帧<strong>drop</strong>掉，直接影响了性能。</p>
+<p>实验环境中，<strong>默认打开了 PFC, 而针对 cos&#x3D;3 的 traffic 进行 pause 并没有 apply 到其他的类型的 traffic</strong>. 换句话说，iSCSI traffic 并不会被识别为cos&#x3D;3, 当然也就不会被 map 到所在的 class, 因此 PFC 无法作用于 iSCSI. 同时，因为打开了 PFC, 传统 Ethernet 下的 pause 没起作用，当 ingress cache 被装满，switch 并没有发 standard pause 给 host, 而是直接将大量的数据帧 <strong>drop</strong> 掉，直接影响了性能。</p>
 <h1 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h1><ul>
 <li>打开802.3x的同时，要先关掉 PFC，让全程有且仅有传统以太网流控，并且确认所有设备都能打开802.3x   或者：</li>
-<li>让全程跑在 DCB 上，为 iSCSI 配置相应的 mapping, 让 PFC 做流控。同样需要事先确认所有设备（host CNA, switch, array port&#x2F;SLIC）都能 enable DCB 并正常工作。</li>
+<li>全程跑在 DCB 上，为 iSCSI 配置相应的 mapping, 让 PFC 做流控。当然需要事先确认所有设备（host CNA, switch, array port&#x2F;SLIC）都能支持 DCB 并正常工作。</li>
 </ul>
 
     </div>

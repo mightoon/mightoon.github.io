@@ -20,29 +20,29 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.13.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="最近team提出对switch automation的需求，通过比较主流自动化部署和管理的工具，正好借此梳理一下包括func, puppet, chef, saltstack等诸多工具的设计思路和发展轨迹。">
+    <meta name="description" content="随着数据中心设备的增加和对效率的要求，部门提出了对设备的自动化管理需求。为此，特意比较了主流自动化部署和管理的工具，本文借此梳理一下包括 func, puppet, chef, saltstack 等诸多种工具的设计思路和发展轨迹。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="自动部署管理工具的选择">
-<meta property="og:url" content="http://example.com/DevOps/%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7%E7%9A%84%E9%80%89%E6%8B%A9/index.html">
+<meta property="og:title" content="[DevOps]自动部署管理工具的选择">
+<meta property="og:url" content="http://example.com/DevOps/Automation-Tool-Selection/index.html">
 <meta property="og:site_name" content="MeeToon&#39;s Blog">
-<meta property="og:description" content="最近team提出对switch automation的需求，通过比较主流自动化部署和管理的工具，正好借此梳理一下包括func, puppet, chef, saltstack等诸多工具的设计思路和发展轨迹。">
+<meta property="og:description" content="随着数据中心设备的增加和对效率的要求，部门提出了对设备的自动化管理需求。为此，特意比较了主流自动化部署和管理的工具，本文借此梳理一下包括 func, puppet, chef, saltstack 等诸多种工具的设计思路和发展轨迹。">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2017-09-03T08:10:15.000Z">
 <meta property="article:modified_time" content="2017-09-03T08:10:15.000Z">
 <meta property="article:author" content="Mightoon">
-<meta property="article:tag" content="devops">
-<meta property="article:tag" content="automation">
+<meta property="article:tag" content="Automation">
+<meta property="article:tag" content="DevOps">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="http://example.com/DevOps/%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7%E7%9A%84%E9%80%89%E6%8B%A9/">
+<link rel="canonical" href="http://example.com/DevOps/Automation-Tool-Selection/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://example.com/DevOps/%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7%E7%9A%84%E9%80%89%E6%8B%A9/","path":"DevOps/自动部署管理工具的选择/","title":"自动部署管理工具的选择"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://example.com/DevOps/Automation-Tool-Selection/","path":"DevOps/Automation-Tool-Selection/","title":"[DevOps]自动部署管理工具的选择"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>自动部署管理工具的选择 | MeeToon's Blog</title>
+<title>[DevOps]自动部署管理工具的选择 | MeeToon's Blog</title>
   
 
 
@@ -176,7 +176,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/DevOps/%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7%E7%9A%84%E9%80%89%E6%8B%A9/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/DevOps/Automation-Tool-Selection/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -189,12 +189,12 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="自动部署管理工具的选择 | MeeToon's Blog">
-      <meta itemprop="description" content="最近team提出对switch automation的需求，通过比较主流自动化部署和管理的工具，正好借此梳理一下包括func, puppet, chef, saltstack等诸多工具的设计思路和发展轨迹。">
+      <meta itemprop="name" content="[DevOps]自动部署管理工具的选择 | MeeToon's Blog">
+      <meta itemprop="description" content="随着数据中心设备的增加和对效率的要求，部门提出了对设备的自动化管理需求。为此，特意比较了主流自动化部署和管理的工具，本文借此梳理一下包括 func, puppet, chef, saltstack 等诸多种工具的设计思路和发展轨迹。">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          自动部署管理工具的选择
+          [DevOps]自动部署管理工具的选择
         </h1>
 
         <div class="post-meta-container">
@@ -220,7 +220,7 @@
   
 </div>
 
-            <div class="post-description">最近team提出对switch automation的需求，通过比较主流自动化部署和管理的工具，正好借此梳理一下包括func, puppet, chef, saltstack等诸多工具的设计思路和发展轨迹。</div>
+            <div class="post-description">随着数据中心设备的增加和对效率的要求，部门提出了对设备的自动化管理需求。为此，特意比较了主流自动化部署和管理的工具，本文借此梳理一下包括 func, puppet, chef, saltstack 等诸多种工具的设计思路和发展轨迹。</div>
         </div>
       </header>
 
@@ -249,7 +249,7 @@
 <h2 id="对手"><a href="#对手" class="headerlink" title="对手"></a>对手</h2><p>Saltstack胜在执行效率，基于ZeroMQ的传输方式让Salt比基于SSH的Ansible快出一个数量级，特别是在大规模部署上。Ansible的应对方式是引入fireball模式，通过SSH临时建立起ZeroMQ的传输通道，使得在大量命令分发的任务中效率与Salt难分伯仲。如果吹毛求疵地认为Ansible建立ZeroMQ需要额外的时间，亦如果任务类型总是需要往大量服务器同时分发大量命令，Salt也许仍然是更好的选择。而事物的两面性在于ZeroMQ并不具备传输加密能力，所以Salt必须依靠自身的AES implementation，这当然逊于SSH天然的安全性，即便是在fireball 模式下，Ansbile借用Keyczar也更值得信赖。</p>
 <p>Salt通过daemon能更好的控制异构的系统，分发的命令不依赖于目标server上的执行环境。同样受益于daemon的精巧设计, Salt的维护和更新简单得无以复加，从而适应Salt相对快速的迭代。另一边Ansible通过daemonless成功避免了<code>managing the management</code>的问题，但是daemonless也并非没有弱点，典型见诸windows这片Ansible还未完全征服的疆土。此外，没有daemon也让Ansible在每次推送命令的时候除了control data本身，不得不携带module的信息，虽然已经非常的轻量级。  Deamon与daemonless，源于两种不同的设计逻辑，看似重大差别，实际殊途同归，如果一定分个高下，那也是见仁见智。</p>
 <p>Salt和Ansible的执行均以Push为基础，而Slat的requisite机制让server对彼此有所感知，在赋予执行过程极大的自由度的同时，也使得结果在一定程度上失去预见性，相同的配置脚本对同一组目标服务器的执行可能得到不同结果。因此，实时性处理那些在执行中需要同步信息的任务是Salt比较擅长的。Ansible以脚本定义的执行顺序推送，简明和直接，辅之于简单事件驱动和handler，配合“提前崩溃”机制，让执行结果可靠，稳定。<br>名如其人，Salt拟定规程(state), 设想各种情况以及应对，让执行者在任何情况下有章可循。Ansible犹如一个导演，提供剧本(playbook), 监督拍戏并随时叫cut, 保证演绎出一个层层递进，艺术完整的剧情。Salt和Ansible在执行顺序上坚持不同的逻辑，源自对系统管理和资源依赖不同的理解，而这背后，隐约能够看到前辈Puppet和Chef的影子。</p>
-<p>行文至此，你大概应该知道team对自动部署工具的选择。</p>
+<p>行文至此，大概明白了对自动部署工具的选择。</p>
 
     </div>
 
@@ -259,16 +259,16 @@
 
     <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/devops/" rel="tag"># devops</a>
-              <a href="/tags/automation/" rel="tag"># automation</a>
+              <a href="/tags/Automation/" rel="tag"># Automation</a>
+              <a href="/tags/DevOps/" rel="tag"># DevOps</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/Automation/Bare%20Metal%20Provisioning%20%E7%9A%84%E4%B8%80%E4%BA%9B%E6%83%B3%E6%B3%95/" rel="prev" title="Bare Metal Provisioning 的一些想法">
-                  <i class="fa fa-chevron-left"></i> Bare Metal Provisioning 的一些想法
+                <a href="/Automation/Bare-Metal-Provisioning/" rel="prev" title="有关 Bare Metal Provisioning 的一些想法">
+                  <i class="fa fa-chevron-left"></i> 有关 Bare Metal Provisioning 的一些想法
                 </a>
             </div>
             <div class="post-nav-item">
