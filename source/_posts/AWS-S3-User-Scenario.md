@@ -1,9 +1,9 @@
 ---
-title: Amazon S3 使用场景及原理分析
+title: "[AWS] Amazon S3 使用场景及原理分析"
 date: 2022-6-19 15:04:34
-description: 在 Hybird-cloud 数据中心环境中，折腾几个企业客户使用 S3 服务的典型场景，在这里做个记录
+description: 在 Hybird-cloud 数据中心环境中，遇到几个企业客户使用 S3 服务的典型场景，在这里作个梳理。
 categories: AWS
-tags: [S3, hybird-cloud]
+tags: [S3, Hybird-cloud]
 ---
 
 作为公有云上基础的存储组件，Amazon S3 被用在相当多的场景中，本文列举了几种企业客户在 Public cloud 环境以及 Hybird cloud 环境中 S3 的集中典型使用场景。
@@ -24,7 +24,7 @@ AP 仍然是全球可达的，对比上面的场景1，AP克服了直接访问bu
 - AP 可以限定请求的来源 （来自 internet 或来自 VPC 内部）
 - 可以为不同 client 配置相应的访问权限
 - AP 支持跨账户访问 
-- 另外，AP 的访问时是受限的，仅限于对 object 的存取，而把对 bucket 的管理留给API，显然这样更加安全
+- 另外，AP 的访问时是受限的，仅限于对 object 的存取，而把对 bucket 的管理留给 API，显然这样更加安全
 
 接下来是企业客户比较常用到的场景：
 ## User Story3：企业客户在公有云环境访问 S3 服务
@@ -48,13 +48,13 @@ User Story3 中 gateway endpoint 解决了从 VPC privately 访问 S3 服务的�
 
 我们的存储设备在 on-prem 数据中心，已经与 AWS 建立了 Direct Connect. 存储设备需要访问 S3 并将 S3 bucket 作为 cloud tier，当然，因为 on-prem 数据中心可以访问 internet，所以从公网确实可以访问到 S3，但这样实际上没有利用到 DX，而 DX 不管从带宽和安全性上，都远好于 internet。所以我们需要将访问 S3 的路径切换到 DX 上。
 如果套用 user story3 的方案，虽然存储设备与 AWS 的 VPC 能通，却不在 VPC 之中， 这就是面临的问题。
-实际上，这是一个 hyper-cloud 数据中心中非常典型的场景:
+实际上，这是一个 Hyper-cloud 数据中心中非常典型的场景:
 > 客户使用了 Amazon S3 服务，需要从 on-prem 数据中心访问，不管是出于合规性还是性能原因，不能走 internet.
 
 以前的思路，依然是基于 user story 3，额外需要在 VPC 中部署一个代理服务器，从 on-prem 对 S3 的访问，发送到 proxy 上，然后在 VPC 内部，由 proxy 转发到 S3 VPC Endpoint. 这样是可行的，但是结构变得比较复杂，引入了多个依赖，直到去年。
 
 去年（2021），AWS 发布了一个新的方案，**[AWS PrivateLink for Amazon S3](https://aws.amazon.com/blogs/aws/aws-privatelink-for-amazon-s3-now-available/)**. 简单来说，AWS 提供一个新的 endpoint，跟 user story3 不同，这个 endpoint 以 interface 的形态，存在于 VPC 的内部，在每个 subnet 占据一个 IP 地址，并提供一个域名，确保能够在公网的 DNS，解析到这个 private 的 IP 地址上。
 
-这样的话，S3 的访问点，被映射到这个 endpoint 上，而 S3 的访问问题变成了 endpoint 的可达问题。 恰好，on-prem 的存储设备从 DNS 拿到 endpoint 的 private 地址，通过路由，选择经 DX 达到 VPC 的路径， 完美绕开了 internet. 
+这样的话，S3 的访问点，被映射到这个 endpoint 上，而 S3 的访问问题变成了 endpoint 的可达问题。恰好，on-prem 的存储设备从 DNS 拿到 endpoint 的 private 地址，通过路由，选择经 DX 达到 VPC 的路径， 完美绕开了 internet. 
 
 
