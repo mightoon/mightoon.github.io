@@ -20,25 +20,29 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.13.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="一个长期主义实践">
-<meta property="og:type" content="website">
-<meta property="og:title" content="MeeToon&#39;s Blog">
-<meta property="og:url" content="http://example.com/categories/DevOps/index.html">
+    <meta name="description" content="最近的项目需要把数据中心里面虚拟化平台的设备纳入到 Prometheus 监控，却没有找到合适的 exporter. 查询到 Telegraf 有针对 vSphere 的插件，刚好用上。同时对 TICK 生态稍作研究，整理成本篇文章。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[Observability] 为什么要用 Telegraf">
+<meta property="og:url" content="http://example.com/Observability/Observability-Telegraf/index.html">
 <meta property="og:site_name" content="MeeToon&#39;s Blog">
-<meta property="og:description" content="一个长期主义实践">
+<meta property="og:description" content="最近的项目需要把数据中心里面虚拟化平台的设备纳入到 Prometheus 监控，却没有找到合适的 exporter. 查询到 Telegraf 有针对 vSphere 的插件，刚好用上。同时对 TICK 生态稍作研究，整理成本篇文章。">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2019-11-21T02:50:44.000Z">
+<meta property="article:modified_time" content="2019-11-21T02:50:44.000Z">
 <meta property="article:author" content="Mightoon">
+<meta property="article:tag" content="Prometheus">
+<meta property="article:tag" content="Monitoring">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="http://example.com/categories/DevOps/">
+<link rel="canonical" href="http://example.com/Observability/Observability-Telegraf/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":false,"lang":"en","comments":"","permalink":"","path":"categories/DevOps/index.html","title":""}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://example.com/Observability/Observability-Telegraf/","path":"Observability/Observability-Telegraf/","title":"[Observability] 为什么要用 Telegraf"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>Category: DevOps | MeeToon's Blog</title>
+<title>[Observability] 为什么要用 Telegraf | MeeToon's Blog</title>
   
 
 
@@ -160,50 +164,104 @@
 </noscript>
 
 
-    <div class="main-inner category posts-collapse">
+    <div class="main-inner post posts-expand">
 
 
   
+
+
+<div class="post-block">
   
   
-  <div class="post-block">
-    <div class="post-content">
-      <div class="collection-title">
-        <h1 class="collection-header">DevOps
-          <small>Category</small>
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/Observability/Observability-Telegraf/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Mightoon">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="MeeToon's Blog">
+      <meta itemprop="description" content="一个长期主义实践">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="[Observability] 为什么要用 Telegraf | MeeToon's Blog">
+      <meta itemprop="description" content="最近的项目需要把数据中心里面虚拟化平台的设备纳入到 Prometheus 监控，却没有找到合适的 exporter. 查询到 Telegraf 有针对 vSphere 的插件，刚好用上。同时对 TICK 生态稍作研究，整理成本篇文章。">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          [Observability] 为什么要用 Telegraf
         </h1>
-      </div>
 
-      
-    <div class="collection-year">
-      <span class="collection-header">2017</span>
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2019-11-21 10:50:44" itemprop="dateCreated datePublished" datetime="2019-11-21T10:50:44+08:00">2019-11-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Observability/" itemprop="url" rel="index"><span itemprop="name">Observability</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+            <div class="post-description">最近的项目需要把数据中心里面虚拟化平台的设备纳入到 Prometheus 监控，却没有找到合适的 exporter. 查询到 Telegraf 有针对 vSphere 的插件，刚好用上。同时对 TICK 生态稍作研究，整理成本篇文章。</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        
     </div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2017-09-03T16:10:15+08:00"
-              content="2017-09-03">
-          09-03
-        </time>
-      </div>
+    
+    
+    
 
-      <div class="post-title">
-          <a class="post-title-link" href="/DevOps/Automation-Tool-Selection/" itemprop="url">
-            <span itemprop="name">[DevOps] 自动部署管理工具的选择</span>
-          </a>
-      </div>
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Prometheus/" rel="tag"># Prometheus</a>
+              <a href="/tags/Monitoring/" rel="tag"># Monitoring</a>
+          </div>
 
-      
-    </header>
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/DevOps/Automation-Tool-Selection/" rel="prev" title="[DevOps] 自动部署管理工具的选择">
+                  <i class="fa fa-chevron-left"></i> [DevOps] 自动部署管理工具的选择
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/Observability/Observability-SNMPv3-for-Brocade-Switch/" rel="next" title="[Observability] SNMPv3 实现 FC 虚拟网络监控">
+                  [Observability] SNMPv3 实现 FC 虚拟网络监控 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
   </article>
+</div>
 
-    </div>
-  </div>
-  
-  
-  
+
+
+
+
 
 </div>
   </main>
