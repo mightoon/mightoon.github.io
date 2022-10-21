@@ -2532,7 +2532,7 @@ ul.breadcrumb li:last-child {
   vertical-align: middle;
 }
 .links-of-author a::before {
-  background: #ff1b4d;
+  background: #1fb4c1;
   display: inline-block;
   margin-right: 3px;
   transform: translateY(-2px);
@@ -2551,4 +2551,69 @@ ul.breadcrumb li:last-child {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+.posts-expand.index .post-header {
+  text-align: left;
+  margin-bottom: 20px;
+}
+@media (max-width: 767px) {
+  .posts-expand.index .post-header {
+    text-align: center;
+  }
+}
+.posts-expand.index .post-meta-container {
+  margin-top: 5px;
+}
+.posts-expand.index .post-meta {
+  justify-content: flex-start;
+}
+@media (max-width: 767px) {
+  .posts-expand.index .post-meta {
+    justify-content: center;
+  }
+}
+.posts-expand .post-title {
+  font-size: 1.75em;
+}
+.posts-expand .post-meta-container .post-description {
+  font-size: 1em;
+  text-align: left;
+  margin-top: 10px;
+  margin-bottom: 80px;
+}
+.posts-expand .post-eof {
+  display: none;
+}
+.posts-expand .post-block:not(:first-of-type) {
+  margin-top: 160px;
+}
+.posts-expand .post-tags {
+  text-align: center;
+}
+.posts-expand .post-tags a {
+  background: var(--content-bg-color);
+  border-bottom: 0;
+  padding: 1px 5px;
+}
+.posts-expand .post-tags a:hover {
+  background: var(--menu-item-bg-color);
+}
+.posts-expand .post-nav {
+  margin-top: 40px;
+}
+.post-button {
+  margin-top: 20px;
+  text-align: right;
+}
+.post-button .btn {
+  background: none;
+  border: 0;
+  border-bottom: 3px solid var(--menu-item-bg-color);
+  color: #8b8b8b;
+  padding: 0;
+  transition-property: border;
+}
+.post-button .btn:hover {
+  border-bottom-color: var(--btn-default-hover-border-color);
+  color: var(--btn-default-hover-border-color);
 }
