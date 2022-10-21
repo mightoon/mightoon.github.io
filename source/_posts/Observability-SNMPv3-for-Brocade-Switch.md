@@ -1,7 +1,7 @@
 ---
 title: "[Observability] SNMPv3 实现 FC 虚拟网络监控"
 date: 2022-3-2 09:13:02
-description: 在 Prometheus 生态中，往往用 SNMP exporter 监控数据中心的网络，无论是 Ethernet 网络，还是 FC Fabric, 结合相应的 MIB 库， SNMPv2 通常能够满足大多数需求，而且配置简洁，落地简单。我们在一个传统数据中心环境中，用 SNMPv2 监控 FC Fabric, 却发现无法获取 uplink 端口的性能指标数据，通过排查发现 SNMPv2 对 FC 虚拟网络的支持不足，这里总结一下出现问题的原因和处理的方式.
+description: 在 Prometheus 生态中，往往用 SNMP exporter 监控数据中心的网络，无论是 Ethernet 网络，还是 FC Fabric, 结合相应的 MIB 库， SNMPv2 通常能够满足大多数需求，而且配置简洁，落地简单。我们在一个传统数据中心环境中，用 SNMPv2 监控 FC Fabric, 却发现无法获取 uplink 端口的性能指标数据，通过排查发现 SNMPv2 对 FC 虚拟网络的支持不足，这里总结一下出现问题的原因和处理的方式。
 categories: Observability
 tags: [SNMP, Prometheus]
 ---
