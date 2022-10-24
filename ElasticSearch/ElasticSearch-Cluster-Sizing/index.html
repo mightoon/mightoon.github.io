@@ -110,7 +110,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9C%80%E8%A6%81%E6%8F%90%E5%89%8D%E6%98%8E%E7%A1%AE%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">1.</span> <span class="nav-text">需要提前明确的问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PoC-%E9%9B%86%E7%BE%A4%E7%9A%84%E6%95%B0%E6%8D%AE%E8%A7%84%E6%A8%A1"><span class="nav-number">2.</span> <span class="nav-text">PoC 集群的数据规模</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9C%80%E6%B1%82"><span class="nav-number">3.</span> <span class="nav-text">需求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9B%86%E7%BE%A4%E6%9E%B6%E6%9E%84%E7%9A%84%E9%80%89%E6%8B%A9"><span class="nav-number">4.</span> <span class="nav-text">集群架构的选择</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9B%86%E7%BE%A4%E8%A7%84%E6%A8%A1%E8%AF%84%E4%BC%B0"><span class="nav-number">5.</span> <span class="nav-text">集群规模评估</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%85%E5%AD%98%E7%9A%84%E8%80%83%E8%99%91"><span class="nav-number">5.1.</span> <span class="nav-text">内存的考虑</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E6%95%B0%E6%8D%AE%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="nav-number">5.2.</span> <span class="nav-text">关于数据的生命周期</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%8A%82%E7%82%B9%E7%9A%84%E8%A7%84%E6%A0%BC%E4%B8%8E%E6%95%B0%E9%87%8F"><span class="nav-number">5.3.</span> <span class="nav-text">节点的规格与数量</span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9C%80%E8%A6%81%E6%8F%90%E5%89%8D%E6%98%8E%E7%A1%AE%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">1.</span> <span class="nav-text">需要提前明确的问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PoC-%E9%9B%86%E7%BE%A4%E7%9A%84%E6%95%B0%E6%8D%AE%E8%A7%84%E6%A8%A1"><span class="nav-number">2.</span> <span class="nav-text">PoC 集群的数据规模</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%B0%E7%9A%84%E9%9C%80%E6%B1%82"><span class="nav-number">3.</span> <span class="nav-text">新的需求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9B%86%E7%BE%A4%E6%9E%B6%E6%9E%84%E7%9A%84%E9%80%89%E6%8B%A9"><span class="nav-number">4.</span> <span class="nav-text">集群架构的选择</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9B%86%E7%BE%A4%E8%A7%84%E6%A8%A1%E8%AF%84%E4%BC%B0"><span class="nav-number">5.</span> <span class="nav-text">集群规模评估</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%85%E5%AD%98%E7%9A%84%E8%80%83%E8%99%91"><span class="nav-number">5.1.</span> <span class="nav-text">内存的考虑</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E6%95%B0%E6%8D%AE%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="nav-number">5.2.</span> <span class="nav-text">关于数据的生命周期</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%8A%82%E7%82%B9%E7%9A%84%E8%A7%84%E6%A0%BC%E4%B8%8E%E6%95%B0%E9%87%8F"><span class="nav-number">5.3.</span> <span class="nav-text">节点的规格与数量</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -239,12 +239,13 @@
 <li>数据的规模有多大？</li>
 <li>数据的生命周期是怎样的？</li>
 <li>准备使用怎样的ES集群架构？</li>
-<li>以何种方式存储数据？<br>这些问题的答案一部分来自于 ES cluster 的最佳实践，一部分参考我们正在运行的小规模集群（下文叫做 PoC cluster）</li>
+<li>以何种方式存储数据？</li>
 </ul>
+<p>这些问题的答案一部分来自于 ES cluster 的最佳实践，一部分参考我们正在运行的小规模集群（下文叫做 PoC cluster）</p>
 <h2 id="PoC-集群的数据规模"><a href="#PoC-集群的数据规模" class="headerlink" title="PoC 集群的数据规模"></a>PoC 集群的数据规模</h2><p>目前的 PoC 集群是一个小型的三节点 ES Cluster，由三个虚机构成，收集并存储一个在研项目的 log</p>
 <ul>
 <li>虚机规格<ul>
-<li>4core CPU</li>
+<li>4Core CPU</li>
 <li>8GB MEM</li>
 <li>500GB SSD</li>
 </ul>
@@ -258,11 +259,13 @@
 </li>
 <li>数据量<ul>
 <li>2.2GB&#x2F;天</li>
-<li>数据保存6个月<br>PoC 非常简易，没有考虑数据分层，也没作数据的持久化保存，但是通过对 PoC infra 的长期监控，我们得到改规模下日志的数据量，虽然不能精准地类推，但起码是一个不错的参考。</li>
+<li>数据保存6个月</li>
 </ul>
 </li>
 </ul>
-<h2 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h2><ul>
+<p>PoC 非常简易，没有考虑数据分层，也没作数据的持久化保存，但是通过对 PoC infra 的长期监控，我们得到改规模下日志的数据量，虽然不能精准地类推，但起码是一个不错的参考。</p>
+<h2 id="新的需求"><a href="#新的需求" class="headerlink" title="新的需求"></a>新的需求</h2><p>对整个数据中心日志的监控，需求来自三个方面：</p>
+<ul>
 <li>使用场景<ul>
 <li>主要依然来自于 log 的收集和存储，尽量实时写入并能实时查询</li>
 <li>涉及一些分析型的场景，因此对历史数据有读的需求，但是不会很频繁</li>
@@ -284,13 +287,13 @@
 <p>堆内存配置为节点内存的一半且不超过 32G</p>
 </blockquote>
 <p>所以我们把单个节点的内存确定为 64G. </p>
-<h3 id="关于数据的生命周期"><a href="#关于数据的生命周期" class="headerlink" title="关于数据的生命周期"></a>关于数据的生命周期</h3><p>引入<code>数据生命周期</code>的管理，主要是为了在数据长期保存的前提下节约节点资源，以及利用我们现有的存储设备。Cluster 划分为 hot 节点和 warm 节点。Hot 节点承担较多的写入，直接配置 SSD，数据保存30天后，转入 warm 节点至少保存1年。 转入的时候可以通过 merge data，shrink 等方式节省存储空间。同时，warm 节点使用我们数据中心现成的中端存储设备，节省 SSD，数据也更安全。</p>
-<h3 id="节点的规格与数量"><a href="#节点的规格与数量" class="headerlink" title="节点的规格与数量"></a>节点的规格与数量</h3><p>综合上面的考虑，我们将<strong>节点规格</strong>确定为：</p>
+<h3 id="关于数据的生命周期"><a href="#关于数据的生命周期" class="headerlink" title="关于数据的生命周期"></a>关于数据的生命周期</h3><p>引入<code>数据生命周期</code>的管理，主要是为了在数据长期保存的前提下节约节点资源，以及利用我们现有的存储设备。Cluster 划分为 hot 节点和 warm 节点。Hot 节点承担较多的写入，直接配置 SSD，数据保存30天后，转入 warm 节点且至少保存1年。 转入的时候可以通过 merge data，shrink 等方式节省存储空间。同时，warm 节点使用我们数据中心现成的中端存储设备，节省 SSD，数据也更安全。</p>
+<h3 id="节点的规格与数量"><a href="#节点的规格与数量" class="headerlink" title="节点的规格与数量"></a>节点的规格与数量</h3><p>综合上面的考虑，我们将<code>节点规格</code>确定为：</p>
 <ul>
 <li>Hot 节点: 8core CPU, 64G MEM, 1.6T SSD</li>
 <li>Warm 节点： 8core CPU, 32G MEM, 外部存储</li>
 </ul>
-<p>根据 ES 的建议算法，得出两类<strong>节点数量</strong>：</p>
+<p>根据 ES 的<strong>建议算法</strong>，得出两类<code>节点数量</code>：</p>
 <ul>
 <li>Hot 节点<ul>
 <li>数据总量 (GB) &#x3D;（30GB x 30 天 * 2）&#x3D; 1800GB</li>
