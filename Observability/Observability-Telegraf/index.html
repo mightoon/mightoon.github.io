@@ -20,12 +20,12 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.13.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="最近的项目需要把数据中心里面虚拟化平台的设备纳入到 Prometheus 监控，却没有找到合适的 exporter. 查询到 Telegraf 有针对 vSphere 的插件，刚好用上。同时对 TICK 生态稍作研究，整理成本篇文章。">
+    <meta name="description" content="一个正在进行的项目，需要把数据中心里所有的虚拟化平台 infrastructure 纳入到 Prometheus 监控，找了一圈没有合适的 exporter.  了解到 Telegraf 有针对 vSphere 的插件，刚好能用上。同时对 TICK 生态稍作延展性研究，整理成本篇文章。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="[Observability] 为什么要用 Telegraf">
+<meta property="og:title" content="[Observability] 为什么需要 Telegraf">
 <meta property="og:url" content="http://example.com/Observability/Observability-Telegraf/index.html">
 <meta property="og:site_name" content="MeeToon&#39;s Blog">
-<meta property="og:description" content="最近的项目需要把数据中心里面虚拟化平台的设备纳入到 Prometheus 监控，却没有找到合适的 exporter. 查询到 Telegraf 有针对 vSphere 的插件，刚好用上。同时对 TICK 生态稍作研究，整理成本篇文章。">
+<meta property="og:description" content="一个正在进行的项目，需要把数据中心里所有的虚拟化平台 infrastructure 纳入到 Prometheus 监控，找了一圈没有合适的 exporter.  了解到 Telegraf 有针对 vSphere 的插件，刚好能用上。同时对 TICK 生态稍作延展性研究，整理成本篇文章。">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2019-11-21T02:50:44.000Z">
 <meta property="article:modified_time" content="2019-11-21T02:50:44.000Z">
@@ -39,10 +39,10 @@
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://example.com/Observability/Observability-Telegraf/","path":"Observability/Observability-Telegraf/","title":"[Observability] 为什么要用 Telegraf"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://example.com/Observability/Observability-Telegraf/","path":"Observability/Observability-Telegraf/","title":"[Observability] 为什么需要 Telegraf"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>[Observability] 为什么要用 Telegraf | MeeToon's Blog</title>
+<title>[Observability] 为什么需要 Telegraf | MeeToon's Blog</title>
   
 
 
@@ -98,7 +98,7 @@
 
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           Table of Contents
@@ -111,6 +111,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#TICK-%E7%94%9F%E6%80%81"><span class="nav-number">1.</span> <span class="nav-text">TICK 生态</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Telegraf-%E4%B8%8E-Prometheus-%E7%9A%84%E5%85%BC%E5%AE%B9"><span class="nav-number">2.</span> <span class="nav-text">Telegraf 与 Prometheus 的兼容</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E6%A0%BC%E5%BC%8F%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">2.1.</span> <span class="nav-text">数据格式的问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%87%E7%AD%BE%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">2.2.</span> <span class="nav-text">标签的问题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Pull-%E4%B8%8E-Push"><span class="nav-number">3.</span> <span class="nav-text">Pull 与 Push</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#beyond-collector"><span class="nav-number">4.</span> <span class="nav-text">beyond collector</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#example"><span class="nav-number">5.</span> <span class="nav-text">example</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -125,18 +126,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">8</span>
+          <span class="site-state-item-count">9</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-count">8</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-count">13</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -188,12 +189,12 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="[Observability] 为什么要用 Telegraf | MeeToon's Blog">
-      <meta itemprop="description" content="最近的项目需要把数据中心里面虚拟化平台的设备纳入到 Prometheus 监控，却没有找到合适的 exporter. 查询到 Telegraf 有针对 vSphere 的插件，刚好用上。同时对 TICK 生态稍作研究，整理成本篇文章。">
+      <meta itemprop="name" content="[Observability] 为什么需要 Telegraf | MeeToon's Blog">
+      <meta itemprop="description" content="一个正在进行的项目，需要把数据中心里所有的虚拟化平台 infrastructure 纳入到 Prometheus 监控，找了一圈没有合适的 exporter.  了解到 Telegraf 有针对 vSphere 的插件，刚好能用上。同时对 TICK 生态稍作延展性研究，整理成本篇文章。">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          [Observability] 为什么要用 Telegraf
+          [Observability] 为什么需要 Telegraf
         </h1>
 
         <div class="post-meta-container">
@@ -219,7 +220,7 @@
   
 </div>
 
-            <div class="post-description">最近的项目需要把数据中心里面虚拟化平台的设备纳入到 Prometheus 监控，却没有找到合适的 exporter. 查询到 Telegraf 有针对 vSphere 的插件，刚好用上。同时对 TICK 生态稍作研究，整理成本篇文章。</div>
+            <div class="post-description">一个正在进行的项目，需要把数据中心里所有的虚拟化平台 infrastructure 纳入到 Prometheus 监控，找了一圈没有合适的 exporter.  了解到 Telegraf 有针对 vSphere 的插件，刚好能用上。同时对 TICK 生态稍作延展性研究，整理成本篇文章。</div>
         </div>
       </header>
 
@@ -227,7 +228,20 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        
+        <p>说起 Telegraf，其实早些时候在监控选型时有所了解，当时觉得作为数据收集端，没有 Prometheus 生态下的 exporter 用得普及，grafana 上也只有寥寥的 dashboard 可以选择，所以没有太多考虑 Telegraf. 直到后来，需要把数据中心虚拟化平台也纳入到 Prometheus 监控，而针对 VMware vSphere 的 exporter 并不是太成熟，反而在 Telegraf 的 plugin 中找到了对 vSphere 的支持，于是重新调研了 Telegraf，确实有不少可圈可点之处。</p>
+<h2 id="TICK-生态"><a href="#TICK-生态" class="headerlink" title="TICK 生态"></a>TICK 生态</h2><p>Telegraf 的并不是单纯的数据收集工具，实际上是 InfluxData 推出的开源生态的一个部分。TICK(Telegraf, InfluxDB, Chronograf, Kapacitor) 共同组成了包含数据的收集、存储、分析和展示的解决方案，是一个可以对标 ELK 的选择。</p>
+<blockquote>
+<p>Telegraf, a server-based agent, collects and sends metrics and events from databases, systems, and IoT sensors.</p>
+</blockquote>
+<p>从引用的官方描述可以看到，除了采集应用系统的指标数据，Telegraf 的采集源还可以包含数据库或者 IoT 的各种传感器。不同于 Prometheus 的 exporter 各自为阵，Telegraf 以一套代码，通过插件式框架，支持对各种监控对象的数据采集，以及支持多种数据的送出的目的地。</p>
+<h2 id="Telegraf-与-Prometheus-的兼容"><a href="#Telegraf-与-Prometheus-的兼容" class="headerlink" title="Telegraf 与 Prometheus 的兼容"></a>Telegraf 与 Prometheus 的兼容</h2><p>从 Telegraf 在 TICK 中的定位可以看出，它的初衷是面向 InfluxDB 生态的，采集的数据推送给 InfluxDB 最为舒服，而对接 Prometheus，虽然也是一个常用的场景，但是从原理上，可能会存在一些小问题。</p>
+<h3 id="数据格式的问题"><a href="#数据格式的问题" class="headerlink" title="数据格式的问题"></a>数据格式的问题</h3><p>Telegraf 会把收集到的数据序列化为 Prometheus 的格式，这个过程通常是将 measurement name 和 field key 拼接，作为 Prometheus 的指标的名字，而 Prometheus lable 名称则对应收集到的数据中的 tag.</p>
+<p>而有些 input 插件，会收集 string 类型的指标数据，这对于 influxDB，原本没有问题，但面对 Prometheus 的时候，这类数据需要专门的转换 (string_as_label) ，或者直接丢弃，因为 Prometheus 接受的数据格式为 float64.  </p>
+<h3 id="标签的问题"><a href="#标签的问题" class="headerlink" title="标签的问题"></a>标签的问题</h3><p>对于同一个监控项，Telegraf 采集到的数据，同一个标签下面可能会有多个值，这在 influxDB 上并不是一个问题，但是同为时序数据库的 Prometheus，会严格通过标签的组合来区分不通的时序，同一个标签的不同的值，会被 Prometheus 识别为不同的监控项，造成数据的采集意图的不配备。所以，有时候不得不通过特定的配置，将多值的标签去掉。</p>
+<h2 id="Pull-与-Push"><a href="#Pull-与-Push" class="headerlink" title="Pull 与 Push"></a>Pull 与 Push</h2><p> Prometheus text exposition format.</p>
+<h2 id="beyond-collector"><a href="#beyond-collector" class="headerlink" title="beyond collector"></a>beyond collector</h2><p>There are four distinct types of plugins:</p>
+<p>Input Plugins collect metrics from the system, services, or 3rd party APIs<br>Processor Plugins transform, decorate, and&#x2F;or filter metrics<br>Aggregator Plugins create aggregate metrics (e.g. mean, min, max, quantiles, etc.)<br>Output Plugins write metrics to various destinations</p>
+<h2 id="example"><a href="#example" class="headerlink" title="example"></a>example</h2>
     </div>
 
     
@@ -249,8 +263,8 @@
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/Observability/Observability-SNMPv3-for-Brocade-Switch/" rel="next" title="[Observability] SNMPv3 实现 FC 虚拟网络监控">
-                  [Observability] SNMPv3 实现 FC 虚拟网络监控 <i class="fa fa-chevron-right"></i>
+                <a href="/ElasticSearch/ElasticSearch-Cluster-Sizing/" rel="next" title="[ElasticSearch] ES 集群规模评估">
+                  [ElasticSearch] ES 集群规模评估 <i class="fa fa-chevron-right"></i>
                 </a>
             </div>
           </div>
