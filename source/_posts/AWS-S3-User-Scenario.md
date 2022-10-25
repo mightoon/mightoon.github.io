@@ -29,7 +29,7 @@ AP 仍然是全球可达的，对比上面的场景1，AP克服了直接访问bu
 接下来是企业客户比较常用到的场景：
 ## User Story3：企业客户在公有云环境访问 S3 服务
 上面的场景1，2，客户端应用可以在全球任何地方，只要有 internet，就可以通过 internet 访问 S3 服务. 
-而企业客户的公有云环境，有时候是没有 internet 的访问权限的，或者说是客户的主动选择，VPC 与 internet 隔离，以保证安全。那么 VPC 中的 instance，如何访问 S3? Amazon 提供的解决方案是  **[S3 VPC Endpoint](https://docs.aws.amazon.com/vpc/latest/privatelink/vpc-endpoints-s3.html)**.
+而企业客户的公有云环境，有时候是没有 internet 的访问权限的，或者说是客户的主动选择，VPC 与 internet 隔离，以保证安全。那么 VPC 中的 instance，如何访问 S3? Amazon 提供的解决方案是  [S3 VPC Endpoint](https://docs.aws.amazon.com/vpc/latest/privatelink/vpc-endpoints-s3.html).
 
 Endpoint 有两种形式，多数以 interface 的形态存在，而少数，以 gateway 的形态存在，S3 VPC Endpoint 就是一种gateway endpoint.
 
