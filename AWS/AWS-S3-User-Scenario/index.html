@@ -246,7 +246,7 @@
 <li>另外，AP 的访问时是受限的，仅限于对 object 的存取，而把对 bucket 的管理留给 API，显然这样更加安全</li>
 </ul>
 <p>接下来是企业客户比较常用到的场景：</p>
-<h2 id="User-Story3：企业客户在公有云环境访问-S3-服务"><a href="#User-Story3：企业客户在公有云环境访问-S3-服务" class="headerlink" title="User Story3：企业客户在公有云环境访问 S3 服务"></a>User Story3：企业客户在公有云环境访问 S3 服务</h2><p>上面的场景1，2，客户端应用可以在全球任何地方，只要有 internet，就可以通过 internet 访问 S3 服务.<br>而企业客户的公有云环境，有时候是没有 internet 的访问权限的，或者说是客户的主动选择，VPC 与 internet 隔离，以保证安全。那么 VPC 中的 instance，如何访问 S3? Amazon 提供的解决方案是  <strong><a target="_blank" rel="noopener" href="https://docs.aws.amazon.com/vpc/latest/privatelink/vpc-endpoints-s3.html">S3 VPC Endpoint</a></strong>.</p>
+<h2 id="User-Story3：企业客户在公有云环境访问-S3-服务"><a href="#User-Story3：企业客户在公有云环境访问-S3-服务" class="headerlink" title="User Story3：企业客户在公有云环境访问 S3 服务"></a>User Story3：企业客户在公有云环境访问 S3 服务</h2><p>上面的场景1，2，客户端应用可以在全球任何地方，只要有 internet，就可以通过 internet 访问 S3 服务.<br>而企业客户的公有云环境，有时候是没有 internet 的访问权限的，或者说是客户的主动选择，VPC 与 internet 隔离，以保证安全。那么 VPC 中的 instance，如何访问 S3? Amazon 提供的解决方案是  <a target="_blank" rel="noopener" href="https://docs.aws.amazon.com/vpc/latest/privatelink/vpc-endpoints-s3.html">S3 VPC Endpoint</a>.</p>
 <p>Endpoint 有两种形式，多数以 interface 的形态存在，而少数，以 gateway 的形态存在，S3 VPC Endpoint 就是一种gateway endpoint.</p>
 <p>简单来讲，Amazon 提供的这个 endpoint 位于 VPC 的边缘，作为一个访问 S3 的 gateway，当与 VPC 上的 route table 绑定之后，在路由表中生成一条新的路由，所有从 VPC 到 S3 的请求，被导向 endpoint，再通过 Amazon 自己的网络，送到 S3，从而达到绕过 internet 的目的。</p>
 <p>这条路由看起来比较特殊：</p>
