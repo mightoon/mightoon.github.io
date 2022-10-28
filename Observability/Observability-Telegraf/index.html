@@ -20,12 +20,12 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.13.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="一个正在进行的项目，需要把数据中心里所有的虚拟化平台 infrastructure 纳入到 Prometheus 监控，找了一圈没有合适的 exporter.  了解到 Telegraf 有针对 vSphere 的插件，刚好能用上。同时对 TICK 生态稍作延展性研究，整理成本篇文章。">
+    <meta name="description" content="一个正在进行的项目，需要把数据中心里所有的虚拟化平台 infrastructure 纳入到 Prometheus 监控，找了一圈没有合适的 exporter. 了解到 Telegraf 有针对 vSphere 的插件，刚好能用上。同时对 TICK 生态稍作延展性研究，整理成本篇文章。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="[Observability] 为什么需要 Telegraf">
 <meta property="og:url" content="http://example.com/Observability/Observability-Telegraf/index.html">
 <meta property="og:site_name" content="MeeToon&#39;s Blog">
-<meta property="og:description" content="一个正在进行的项目，需要把数据中心里所有的虚拟化平台 infrastructure 纳入到 Prometheus 监控，找了一圈没有合适的 exporter.  了解到 Telegraf 有针对 vSphere 的插件，刚好能用上。同时对 TICK 生态稍作延展性研究，整理成本篇文章。">
+<meta property="og:description" content="一个正在进行的项目，需要把数据中心里所有的虚拟化平台 infrastructure 纳入到 Prometheus 监控，找了一圈没有合适的 exporter. 了解到 Telegraf 有针对 vSphere 的插件，刚好能用上。同时对 TICK 生态稍作延展性研究，整理成本篇文章。">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://www.influxdata.com/wp-content/uploads/Influx-1.0-Diagram_04.20.2020v2.png">
 <meta property="og:image" content="https://www.influxdata.com/wp-content/uploads/Main-Diagram_06.01.2022v1.png">
@@ -34,6 +34,7 @@
 <meta property="article:author" content="Mightoon">
 <meta property="article:tag" content="Prometheus">
 <meta property="article:tag" content="Monitoring">
+<meta property="article:tag" content="InfluxDB">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://www.influxdata.com/wp-content/uploads/Influx-1.0-Diagram_04.20.2020v2.png">
 
@@ -114,7 +115,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#TICK-%E7%94%9F%E6%80%81"><span class="nav-number">1.</span> <span class="nav-text">TICK 生态</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Telegraf-%E4%B8%8E-Prometheus-%E7%9A%84%E5%85%BC%E5%AE%B9"><span class="nav-number">2.</span> <span class="nav-text">Telegraf 与 Prometheus 的兼容</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E6%A0%BC%E5%BC%8F%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">2.0.1.</span> <span class="nav-text">数据格式的问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A0%87%E7%AD%BE%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">2.0.2.</span> <span class="nav-text">标签的问题</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Pull-%E4%B8%8E-Push"><span class="nav-number">3.</span> <span class="nav-text">Pull 与 Push</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Telegraf-%E7%9A%84%E5%B7%A5%E4%BD%9C%E6%96%B9%E5%BC%8F"><span class="nav-number">4.</span> <span class="nav-text">Telegraf 的工作方式</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#TICK-%E7%94%9F%E6%80%81"><span class="nav-number">1.</span> <span class="nav-text">TICK 生态</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Telegraf-%E4%B8%8E-Prometheus-%E7%9A%84%E5%85%BC%E5%AE%B9"><span class="nav-number">2.</span> <span class="nav-text">Telegraf 与 Prometheus 的兼容</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E6%A0%BC%E5%BC%8F%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">2.1.</span> <span class="nav-text">数据格式的问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%87%E7%AD%BE%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">2.2.</span> <span class="nav-text">标签的问题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Pull-%E4%B8%8E-Push"><span class="nav-number">3.</span> <span class="nav-text">Pull 与 Push</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Telegraf-%E7%9A%84%E5%B7%A5%E4%BD%9C%E6%96%B9%E5%BC%8F"><span class="nav-number">4.</span> <span class="nav-text">Telegraf 的工作方式</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -129,18 +130,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">9</span>
+          <span class="site-state-item-count">10</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-count">15</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -193,7 +194,7 @@
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
       <meta itemprop="name" content="[Observability] 为什么需要 Telegraf | MeeToon's Blog">
-      <meta itemprop="description" content="一个正在进行的项目，需要把数据中心里所有的虚拟化平台 infrastructure 纳入到 Prometheus 监控，找了一圈没有合适的 exporter.  了解到 Telegraf 有针对 vSphere 的插件，刚好能用上。同时对 TICK 生态稍作延展性研究，整理成本篇文章。">
+      <meta itemprop="description" content="一个正在进行的项目，需要把数据中心里所有的虚拟化平台 infrastructure 纳入到 Prometheus 监控，找了一圈没有合适的 exporter. 了解到 Telegraf 有针对 vSphere 的插件，刚好能用上。同时对 TICK 生态稍作延展性研究，整理成本篇文章。">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
@@ -223,7 +224,7 @@
   
 </div>
 
-            <div class="post-description">一个正在进行的项目，需要把数据中心里所有的虚拟化平台 infrastructure 纳入到 Prometheus 监控，找了一圈没有合适的 exporter.  了解到 Telegraf 有针对 vSphere 的插件，刚好能用上。同时对 TICK 生态稍作延展性研究，整理成本篇文章。</div>
+            <div class="post-description">一个正在进行的项目，需要把数据中心里所有的虚拟化平台 infrastructure 纳入到 Prometheus 监控，找了一圈没有合适的 exporter. 了解到 Telegraf 有针对 vSphere 的插件，刚好能用上。同时对 TICK 生态稍作延展性研究，整理成本篇文章。</div>
         </div>
       </header>
 
@@ -240,12 +241,12 @@
 <img src="https://www.influxdata.com/wp-content/uploads/Influx-1.0-Diagram_04.20.2020v2.png" class="" width="640" title="TICK">
 
 <h2 id="Telegraf-与-Prometheus-的兼容"><a href="#Telegraf-与-Prometheus-的兼容" class="headerlink" title="Telegraf 与 Prometheus 的兼容"></a>Telegraf 与 Prometheus 的兼容</h2><p>从 Telegraf 在 TICK 中的定位可以看出，它的初衷是面向 InfluxDB 生态的，采集的数据推送给 InfluxDB 最为舒服，而对接 Prometheus，虽然也是一个常用的场景，但是从原理上，可能会存在一些小问题。</p>
-<h4 id="数据格式的问题"><a href="#数据格式的问题" class="headerlink" title="数据格式的问题"></a>数据格式的问题</h4><p>Telegraf 会把收集到的数据序列化为 Prometheus 的格式，这个过程通常是将 measurement name 和 field key 拼接，作为 Prometheus 的指标的名字，而 Prometheus lable 名称则对应收集到的数据中的 tag.</p>
+<h3 id="数据格式的问题"><a href="#数据格式的问题" class="headerlink" title="数据格式的问题"></a>数据格式的问题</h3><p>Telegraf 会把收集到的数据序列化为 Prometheus 的格式，这个过程通常是将 measurement name 和 field key 拼接，作为 Prometheus 的指标的名字，而 Prometheus lable 名称则对应收集到的数据中的 tag.</p>
 <p>而有些 input 插件，会收集 string 类型的指标数据，这对于 InfluxDB，原本没有问题，但面对 Prometheus 的时候，这类数据需要专门的转换，或者直接丢弃，因为 Prometheus 接受的数据格式为 float64. 如果 string 对于指标而言是有意义的，通常有两个方式转换成 Prometheus 识别的格式，一是通过配置 <code>string_as_label</code>, 更稳妥的方式是通过 Telegraf 提供的 processor 插件 <code>converter</code></p>
 <blockquote>
 <p>The converter processor is used to change the type of tag or field values. In addition to changing field types it can convert between fields and tags.</p>
 </blockquote>
-<h4 id="标签的问题"><a href="#标签的问题" class="headerlink" title="标签的问题"></a>标签的问题</h4><p>对于同一个监控指标，Telegraf 在采集过程中有可能会添加标签，而这个标签被允许有多个值，这在 InfluxDB 的存储模型中，能够得到正确的处理，但是同为时序数据库的 Prometheus，会严格通过标签的组合来区分不同的时序，因此同一个标签的不同的值，Prometheus 识别为不同的监控项，这样会隐形地造成与数据的采集意图的偏差。所以，这种时候需要通过 Telegraf 特定的配置，将多值的标签去掉。</p>
+<h3 id="标签的问题"><a href="#标签的问题" class="headerlink" title="标签的问题"></a>标签的问题</h3><p>对于同一个监控指标，Telegraf 在采集过程中有可能会添加标签，而这个标签被允许有多个值，这在 InfluxDB 的存储模型中，能够得到正确的处理，但是同为时序数据库的 Prometheus，会严格通过标签的组合来区分不同的时序，因此同一个标签的不同的值，Prometheus 识别为不同的监控项，这样会隐形地造成与数据的采集意图的偏差。所以，这种时候需要通过 Telegraf 特定的配置，将多值的标签去掉。</p>
 <h2 id="Pull-与-Push"><a href="#Pull-与-Push" class="headerlink" title="Pull 与 Push"></a>Pull 与 Push</h2><p>Exporter 遵从 Prometheus 的 pull 架构，将抓取的指标通过类似 &#x2F;metrics 这样的 endpoint 暴露出来，供 prometheus 获取。而 Telegraf 的 output 插件的逻辑，往往依循 push 模式，把数据推到比如 InfluxDB. 为了适应 Prometheus 的模式，Telegraf 通过实例化一个 <a target="_blank" rel="noopener" href="https://github.com/influxdata/telegraf/tree/master/plugins/outputs/prometheus_client">prometheus_client</a> 来实现。</p>
 <p>Pull 与 Push 孰优孰劣，取决于应用场景，业务逻辑，以及所处的环境，一些明显的区别在于：</p>
 <ul>
@@ -275,6 +276,7 @@
           <div class="post-tags">
               <a href="/tags/Prometheus/" rel="tag"># Prometheus</a>
               <a href="/tags/Monitoring/" rel="tag"># Monitoring</a>
+              <a href="/tags/InfluxDB/" rel="tag"># InfluxDB</a>
           </div>
 
         

@@ -128,18 +128,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">9</span>
+          <span class="site-state-item-count">10</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-count">15</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -258,7 +258,7 @@
 <li>vpce-xxx 就是 endpoint gateway</li>
 </ul>
 <h2 id="User-Story4：将-Amazon-S3-作为-on-prem-存储的-cloud-tier"><a href="#User-Story4：将-Amazon-S3-作为-on-prem-存储的-cloud-tier" class="headerlink" title="User Story4：将 Amazon S3 作为 on-prem 存储的 cloud tier"></a>User Story4：将 Amazon S3 作为 on-prem 存储的 cloud tier</h2><p>User Story3 中 gateway endpoint 解决了从 VPC privately 访问 S3 服务的问题，接下来又出现一个新问题。</p>
-<p>我们的存储设备在 on-prem 数据中心，已经与 AWS 建立了 Direct Connect. 存储设备需要访问 S3 并将 S3 bucket 作为 cloud tier，当然，因为 on-prem 数据中心可以访问 internet，所以从公网确实可以访问到 S3，但这样实际上没有利用到 DX，而 DX 不管从带宽和安全性上，都远好于 internet。所以我们需要将访问 S3 的路径切换到 DX 上。<br>如果套用 user story3 的方案，虽然存储设备与 AWS 的 VPC 能通，却不在 VPC 之中， 这就是面临的问题。<br>实际上，这是一个 Hyper-cloud 数据中心中非常典型的场景:</p>
+<p>我们的存储设备在 on-prem 数据中心，已经与 AWS 建立了 Direct Connect. 存储设备需要访问 S3 并将 S3 bucket 作为 cloud tier，当然，因为 on-prem 数据中心可以访问 internet，所以从公网确实可以访问到 S3，但这样实际上没有利用到 DX，而 DX 不管从带宽和安全性上，都远好于 internet。所以我们需要将访问 S3 的路径切换到 DX 上。<br>如果套用 user story3 的方案，虽然存储设备与 AWS 的 VPC 能通，却不在 VPC 之中， 这就是面临的问题。<br>实际上，这是一个 Hybird-cloud 数据中心中非常典型的场景:</p>
 <blockquote>
 <p>客户使用了 Amazon S3 服务，需要从 on-prem 数据中心访问，不管是出于合规性还是性能原因，不能走 internet.</p>
 </blockquote>
