@@ -1,9 +1,9 @@
 ---
 title: "[Observability] 为什么需要 Telegraf"
 date: 2019-11-21 10:50:44
-description: 一个正在进行的项目，需要把数据中心里所有的虚拟化平台 infrastructure 纳入到 Prometheus 监控，找了一圈没有合适的 exporter.  了解到 Telegraf 有针对 vSphere 的插件，刚好能用上。同时对 TICK 生态稍作延展性研究，整理成本篇文章。
+description: 一个正在进行的项目，需要把数据中心里所有的虚拟化平台 infrastructure 纳入到 Prometheus 监控，找了一圈没有合适的 exporter. 了解到 Telegraf 有针对 vSphere 的插件，刚好能用上。同时对 TICK 生态稍作延展性研究，整理成本篇文章。
 categories: Observability
-tags: [Prometheus, Monitoring]
+tags: [Prometheus, Monitoring, InfluxDB]
 ---
 
 
@@ -21,7 +21,7 @@ Telegraf 的并非单纯的数据收集工具，至少 Telegraf 志不仅在此�
 ## Telegraf 与 Prometheus 的兼容
 从 Telegraf 在 TICK 中的定位可以看出，它的初衷是面向 InfluxDB 生态的，采集的数据推送给 InfluxDB 最为舒服，而对接 Prometheus，虽然也是一个常用的场景，但是从原理上，可能会存在一些小问题。
 
-#### 数据格式的问题
+### 数据格式的问题
 Telegraf 会把收集到的数据序列化为 Prometheus 的格式，这个过程通常是将 measurement name 和 field key 拼接，作为 Prometheus 的指标的名字，而 Prometheus lable 名称则对应收集到的数据中的 tag.
 
 而有些 input 插件，会收集 string 类型的指标数据，这对于 InfluxDB，原本没有问题，但面对 Prometheus 的时候，这类数据需要专门的转换，或者直接丢弃，因为 Prometheus 接受的数据格式为 float64. 如果 string 对于指标而言是有意义的，通常有两个方式转换成 Prometheus 识别的格式，一是通过配置 `string_as_label`, 更稳妥的方式是通过 Telegraf 提供的 processor 插件 `converter`
@@ -29,7 +29,7 @@ Telegraf 会把收集到的数据序列化为 Prometheus 的格式，这个过�
 > The converter processor is used to change the type of tag or field values. In addition to changing field types it can convert between fields and tags.
 
 
-#### 标签的问题
+### 标签的问题
 对于同一个监控指标，Telegraf 在采集过程中有可能会添加标签，而这个标签被允许有多个值，这在 InfluxDB 的存储模型中，能够得到正确的处理，但是同为时序数据库的 Prometheus，会严格通过标签的组合来区分不同的时序，因此同一个标签的不同的值，Prometheus 识别为不同的监控项，这样会隐形地造成与数据的采集意图的偏差。所以，这种时候需要通过 Telegraf 特定的配置，将多值的标签去掉。
 
 

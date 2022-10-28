@@ -48,7 +48,7 @@ User Story3 中 gateway endpoint 解决了从 VPC privately 访问 S3 服务的�
 
 我们的存储设备在 on-prem 数据中心，已经与 AWS 建立了 Direct Connect. 存储设备需要访问 S3 并将 S3 bucket 作为 cloud tier，当然，因为 on-prem 数据中心可以访问 internet，所以从公网确实可以访问到 S3，但这样实际上没有利用到 DX，而 DX 不管从带宽和安全性上，都远好于 internet。所以我们需要将访问 S3 的路径切换到 DX 上。
 如果套用 user story3 的方案，虽然存储设备与 AWS 的 VPC 能通，却不在 VPC 之中， 这就是面临的问题。
-实际上，这是一个 Hyper-cloud 数据中心中非常典型的场景:
+实际上，这是一个 Hybird-cloud 数据中心中非常典型的场景:
 > 客户使用了 Amazon S3 服务，需要从 on-prem 数据中心访问，不管是出于合规性还是性能原因，不能走 internet.
 
 以前的思路，依然是基于 user story 3，额外需要在 VPC 中部署一个代理服务器，从 on-prem 对 S3 的访问，发送到 proxy 上，然后在 VPC 内部，由 proxy 转发到 S3 VPC Endpoint. 这样是可行的，但是结构变得比较复杂，引入了多个依赖，直到去年。

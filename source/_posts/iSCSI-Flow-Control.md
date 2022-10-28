@@ -1,8 +1,8 @@
 ---
-title: 一个由 Flow Control 引起的 iSCSI Performance 问题
+title: "[TroubleShooting] 一个由 Flow Control 引起的 iSCSI 性能问题"
 date: 2017-7-11 13:20:04
 description: 从 iSCSI Performance 下降的问题中，探寻 Flow Control 在普通网络和数据中心增强以太网（DCB）中的不同表现。
-categories: Debug
+categories: Troubleshooting
 tags: [Performance, Network]
 ---
 
