@@ -111,7 +111,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Order%EF%BC%8C%E5%B9%B6%E7%94%9F%E6%88%90%E5%9F%BA%E7%A1%80-OS"><span class="nav-number">1.</span> <span class="nav-text">Order，并生成基础 OS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Server-%E7%9A%84%E8%AE%BF%E9%97%AE"><span class="nav-number">2.</span> <span class="nav-text">Server 的访问</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E-Public-IP-%E5%9C%B0%E5%9D%80"><span class="nav-number">2.1.</span> <span class="nav-text">关于 Public IP 地址</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E-Private-IP-%E5%9C%B0%E5%9D%80"><span class="nav-number">2.2.</span> <span class="nav-text">关于 Private IP 地址</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E5%85%A8%E8%AE%BF%E9%97%AE"><span class="nav-number">2.3.</span> <span class="nav-text">安全访问</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#vCenter-%E7%9A%84%E9%83%A8%E7%BD%B2"><span class="nav-number">3.</span> <span class="nav-text">vCenter 的部署</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ESXi-uplink-%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">4.</span> <span class="nav-text">ESXi uplink 的问题</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Order%EF%BC%8C%E5%B9%B6%E7%94%9F%E6%88%90%E5%9F%BA%E7%A1%80-OS"><span class="nav-number">1.</span> <span class="nav-text">Order，并生成基础 OS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Server-%E7%9A%84%E8%AE%BF%E9%97%AE"><span class="nav-number">2.</span> <span class="nav-text">Server 的访问</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E-Public-IP-%E5%9C%B0%E5%9D%80"><span class="nav-number">2.1.</span> <span class="nav-text">关于 Public IP 地址</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E-Private-IP-%E5%9C%B0%E5%9D%80"><span class="nav-number">2.2.</span> <span class="nav-text">关于 Private IP 地址</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E5%85%A8%E8%AE%BF%E9%97%AE"><span class="nav-number">2.3.</span> <span class="nav-text">安全访问</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#vCenter-%E7%9A%84%E9%83%A8%E7%BD%B2"><span class="nav-number">3.</span> <span class="nav-text">vCenter 的部署</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ESXi-Uplink-%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">4.</span> <span class="nav-text">ESXi Uplink 的问题</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -228,30 +228,34 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <p><a target="_blank" rel="noopener" href="https://mightoon.github.io/Equinix/Equinix-Part1-Introduction/">上一篇文章</a>讲到 Equinix Metal 的来龙去脉，以及为什么我们选择把方案验证放在 Equinix 数据中心。本篇文中从实际部署的角度记录在 Metal server 上搭建 vSphere 集群的过程。这并不是一个 step by step 的说明，只是把那些有特点和需要注意的地方记录下来。</p>
-<h2 id="Order，并生成基础-OS"><a href="#Order，并生成基础-OS" class="headerlink" title="Order，并生成基础 OS"></a>Order，并生成基础 OS</h2><p>我们的应用构建在由4台 <code>m3.large.x86</code> 节点组成的 vSphere 集群上。从名字的组成可以看出，Equinix Metal 遵循云上普遍的做法：large 是对其提供的 server 的规格的一个分类，’m’，以及其他诸如 ‘c’，’s’ 等，用以区分对不同资源的侧重，’x86’ 显然代表了 CPU 架构。除了 vSphere 集群，我们还 order 了额外两台 Linux server 作为对应用建立监控。所以一共在 Equinix Metal 上部署 4 台 ESXi 和 2 台 CentOS. CentOS 生成的速度非常快，从发起订单到初始化到灌入 OS image 再到 IP 可访问，仅一两分钟时间。ESXi 稍慢，也在数分钟内完成，可见优化了得。</p>
-<h2 id="Server-的访问"><a href="#Server-的访问" class="headerlink" title="Server 的访问"></a>Server 的访问</h2><h3 id="关于-Public-IP-地址"><a href="#关于-Public-IP-地址" class="headerlink" title="关于 Public IP 地址"></a>关于 Public IP 地址</h3><p>在 provision server 的环节，可以选择是否需要 public IP. Equinix 会为每个 server 默认分配一个 public IP subnet，根据操作系统的不同，这个 subnet 是有大小区别的。</p>
+        <p><a target="_blank" rel="noopener" href="https://mightoon.github.io/Equinix/Equinix-Part1-Introduction/">上一篇文章</a>简单梳理了 Equinix Metal 的来龙去脉，以及为什么我们选择把本次方案的验证放在 Equinix 数据中心。本篇文章从实际部署的角度记录在 metal server 上搭建 vSphere 集群的过程。这并不是一个 step-by-step 的说明，只是把那些具有特别之处和需要注意的地方记录下来。</p>
+<h2 id="Order，并生成基础-OS"><a href="#Order，并生成基础-OS" class="headerlink" title="Order，并生成基础 OS"></a>Order，并生成基础 OS</h2><p>我们的应用构建在由4台 <strong>m3.large.x86</strong> 节点组成的 vSphere 集群上。从名字的组成可以看出，Equinix Metal 遵循云上普遍的做法：<code>large</code> 是对其提供的 server 的规格的一个分类，<code>&#39;m&#39;</code>，以及其他诸如 <code>&#39;c&#39;</code>，<code>&#39;s&#39;</code> 等，用以区分对不同资源的侧重，<code>&#39;x86&#39;</code> 显然代表了 CPU 架构。除了 vSphere 集群，我们还 order 了额外两台 Linux server 用于建立应用的监控。所以一共在 Equinix Metal 上需要部署 4 台 ESXi 和 2 台 CentOS.</p>
+<p>CentOS 生成的速度非常快，从发起订单到初始化到灌入 OS image 再到 IP 可访问，全程只需一两分钟时间。ESXi 稍慢，也在数分钟内完成，可见优化了得。</p>
+<h2 id="Server-的访问"><a href="#Server-的访问" class="headerlink" title="Server 的访问"></a>Server 的访问</h2><h3 id="关于-Public-IP-地址"><a href="#关于-Public-IP-地址" class="headerlink" title="关于 Public IP 地址"></a>关于 Public IP 地址</h3><p>在 server provisioning 环节，有机会选择是否需要 public IP . Equinix 会为每个 server 默认分配一个 public IP subnet，根据操作系统的不同，这个 subnet 是有大小区别的:</p>
 <ul>
-<li>对于 Linux，分配的是 &#x2F;31 的 subnet</li>
+<li>对于 Linux，会分配一个 &#x2F;31 的 subnet</li>
 <li>对于 ESXi，会分配一个 &#x2F;29 的 subnet</li>
 </ul>
 <p>Public 网络以 Layer 3 的方式构建，因此网关会在 IP segment 中占据一个地址。Equinix 给出的 Public IP 是没有经过 NAT 的地址，实打实全球可达，这一点上，是比较慷概的。</p>
 <p>需要注意的是:</p>
 <ol>
-<li><p>Equinix 默认给的 Public 地址，是动态分配的，也就是说，server 重启之后，地址会变。对于 Linux 也许还好，然而 ESXi，往往受 vCenter 管理，地址变了会是一个问题。这种时候，需要申请 Elastic IP 地址，这是一种固定的地址，属于 Project 范围内的资源，可以绑定在同一个 Project 下除 ESXi 外（下面会讲原因）的任何 server 上，当然是需要付费的。</p>
+<li><p>Equinix 默认给的 Public 地址，为动态分配，也就是说，server 重启之后，地址会变。对于 Linux 也许还好，然而 ESXi，往往受 vCenter 管理，地址变了会是一个问题。这种时候，往往需要申请 Elastic IP 地址，这是一种固定的地址，属于 Project 范围内的资源，可以绑定在同一个 Project 下任何 server 上，当然，是需要付费的。</p>
 </li>
-<li><p>上面提到，对于 ESXi，会默认分配 &#x2F;29 的 subnet，看似不少，但是使用中我们也遇到问题。因为除去一个网络地址，一个广播地址，一个网关，一个 ESXi 的管理地址之外，实际上就只剩下4个可用地址。如果 VM 比较多又都需要 Public 地址，4个当然是不够的。一个解决办法是在 ESXi 内部署一台 route VM，如 vSRX 或 VyOS，专门来处理路由。</p>
+<li><p>上面提到，对于 ESXi，默认分配 &#x2F;29 的 subnet，看似不少，但是使用中我们也遇到问题。因为除去一个网络地址，一个广播地址，一个网关，和一个 ESXi 的管理地址之外，实际上就只剩下4个可用地址。如果 VM 比较多又都需要 Public 地址，那么4个当然是不够的。一个解决办法是在 ESXi 内部署一台 route VM，如 vSRX 或 VyOS，专门来处理路由。</p>
 </li>
 </ol>
 <h3 id="关于-Private-IP-地址"><a href="#关于-Private-IP-地址" class="headerlink" title="关于 Private IP 地址"></a>关于 Private IP 地址</h3><p>上一篇文章提到，Equinix Metal 中的资源往往有两个层面的属性，一是逻辑层面，一是物理位置层面。</p>
-<p>Private 地址在逻辑层面属于 project 范围. Project 自带 &#x2F;25 IP 地址池，在生成 Server 的时候，会从所属的 project 的地址池中取用，不够的话，也可以通过 elastic IP 来扩展<br>同时，private 地址在物理位置层面，属于 Facility 范围的资源，也就是说，同一个 project 中，在同一个 facility 下的 server，天生可以通过 private IP 通信。否则，需要借助 equinix fabric 创建更复杂的连接来满足 private 通信. 这在下一篇文章会提到。</p>
-<h3 id="安全访问"><a href="#安全访问" class="headerlink" title="安全访问"></a>安全访问</h3><p>Equnix Metal 中 provision 的 server，在 ssh 方面，仅开放通过 key 登录，这点很好，但是没有看到类似 AWS security group 的设置，所以对来访没有专门的控制，对于 public IP 来说，还是比较危险的。我们的 vCenter 就因为过于频繁的访问被锁住了登录。</p>
-<h2 id="vCenter-的部署"><a href="#vCenter-的部署" class="headerlink" title="vCenter 的部署"></a>vCenter 的部署</h2><p>Equinix 不支持使用外部的 vCenter 管理 Metal Server 上的 ESXi，所以 vCenter 只能部署在 Equinix Metal 内部。有一个小地方需要注意，vCenter 安装好后，会通过 FQDN 访问，而这个 FQDN 是由 vCenter 的 hostname 和 Equinix 域名拼接起来的，需要在本地 DNS 中添加域名解析。如果没有更改 DNS 的权限的话，也可以将 vCenter 的 hostname 改成 localhost，这样可以强制使用 IP 访问，像我们这样的短期项目，也不是不可以接受。接下来就是在 vCenter 中创建集群，添加 Metal server，不再赘述。</p>
-<h2 id="ESXi-uplink-的问题"><a href="#ESXi-uplink-的问题" class="headerlink" title="ESXi uplink 的问题"></a>ESXi uplink 的问题</h2><p>Equinix Metal 中的所有的 server，无论型号，都标配两个网卡（2个物理 port）. 对于 Linux 或 Windows 系统，两个 port 会被绑定为一个逻辑 port，到 public 网络和 private 网络都经过这个 port. 而对于 ESXi，情况有些不一样，ESXi 会创建一个 vSwitch，并且只增加一个物理 port 作为 uplink. </p>
-<img class="ESXi-uplink.png 600 ESXi_uplink">
+<ul>
+<li>Private IP 在逻辑层面属于 project 范围。 Project 自带 &#x2F;25 IP 地址池，新生成的 server，会从所属的 project 的地址池中取用地址，不够的话，也可以通过 elastic IP 来扩展。</li>
+<li>Private IP 在物理位置层面，则属于 facility 范围的资源，也就是说，同一个 project 中，在同一个 facility 下的所有 server，天生可以通过 private IP 通信。否则，就需要借助 <code>Equinix Fabric</code> 创建更复杂的连接来满足 private 通信。在下一篇文章会详细介绍。</li>
+</ul>
+<h3 id="安全访问"><a href="#安全访问" class="headerlink" title="安全访问"></a>安全访问</h3><p>Equnix Metal 中 provision 的 server，在 ssh 方面，仅开放通过 key 登录，这点很好，但是没有看到类似 AWS security group 的设置，所以针对来访并没有专门的控制，这就 public IP 而言，还是比较危险的。我们的 vCenter 就因为遭遇 flood 攻击被锁住了登录。</p>
+<h2 id="vCenter-的部署"><a href="#vCenter-的部署" class="headerlink" title="vCenter 的部署"></a>vCenter 的部署</h2><p>Equinix 不支持使用外部的 vCenter 管理 Metal Server 上的 ESXi，所以 <strong>vCenter 只能部署在 Equinix Metal 内部</strong>。有一个小地方需要注意，vCenter 安装好后，会通过 FQDN 访问，而这个 FQDN 是由 vCenter 的 hostname 和 Equinix 域名拼接而成，需要在本地 DNS 中添加域名解析。如果没有更改 DNS 的权限的话，也可以将 vCenter 的 hostname 改成 localhost，这样可以强制使用 IP 访问，像我们这样的短期项目，也不是不可以接受。接下来就是在 vCenter 中创建集群，添加 metal server，不再赘述。</p>
+<h2 id="ESXi-Uplink-的问题"><a href="#ESXi-Uplink-的问题" class="headerlink" title="ESXi Uplink 的问题"></a>ESXi Uplink 的问题</h2><p>Equinix Metal 中的所有的 server，无论型号，都标配两个网卡（一共2个物理网络端口）。对于 Linux 或 Windows 系统，两个端口会被绑定为一个逻辑 port，去到 public 网络和 private 网络都经过这个逻辑 port. 而对于 ESXi，情况有些不一样，ESXi 默认的通信模式是通过 vSwitch，而只会有一个物理端口加入到 vSwitch 中作为 uplink. </p>
+<img class="ESXi-uplink.png ESXi_uplink">
 
-<p>为什么不是两个？因为 Equinix Metal 环境中，与 metal server 对接的上级交换机统一配了LACP aggregation，而 ESXi 的vSwitch 有自己的聚合方式，是不支持 LACP 的。如果一定要把两个口用起来，需要在 vCenter 上创建 distributed vSwtich，把所管理的 ESXi 的端口都添加进去，然后在其上配置 LACP，就可以与上级交换机协商成功了。 </p>
-<p>好了，我们的 vSphere 集群已经在 Equinix metal 环境中运行起来，下一篇文章将继续介绍，在集群中部署我们的一个自动化框架，需要在 Equinix Metal 中作的一些网络调整。</p>
+<p>为什么不能是两个？这个问题困扰了我们一段时间，后来了解到 Equinix Metal 环境中，与 metal server 对接的上级交换机统一配了LACP aggregation，而 ESXi 的vSwitch 有自己的聚合方式，是不支持 LACP 的。我们作为 Equinix Metal 的客户，它的上级交换机对我们是透明的，也无法作任何更改，那么如果一定要把 server 的两个口用都起来，有一个替代的办法，就是抛弃 vSwitch，并在 vCenter 上创建 distributed swtich，把所管理的 ESXi 的端口都添加进去，然后在其上配置 LACP，就可以与上级交换机成功协商了。 </p>
+<p>好了，我们的 vSphere 集群已经在 Equinix Metal 环境中运行起来。下一篇文章将继续介绍，在集群中部署我们的一个自动化框架，需要在 Equinix Metal 中作的一些网络调整。</p>
 
     </div>
 
