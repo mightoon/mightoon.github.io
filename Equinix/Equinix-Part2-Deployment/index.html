@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha256-AbA177XfpSnFEvgpYu1jMygiLabzPCJCRIBtR5jGc0k=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.13.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="前面一篇文章概略地介绍了将我们的方案放在 Equinix 数据中心的原因，以及 Equinix Metal 的来龙去脉，本篇从实践角度记录在 Metal server 上构建 vSphere 集群的过程。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[Equinix] Bare Metal as-a-service 体验之虚拟化部署">
+<meta property="og:url" content="http://example.com/Equinix/Equinix-Part2-Deployment/index.html">
+<meta property="og:site_name" content="MeeToon&#39;s Blog">
+<meta property="og:description" content="前面一篇文章概略地介绍了将我们的方案放在 Equinix 数据中心的原因，以及 Equinix Metal 的来龙去脉，本篇从实践角度记录在 Metal server 上构建 vSphere 集群的过程。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-09-21T03:15:37.000Z">
+<meta property="article:modified_time" content="2021-09-21T03:15:37.000Z">
+<meta property="article:author" content="Mightoon">
+<meta property="article:tag" content="provisioning">
+<meta property="article:tag" content="virtualization">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/Equinix/Equinix-Part2-Deployment/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://example.com/Equinix/Equinix-Part2-Deployment/","path":"Equinix/Equinix-Part2-Deployment/","title":"[Equinix] Bare Metal as-a-service 体验之虚拟化部署"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>[Equinix] Bare Metal as-a-service 体验之虚拟化部署 | MeeToon's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">MeeToon's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Order%EF%BC%8C%E5%B9%B6%E7%94%9F%E6%88%90%E5%9F%BA%E7%A1%80-OS"><span class="nav-number">1.</span> <span class="nav-text">Order，并生成基础 OS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Server-%E7%9A%84%E8%AE%BF%E9%97%AE"><span class="nav-number">2.</span> <span class="nav-text">Server 的访问</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E-Public-IP-%E5%9C%B0%E5%9D%80"><span class="nav-number">2.1.</span> <span class="nav-text">关于 Public IP 地址</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E-Private-IP-%E5%9C%B0%E5%9D%80"><span class="nav-number">2.2.</span> <span class="nav-text">关于 Private IP 地址</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E5%85%A8%E8%AE%BF%E9%97%AE"><span class="nav-number">2.3.</span> <span class="nav-text">安全访问</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#vCenter-%E7%9A%84%E9%83%A8%E7%BD%B2"><span class="nav-number">3.</span> <span class="nav-text">vCenter 的部署</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ESXi-uplink-%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">4.</span> <span class="nav-text">ESXi uplink 的问题</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Mightoon"
+      src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">Mightoon</p>
+  <div class="site-description" itemprop="description">一个长期主义实践</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">11</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/Equinix/Equinix-Part2-Deployment/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Mightoon">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="MeeToon's Blog">
+      <meta itemprop="description" content="一个长期主义实践">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="[Equinix] Bare Metal as-a-service 体验之虚拟化部署 | MeeToon's Blog">
+      <meta itemprop="description" content="前面一篇文章概略地介绍了将我们的方案放在 Equinix 数据中心的原因，以及 Equinix Metal 的来龙去脉，本篇从实践角度记录在 Metal server 上构建 vSphere 集群的过程。">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          [Equinix] Bare Metal as-a-service 体验之虚拟化部署
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-09-21 11:15:37" itemprop="dateCreated datePublished" datetime="2021-09-21T11:15:37+08:00">2021-09-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Equinix/" itemprop="url" rel="index"><span itemprop="name">Equinix</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+            <div class="post-description">前面一篇文章概略地介绍了将我们的方案放在 Equinix 数据中心的原因，以及 Equinix Metal 的来龙去脉，本篇从实践角度记录在 Metal server 上构建 vSphere 集群的过程。</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p><a target="_blank" rel="noopener" href="https://mightoon.github.io/Equinix/Equinix-Part1-Introduction/">上一篇文章</a>讲到 Equinix Metal 的来龙去脉，以及为什么我们选择把方案验证放在 Equinix 数据中心。本篇文中从实际部署的角度记录在 Metal server 上搭建 vSphere 集群的过程。这并不是一个 step by step 的说明，只是把那些有特点和需要注意的地方记录下来。</p>
+<h2 id="Order，并生成基础-OS"><a href="#Order，并生成基础-OS" class="headerlink" title="Order，并生成基础 OS"></a>Order，并生成基础 OS</h2><p>我们的应用构建在由4台 <code>m3.large.x86</code> 节点组成的 vSphere 集群上。从名字的组成可以看出，Equinix Metal 遵循云上普遍的做法：large 是对其提供的 server 的规格的一个分类，’m’，以及其他诸如 ‘c’，’s’ 等，用以区分对不同资源的侧重，’x86’ 显然代表了 CPU 架构。除了 vSphere 集群，我们还 order 了额外两台 Linux server 作为对应用建立监控。所以一共在 Equinix Metal 上部署 4 台 ESXi 和 2 台 CentOS. CentOS 生成的速度非常快，从发起订单到初始化到灌入 OS image 再到 IP 可访问，仅一两分钟时间。ESXi 稍慢，也在数分钟内完成，可见优化了得。</p>
+<h2 id="Server-的访问"><a href="#Server-的访问" class="headerlink" title="Server 的访问"></a>Server 的访问</h2><h3 id="关于-Public-IP-地址"><a href="#关于-Public-IP-地址" class="headerlink" title="关于 Public IP 地址"></a>关于 Public IP 地址</h3><p>在 provision server 的环节，可以选择是否需要 public IP. Equinix 会为每个 server 默认分配一个 public IP subnet，根据操作系统的不同，这个 subnet 是有大小区别的。</p>
+<ul>
+<li>对于 Linux，分配的是 &#x2F;31 的 subnet</li>
+<li>对于 ESXi，会分配一个 &#x2F;29 的 subnet</li>
+</ul>
+<p>Public 网络以 Layer 3 的方式构建，因此网关会在 IP segment 中占据一个地址。Equinix 给出的 Public IP 是没有经过 NAT 的地址，实打实全球可达，这一点上，是比较慷概的。</p>
+<p>需要注意的是:</p>
+<ol>
+<li><p>Equinix 默认给的 Public 地址，是动态分配的，也就是说，server 重启之后，地址会变。对于 Linux 也许还好，然而 ESXi，往往受 vCenter 管理，地址变了会是一个问题。这种时候，需要申请 Elastic IP 地址，这是一种固定的地址，属于 Project 范围内的资源，可以绑定在同一个 Project 下除 ESXi 外（下面会讲原因）的任何 server 上，当然是需要付费的。</p>
+</li>
+<li><p>上面提到，对于 ESXi，会默认分配 &#x2F;29 的 subnet，看似不少，但是使用中我们也遇到问题。因为除去一个网络地址，一个广播地址，一个网关，一个 ESXi 的管理地址之外，实际上就只剩下4个可用地址。如果 VM 比较多又都需要 Public 地址，4个当然是不够的。一个解决办法是在 ESXi 内部署一台 route VM，如 vSRX 或 VyOS，专门来处理路由。</p>
+</li>
+</ol>
+<h3 id="关于-Private-IP-地址"><a href="#关于-Private-IP-地址" class="headerlink" title="关于 Private IP 地址"></a>关于 Private IP 地址</h3><p>上一篇文章提到，Equinix Metal 中的资源往往有两个层面的属性，一是逻辑层面，一是物理位置层面。</p>
+<p>Private 地址在逻辑层面属于 project 范围. Project 自带 &#x2F;25 IP 地址池，在生成 Server 的时候，会从所属的 project 的地址池中取用，不够的话，也可以通过 elastic IP 来扩展<br>同时，private 地址在物理位置层面，属于 Facility 范围的资源，也就是说，同一个 project 中，在同一个 facility 下的 server，天生可以通过 private IP 通信。否则，需要借助 equinix fabric 创建更复杂的连接来满足 private 通信. 这在下一篇文章会提到。</p>
+<h3 id="安全访问"><a href="#安全访问" class="headerlink" title="安全访问"></a>安全访问</h3><p>Equnix Metal 中 provision 的 server，在 ssh 方面，仅开放通过 key 登录，这点很好，但是没有看到类似 AWS security group 的设置，所以对来访没有专门的控制，对于 public IP 来说，还是比较危险的。我们的 vCenter 就因为过于频繁的访问被锁住了登录。</p>
+<h2 id="vCenter-的部署"><a href="#vCenter-的部署" class="headerlink" title="vCenter 的部署"></a>vCenter 的部署</h2><p>Equinix 不支持使用外部的 vCenter 管理 Metal Server 上的 ESXi，所以 vCenter 只能部署在 Equinix Metal 内部。有一个小地方需要注意，vCenter 安装好后，会通过 FQDN 访问，而这个 FQDN 是由 vCenter 的 hostname 和 Equinix 域名拼接起来的，需要在本地 DNS 中添加域名解析。如果没有更改 DNS 的权限的话，也可以将 vCenter 的 hostname 改成 localhost，这样可以强制使用 IP 访问，像我们这样的短期项目，也不是不可以接受。接下来就是在 vCenter 中创建集群，添加 Metal server，不再赘述。</p>
+<h2 id="ESXi-uplink-的问题"><a href="#ESXi-uplink-的问题" class="headerlink" title="ESXi uplink 的问题"></a>ESXi uplink 的问题</h2><p>Equinix Metal 中的所有的 server，无论型号，都标配两个网卡（2个物理 port）. 对于 Linux 或 Windows 系统，两个 port 会被绑定为一个逻辑 port，到 public 网络和 private 网络都经过这个 port. 而对于 ESXi，情况有些不一样，ESXi 会创建一个 vSwitch，并且只增加一个物理 port 作为 uplink. </p>
+<img class="ESXi-uplink.png 600 ESXi_uplink">
+
+<p>为什么不是两个？因为 Equinix Metal 环境中，与 metal server 对接的上级交换机统一配了LACP aggregation，而 ESXi 的vSwitch 有自己的聚合方式，是不支持 LACP 的。如果一定要把两个口用起来，需要在 vCenter 上创建 distributed vSwtich，把所管理的 ESXi 的端口都添加进去，然后在其上配置 LACP，就可以与上级交换机协商成功了。 </p>
+<p>好了，我们的 vSphere 集群已经在 Equinix metal 环境中运行起来，下一篇文章将继续介绍，在集群中部署我们的一个自动化框架，需要在 Equinix Metal 中作的一些网络调整。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/provisioning/" rel="tag"># provisioning</a>
+              <a href="/tags/virtualization/" rel="tag"># virtualization</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/Equinix/Equinix-Part1-Introduction/" rel="prev" title="[Equinix] 一个跨 co-location 和公有云的方案的落地">
+                  <i class="fa fa-chevron-left"></i> [Equinix] 一个跨 co-location 和公有云的方案的落地
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/Observability/Observability-SNMPv3-for-Brocade-Switch/" rel="next" title="[Observability] SNMPv3 实现 FC 虚拟网络监控">
+                  [Observability] SNMPv3 实现 FC 虚拟网络监控 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Mightoon</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
