@@ -246,7 +246,7 @@
 <img src="vlan1.png" width=70%>
 
 <p>添加 VLAN 的同时，指定该 VLAN 在哪个数据中心范围生效，以及相应的 VLAN ID:</p>
-<img src="vlan2.png" width=90%>
+<img src="vlan2.png">
 
 <p>经过以上配置，达到的效果是：server 被连入了 Equinix Metal 数据中心的交换机，而交换机上的端口为二层配置，并且打通了 Vlan 3105. 整个过程，不需要动任何硬件，<strong>Equinix 已经全部实现了 software defined</strong>. </p>
 <h3 id="ESXi-上的相应配置"><a href="#ESXi-上的相应配置" class="headerlink" title="ESXi 上的相应配置"></a>ESXi 上的相应配置</h3><p>接下来，需要在 server 的 OS 层面，让发送的数据包都带上 tag 3105. 具体来说，在 vSwitch 中添加一个 port group，赋予 VLAN ID 3105. 之后生成的 VM，只需要放在这个 port group 即可。</p>
