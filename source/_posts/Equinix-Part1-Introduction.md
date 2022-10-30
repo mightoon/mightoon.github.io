@@ -3,7 +3,7 @@ title: "[Equinix] 一个跨 co-location 和公有云的方案的落地"
 date: 2021-9-16 09:07:37
 description: 在一个 co-location 的方案验证中，我们将企业数据放在 Equinix IBX 数据中心，而消费数据的应用，我们选择放在了更加灵活的 Equinix Metal 和公有云上。 整个方案涉及到 Equinix Metal 通过 Equinix Fabric 与 Equinix co-location 数据中心的交互，以及与公有云的交互。这里准备通过四篇文章，概括 Equinix 的 bare metal 以及相关服务的体验，并以此窥探 Equinix 在数据中心和云方向的定位。  
 categories: Equinix
-tags: [BareMetal, co-location]
+tags: [BareMetal, Co-location]
 ---
 
 # 数据中心基础设施的选择
