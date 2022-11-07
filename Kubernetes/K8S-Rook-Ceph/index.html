@@ -29,8 +29,9 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://docs.ceph.com/en/quincy/_images/stack.png">
 <meta property="og:image" content="https://github.com/rook/rook/raw/master/Documentation/Getting-Started/ceph-storage/kubernetes.png">
-<meta property="article:published_time" content="2020-08-11T07:50:21.000Z">
-<meta property="article:modified_time" content="2020-08-11T07:50:21.000Z">
+<meta property="og:image" content="http://example.com/Kubernetes/K8S-Rook-Ceph/dashboard.png">
+<meta property="article:published_time" content="2020-10-11T07:50:21.000Z">
+<meta property="article:modified_time" content="2020-10-11T07:50:21.000Z">
 <meta property="article:author" content="Mightoon">
 <meta property="article:tag" content="CloudNative">
 <meta property="article:tag" content="Ceph">
@@ -115,7 +116,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81-Ceph"><span class="nav-number">1.</span> <span class="nav-text">为什么需要 Ceph</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%BF%98%E9%9C%80%E8%A6%81-Rook"><span class="nav-number">2.</span> <span class="nav-text">为什么还需要 Rook</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Rook-Ceph-%E7%9A%84%E9%83%A8%E7%BD%B2"><span class="nav-number">3.</span> <span class="nav-text">Rook-Ceph 的部署</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%8D%E6%8F%90%E6%9D%A1%E4%BB%B6"><span class="nav-number">3.1.</span> <span class="nav-text">前提条件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%83%A8%E7%BD%B2-Rook-Operator"><span class="nav-number">3.2.</span> <span class="nav-text">部署 Rook Operator</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA-Rook-Ceph-%E9%9B%86%E7%BE%A4"><span class="nav-number">3.3.</span> <span class="nav-text">创建 Rook Ceph 集群</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%83%A8%E7%BD%B2-Rook-Toolbox"><span class="nav-number">3.4.</span> <span class="nav-text">部署 Rook Toolbox</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA-Ceph-Dashboard"><span class="nav-number">3.5.</span> <span class="nav-text">创建 Ceph Dashboard</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA-Storage-Class"><span class="nav-number">3.6.</span> <span class="nav-text">创建 Storage Class</span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81-Ceph"><span class="nav-number">1.</span> <span class="nav-text">为什么需要 Ceph</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81-Rook"><span class="nav-number">2.</span> <span class="nav-text">为什么需要 Rook</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Rook-Ceph-%E7%9A%84%E9%83%A8%E7%BD%B2"><span class="nav-number">3.</span> <span class="nav-text">Rook-Ceph 的部署</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%8D%E6%8F%90%E6%9D%A1%E4%BB%B6"><span class="nav-number">3.1.</span> <span class="nav-text">前提条件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%83%A8%E7%BD%B2-Rook-Operator"><span class="nav-number">3.2.</span> <span class="nav-text">部署 Rook Operator</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA-Rook-Ceph-%E9%9B%86%E7%BE%A4"><span class="nav-number">3.3.</span> <span class="nav-text">创建 Rook Ceph 集群</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%83%A8%E7%BD%B2-Rook-Toolbox"><span class="nav-number">3.4.</span> <span class="nav-text">部署 Rook Toolbox</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA-Ceph-Dashboard"><span class="nav-number">3.5.</span> <span class="nav-text">创建 Ceph Dashboard</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA-Storage-Class"><span class="nav-number">3.6.</span> <span class="nav-text">创建 Storage Class</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -209,7 +210,7 @@
       </span>
       <span class="post-meta-item-text">Posted on</span>
 
-      <time title="Created: 2020-08-11 15:50:21" itemprop="dateCreated datePublished" datetime="2020-08-11T15:50:21+08:00">2020-08-11</time>
+      <time title="Created: 2020-10-11 15:50:21" itemprop="dateCreated datePublished" datetime="2020-10-11T15:50:21+08:00">2020-10-11</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -239,7 +240,7 @@
 <img src="https://docs.ceph.com/en/quincy/_images/stack.png" class="" title="Ceph-stack">
 
 
-<h2 id="为什么还需要-Rook"><a href="#为什么还需要-Rook" class="headerlink" title="为什么还需要 Rook"></a>为什么还需要 Rook</h2><p>Kubernetes <a target="_blank" rel="noopener" href="https://kubernetes.io/docs/concepts/storage/storage-classes/">原生支持</a> Ceph 块存储作为其持久化存储的后端，所以在 K8S 集群上，通过 Ceph-CSI 对接 Ceph 集群是一个可行的办法。但是整个过程还需要相应配置和创建 config-map，secret，authentication，storage class 等等一系列资源，繁琐而且容易出错，这时就需要 Rook 出场了。</p>
+<h2 id="为什么需要-Rook"><a href="#为什么需要-Rook" class="headerlink" title="为什么需要 Rook"></a>为什么需要 Rook</h2><p>Kubernetes <a target="_blank" rel="noopener" href="https://kubernetes.io/docs/concepts/storage/storage-classes/">原生支持</a> Ceph 块存储作为其持久化存储的后端，所以在 K8S 集群上，通过 Ceph-CSI 对接 Ceph 集群是一个可行的办法。但是整个过程还需要相应配置和创建 config-map，secret，authentication，storage class 等等一系列资源，繁琐而且容易出错，这时就需要 Rook 出场了。</p>
 <p>Rook 是一个开源的 cloud-native storage 编排, 旨在将存储系统转换为运行在 kubernetes 上的云原生服务，以便让云原生环境能受益于诸多的传统存储。Ceph 是 Rook 最重要的一个编排对象，通过 kubernetes operator 的模式，Rook 封装了 Ceph 的运维经验，不仅将 Ceph 的部署自动化，也把对 Ceph 集群相对复杂的管理转化成 kubernetes 原语。集群中的其他应用，比如 Prometheus，则通过 Rook 提供的 Ceph-CSI driver 来使用 Ceph 存储，实际上这个时候，在 Rook 的加持下，Ceph 已经成为一个存储服务了。</p>
 <img src="https://github.com/rook/rook/raw/master/Documentation/Getting-Started/ceph-storage/kubernetes.png" class="" title="Rook-arch">
 
@@ -253,6 +254,7 @@
 
 <p>其中，比较关键的信息是 <code>dataDirHostPath</code>, Ceph 集群将用各个节点上的该目录来存放数据，在创建集群时，必须保证相关节点的该目录为空。</p>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">cephVersion:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">ceph/ceph:v15.2.4</span></span><br><span class="line">    <span class="attr">allowUnsupported:</span> <span class="literal">false</span></span><br><span class="line">  <span class="attr">dataDirHostPath:</span> <span class="string">/var/lib/rook</span></span><br></pre></td></tr></table></figure>
+
 
 <h3 id="部署-Rook-Toolbox"><a href="#部署-Rook-Toolbox" class="headerlink" title="部署 Rook Toolbox"></a>部署 Rook Toolbox</h3><p>Rook toolbox 包含了基本的工具，在排查问题的时候会用到。查询 Ceph 集群状态，也需要用到 toolbox. </p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl create -f toolbox.yaml</span><br></pre></td></tr></table></figure>
@@ -274,7 +276,9 @@
 <h3 id="创建-Storage-Class"><a href="#创建-Storage-Class" class="headerlink" title="创建 Storage Class"></a>创建 Storage Class</h3><p>由于使用块存储，我们需要创建的是 Rook-Ceph 的 block storage class. 与之同时创建的，还有一个 Ceph Block Pool，这是一个 CRD 资源，在第一步的 common.yaml 中有定义。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl create -f storageclass.yaml</span><br></pre></td></tr></table></figure>
 
-<p>至此，Rook-Ceph 存储服务全部部署完成，Prometheus 可以通过 storage class 直接使用 Ceph 存储了。</p>
+<p>至此，Rook-Ceph 存储服务全部部署完成，Prometheus 可以通过 storage class 使用 Ceph 存储了。通过 dashboard 可以直观检测到我们5个存储节点的运行状态：</p>
+<img src="dashboard.png" width=80%>
+
 
     </div>
 
