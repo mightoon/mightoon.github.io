@@ -276,8 +276,9 @@
 <h3 id="创建-Storage-Class"><a href="#创建-Storage-Class" class="headerlink" title="创建 Storage Class"></a>创建 Storage Class</h3><p>由于使用块存储，我们需要创建的是 Rook-Ceph 的 block storage class. 与之同时创建的，还有一个 Ceph Block Pool，这是一个 CRD 资源，在第一步的 common.yaml 中有定义。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl create -f storageclass.yaml</span><br></pre></td></tr></table></figure>
 
-<p>至此，Rook-Ceph 存储服务全部部署完成，Prometheus 可以通过 storage class 使用 Ceph 存储了。通过 dashboard 可以直观检测到我们5个存储节点的运行状态：</p>
-<img src="dashboard.png" width=80%>
+<p>至此，Rook-Ceph 存储服务全部部署完成，Prometheus 可以通过 storage class 使用 Ceph 存储了。</p>
+<p>通过 dashboard 直观监测到我们的5个存储节点的运行状态：</p>
+<img src="dashboard.png">
 
 
     </div>
