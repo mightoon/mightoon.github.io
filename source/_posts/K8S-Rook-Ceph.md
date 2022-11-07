@@ -1,6 +1,6 @@
 ---
 title: "[Kubernetes] 使用 Rook Ceph 为监控系统提供持久化存储"
-date: 2020-8-11 15:50:21
+date: 2020-10-11 15:50:21
 description: 在监控系统基础架构的形态上，将 Prometheus 构建在 Kubernetes 集群之上是一种典型的选择。我们的监控系统也遵循这样的最佳实践，并根据项目环境的规模，部署了多个 Prometheus 实例，而 Prometheus 实例可能在 K8S 节点间漂移，为了满足监控业务连续性的要求，每个 Prometheus 收集到的数据的存储方式，成为一个必须考虑的方面。
 categories: Kubernetes
 tags: [CloudNative, Ceph, Operator]
@@ -19,7 +19,7 @@ Ceph 就是这样一个开源的分布式存储集群。实际上 Ceph 存在已
 {% img https://docs.ceph.com/en/quincy/_images/stack.png Ceph-stack %}
 
 
-## 为什么还需要 Rook 
+## 为什么需要 Rook 
 Kubernetes [原生支持](https://kubernetes.io/docs/concepts/storage/storage-classes/) Ceph 块存储作为其持久化存储的后端，所以在 K8S 集群上，通过 Ceph-CSI 对接 Ceph 集群是一个可行的办法。但是整个过程还需要相应配置和创建 config-map，secret，authentication，storage class 等等一系列资源，繁琐而且容易出错，这时就需要 Rook 出场了。
 
 Rook 是一个开源的 cloud-native storage 编排, 旨在将存储系统转换为运行在 kubernetes 上的云原生服务，以便让云原生环境能受益于诸多的传统存储。Ceph 是 Rook 最重要的一个编排对象，通过 kubernetes operator 的模式，Rook 封装了 Ceph 的运维经验，不仅将 Ceph 的部署自动化，也把对 Ceph 集群相对复杂的管理转化成 kubernetes 原语。集群中的其他应用，比如 Prometheus，则通过 Rook 提供的 Ceph-CSI driver 来使用 Ceph 存储，实际上这个时候，在 Rook 的加持下，Ceph 已经成为一个存储服务了。
@@ -58,6 +58,7 @@ spec:
     allowUnsupported: false
   dataDirHostPath: /var/lib/rook
 ```
+
 
 ### 部署 Rook Toolbox
 Rook toolbox 包含了基本的工具，在排查问题的时候会用到。查询 Ceph 集群状态，也需要用到 toolbox. 
@@ -102,4 +103,9 @@ spec:
 kubectl create -f storageclass.yaml
 ```
 
-至此，Rook-Ceph 存储服务全部部署完成，Prometheus 可以通过 storage class 直接使用 Ceph 存储了。
+至此，Rook-Ceph 存储服务全部部署完成，Prometheus 可以通过 storage class 使用 Ceph 存储了。
+
+通过 dashboard 直观监测到我们的5个存储节点的运行状态：
+
+<img src="dashboard.png">
+
