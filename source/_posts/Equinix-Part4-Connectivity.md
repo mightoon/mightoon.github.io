@@ -34,24 +34,26 @@ Equinix Metal 数据中心向外访问的场景，大概有这几种情况：
 
 这是一个 Equinix Metal 与 Equinix Fabric 配合的过程。
 
-首先，在 Equinix Metal 的 portal 中创建一个连接，这里需要提供连接所在的 Metro，是否需要冗余，以及该连接所使用的端口类型（dedicated port）.
+首先，在 Equinix Metal 的 portal 中创建一个连接，这里需要提供连接所在的 Metro，是否需要冗余，以及该连接所使用的端口类型（我们使用的是 dedicated port）.
 
-<img src="create-dedicated-port.png" width=70%>
+<img src="create-dedicated-port.png" width=90%>
 
 提交之后，Equinix Metal 的 support 部门会人工介入，为该连接生成授权书。 
 
 同时，在 Equinix Fabric 的 portal，也需要相应地创建一个连接，在创建过程中，提供 IBX 端的信息，连接的速率等参数，并上传第一步收到的授权书。
 
-<img src="fabric-port.png" width=70%>
+<img src="fabric-port.png" width=85%>
 
 Equinix Fabric 中连接创建好之后，需要等待 Equinix Metal 批准，这个流程目前是也需要人工审批的。
 
 当审批完成后，可以在 Equinix Metal portal 中看到连接的状态变为 Active，链路的状态也变为 Up. 然后，就可以把我们的二层网络对接到该连接上。
 
-“对接”是通过在连接中建立虚拟链路来实现的。该连接以 QinQ 的方式，在 Equinix Metal 与 IBX 之间传输数据包，所以，虚拟链路的内层 VLAN 为我们二层网络的 VLAN 3105，外层 VLAN，为传输 VLAN，这个信息需要在建立虚拟连接时指定。
+这里所谓的“对接”，具体来讲是通过在连接中建立虚拟链路来实现的。该连接以 `QinQ` 的方式，在 Equinix Metal 与 IBX 之间传输数据包，所以，虚拟链路的内层 VLAN 为我们二层网络的 VLAN 3105，外层 VLAN，为承载 VLAN，而这个信息需要在建立虚拟连接时指定。
 
 <img src="vc.png" width=80%>
 
 经过以上配置，我们在 Equinix Metal 数据中心的计算资源就可以访问我们在 IBX 中的数据了。当然，IBX 中的存储设备，也处于二层网络 VLAN 3105 之中，这是未提到的前提。
 
+从用户体验角度，吹毛求疵地讲，整个过程其实并不算很简洁，需要在两个 protal 间来回选择和确认，可能是因为 Equinix Metal 收购不久，不知道以后两者会不会融合。另外，两处需要人工介入的环节，我们其实等待了不少时间，中间也多次邮件沟通，如果能 software-defined 得再彻底一点，就更好了。
 
+下一篇，我们将引入 AWS 公有云，从云端消费 Equinix IBX 中的数据。
