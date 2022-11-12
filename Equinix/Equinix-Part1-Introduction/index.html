@@ -18,12 +18,12 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha256-AbA177XfpSnFEvgpYu1jMygiLabzPCJCRIBtR5jGc0k=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.13.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"mightoon.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.13.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
 
     <meta name="description" content="在一个 co-location 的方案验证中，我们将企业数据放在 Equinix IBX 数据中心，而消费数据的应用，我们选择放在了更加灵活的 Equinix Metal 和公有云上。 整个方案涉及到 Equinix Metal 通过 Equinix Fabric 与 Equinix co-location 数据中心的交互，以及与公有云的交互。这里准备通过四篇文章，概括 Equinix 的 bar">
 <meta property="og:type" content="article">
-<meta property="og:title" content="[Equinix] 一个跨 co-location 和公有云的方案的落地">
-<meta property="og:url" content="http://example.com/Equinix/Equinix-Part1-Introduction/index.html">
+<meta property="og:title" content="[Equinix] 一个跨 Co-location 和公有云的方案的落地">
+<meta property="og:url" content="https://mightoon.github.io/Equinix/Equinix-Part1-Introduction/index.html">
 <meta property="og:site_name" content="MeeToon&#39;s Blog">
 <meta property="og:description" content="在一个 co-location 的方案验证中，我们将企业数据放在 Equinix IBX 数据中心，而消费数据的应用，我们选择放在了更加灵活的 Equinix Metal 和公有云上。 整个方案涉及到 Equinix Metal 通过 Equinix Fabric 与 Equinix co-location 数据中心的交互，以及与公有云的交互。这里准备通过四篇文章，概括 Equinix 的 bar">
 <meta property="og:locale" content="en_US">
@@ -35,14 +35,14 @@
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="http://example.com/Equinix/Equinix-Part1-Introduction/">
+<link rel="canonical" href="https://mightoon.github.io/Equinix/Equinix-Part1-Introduction/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://example.com/Equinix/Equinix-Part1-Introduction/","path":"Equinix/Equinix-Part1-Introduction/","title":"[Equinix] 一个跨 co-location 和公有云的方案的落地"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://mightoon.github.io/Equinix/Equinix-Part1-Introduction/","path":"Equinix/Equinix-Part1-Introduction/","title":"[Equinix] 一个跨 Co-location 和公有云的方案的落地"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>[Equinix] 一个跨 co-location 和公有云的方案的落地 | MeeToon's Blog</title>
+<title>[Equinix] 一个跨 Co-location 和公有云的方案的落地 | MeeToon's Blog</title>
   
 
 
@@ -111,7 +111,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E4%B8%AD%E5%BF%83%E5%9F%BA%E7%A1%80%E8%AE%BE%E6%96%BD%E7%9A%84%E9%80%89%E6%8B%A9"><span class="nav-number">1.</span> <span class="nav-text">数据中心基础设施的选择</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Equinix-Metal-%E8%B5%B0%E9%A9%AC%E8%A7%82%E8%8A%B1"><span class="nav-number">2.</span> <span class="nav-text">Equinix Metal 走马观花</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B5%84%E6%BA%90%E7%BB%84%E7%BB%87%E5%B1%82%E7%BA%A7"><span class="nav-number">2.1.</span> <span class="nav-text">资源组织层级</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B5%84%E6%BA%90%E7%B1%BB%E5%9E%8B"><span class="nav-number">2.2.</span> <span class="nav-text">资源类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97%E8%B5%84%E6%BA%90"><span class="nav-number">2.2.1.</span> <span class="nav-text">计算资源</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%98%E5%82%A8%E8%B5%84%E6%BA%90"><span class="nav-number">2.2.2.</span> <span class="nav-text">存储资源</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E8%B5%84%E6%BA%90"><span class="nav-number">2.2.3.</span> <span class="nav-text">网络资源</span></a></li></ol></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E4%B8%AD%E5%BF%83%E5%9F%BA%E7%A1%80%E8%AE%BE%E6%96%BD%E7%9A%84%E9%80%89%E6%8B%A9"><span class="nav-number">1.</span> <span class="nav-text">数据中心基础设施的选择</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Equinix-Metal-%E8%B5%B0%E9%A9%AC%E8%A7%82%E8%8A%B1"><span class="nav-number">2.</span> <span class="nav-text">Equinix Metal 走马观花</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B5%84%E6%BA%90%E7%BB%84%E7%BB%87%E5%B1%82%E7%BA%A7"><span class="nav-number">2.1.</span> <span class="nav-text">资源组织层级</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B5%84%E6%BA%90%E7%B1%BB%E5%9E%8B"><span class="nav-number">2.2.</span> <span class="nav-text">资源类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#I-%E8%AE%A1%E7%AE%97%E8%B5%84%E6%BA%90"><span class="nav-number">2.2.1.</span> <span class="nav-text">I. 计算资源</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#II-%E5%AD%98%E5%82%A8%E8%B5%84%E6%BA%90"><span class="nav-number">2.2.2.</span> <span class="nav-text">II. 存储资源</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#III-%E7%BD%91%E7%BB%9C%E8%B5%84%E6%BA%90"><span class="nav-number">2.2.3.</span> <span class="nav-text">III. 网络资源</span></a></li></ol></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -176,7 +176,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/Equinix/Equinix-Part1-Introduction/">
+    <link itemprop="mainEntityOfPage" href="https://mightoon.github.io/Equinix/Equinix-Part1-Introduction/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -189,12 +189,12 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="[Equinix] 一个跨 co-location 和公有云的方案的落地 | MeeToon's Blog">
+      <meta itemprop="name" content="[Equinix] 一个跨 Co-location 和公有云的方案的落地 | MeeToon's Blog">
       <meta itemprop="description" content="在一个 co-location 的方案验证中，我们将企业数据放在 Equinix IBX 数据中心，而消费数据的应用，我们选择放在了更加灵活的 Equinix Metal 和公有云上。 整个方案涉及到 Equinix Metal 通过 Equinix Fabric 与 Equinix co-location 数据中心的交互，以及与公有云的交互。这里准备通过四篇文章，概括 Equinix 的 bare metal 以及相关服务的体验，并以此窥探 Equinix 在数据中心和云方向的定位。">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          [Equinix] 一个跨 co-location 和公有云的方案的落地
+          [Equinix] 一个跨 Co-location 和公有云的方案的落地
         </h1>
 
         <div class="post-meta-container">
@@ -228,7 +228,8 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <h1 id="数据中心基础设施的选择"><a href="#数据中心基础设施的选择" class="headerlink" title="数据中心基础设施的选择"></a>数据中心基础设施的选择</h1><p>对 Equinix 最初的印象是全球 top 级的<strong>数据中心托管平台</strong>。通过自建或收购，Equinix 在全球部署了两百多个数据中心，他们称作 <code>IBX</code>(International Business Exchange), 不少企业将自己的设备托管在 IBX, 以期利用 Equinix 专业的数据中心基础设施服务。之所以称为<code>最初印象</code>，是因为当时对 Equinix 的另一大优势业务尚未深入理解，实际上 Equinix 还提供全球最大的<strong>数据中心互联网络</strong>，通过 <code>Equnix Fabric</code> 将企业，网络提供商，云服务商聚集到 Equinix 生态下，并为它的客户提供软件定义网络，实现服务之间的自主相互访问。</p>
+        <h1 id="数据中心基础设施的选择"><a href="#数据中心基础设施的选择" class="headerlink" title="数据中心基础设施的选择"></a>数据中心基础设施的选择</h1><hr>
+<p>对 Equinix 最初的印象是全球 top 级的<strong>数据中心托管平台</strong>。通过自建或收购，Equinix 在全球部署了两百多个数据中心，他们称作 <code>IBX</code>(International Business Exchange), 不少企业将自己的设备托管在 IBX, 以期利用 Equinix 专业的数据中心基础设施服务。之所以称为<code>最初印象</code>，是因为当时对 Equinix 的另一大优势业务尚未深入理解，实际上 Equinix 还提供全球最大的<strong>数据中心互联网络</strong>，通过 <code>Equnix Fabric</code> 将企业，网络提供商，云服务商聚集到 Equinix 生态下，并为它的客户提供软件定义网络，实现服务之间的自主相互访问。</p>
 <p>我们此次设计的方案，类似企业级应用在混合云的部署，企业数据存放在 co-location 托管的存储设备上，成为企业应用提供数据底座，而具体的应用，部署在云下和云上。对于这种跨越 co-location 与公有云结构的支撑，正好是 Equinix 推荐的，这也是我们选择 Equinix 的原因。除此之外的另一个重要原因，是 Equinix 的 <code>Bare Metal</code> 业务。</p>
 <p>Equinix Metal 现在成为 Equinix 几大主要业务之一，简单的讲，它让<strong>物理机的部署具有类似公有云的体验</strong>。实际上，Equinix Metal 是 Equinix 平台中比较新的一个业务，核心服务架构来自于对 <a target="_blank" rel="noopener" href="https://www.zdnet.com/article/equinix-to-buy-bare-metal-cloud-provider-packet/">Packet</a> 的收购，然后经过大半年的改造，于去年底在部分数据中心里面推出。</p>
 <blockquote>
@@ -236,16 +237,17 @@
 </blockquote>
 <p>通过提供带外管理以及配套 API，Equinix Metal 将物理机的部署代码化，虚拟化，自动化。当然其实几大云厂商也提供 Bare Metal as-a-service，不过 Equinix Metal 在这个方面显得更专注一些，并且利用自家的 Equinix Fabric 的优势，通过灵活的软件定义网络，让客户能够快速将物理机连接到更远的环境，诸如其他区域的 Equinix Metal 数据中心，或者客户自己的企业数据中心，亦或者公有云。说回到我们的项目，我们最初的打算是把承担应用负载的服务器运到 Equinix co-location 数据中心，不过因为是方案验证，并非长期部署，使用 Equinix Metal 让我们免去了运来运去的折腾，又能通过高质量的链路连接到我们部署在 Equinix IBX 的数据存储设备，同时，Equinix Metal 所在的数据中心，基本上都位于数据交换的主干节点，那也是离公有云 “最近” 的地方。</p>
 <p>在介绍具体部署细节之前，这里先简单梳理一下 Equinix Metal 中各种资源的组织方式。</p>
-<h1 id="Equinix-Metal-走马观花"><a href="#Equinix-Metal-走马观花" class="headerlink" title="Equinix Metal 走马观花"></a>Equinix Metal 走马观花</h1><h2 id="资源组织层级"><a href="#资源组织层级" class="headerlink" title="资源组织层级"></a>资源组织层级</h2><p>毕竟是收购来的部分，也可能是还在融合当中，Equinix Metal 保留了一个单独的 <a target="_blank" rel="noopener" href="https://metal.equinix.com/">Portal</a>. 进入到 Portal 中首先需要把账号挂在某个 <code>organization</code> 下，这是统一管理 user 和 project 的地方，更重要的是，organization 是计费的主体。</p>
+<h1 id="Equinix-Metal-走马观花"><a href="#Equinix-Metal-走马观花" class="headerlink" title="Equinix Metal 走马观花"></a>Equinix Metal 走马观花</h1><hr>
+<h2 id="资源组织层级"><a href="#资源组织层级" class="headerlink" title="资源组织层级"></a>资源组织层级</h2><p>毕竟是收购来的部分，也可能是还在融合当中，Equinix Metal 保留了一个单独的 <a target="_blank" rel="noopener" href="https://metal.equinix.com/">Portal</a>. 进入到 Portal 中首先需要把账号挂在某个 <code>organization</code> 下，这是统一管理 user 和 project 的地方，更重要的是，organization 是计费的主体。</p>
 <p>每个 Metal 的设备，有两方面属性：</p>
 <ul>
 <li>一是<code>虚拟属性</code>，即从属于某个 project. <code>Project</code> 是 organziation 之下的一个逻辑层次，所有 metal 设备必须有 project 对应。</li>
 <li>二是<code>物理属性</code>，具体来讲，就是设备属于哪个数据中心。在 Equinix Metal 的语境中，处于同一个地理位置的数据中心叫做 <code>Facility</code>，而临近的多个 Facility 组成一个 <code>Metro</code>. 在同一个 Metro 中，所有 Facility 天然地以高速链路相连接，而 Metro 也是有些资源的边界，比如 VLAN，比如 private IP，</li>
 </ul>
 <h2 id="资源类型"><a href="#资源类型" class="headerlink" title="资源类型"></a>资源类型</h2><p>Equinix Metal 本质上依然是数据中心，其资源类型当然也逃不出计算、存储、网络等几大部分。</p>
-<h3 id="计算资源"><a href="#计算资源" class="headerlink" title="计算资源"></a>计算资源</h3><p>即 bare metal server. 除了 server 的规格与位置等基础信息之外，与之相关联的，还有诸如订购方式，OS类型，SSH Key，Meta 数据，用户数据等。每个方面实际上是都是一个对象，可以通过 API 用代码指定或生成。</p>
-<h3 id="存储资源"><a href="#存储资源" class="headerlink" title="存储资源"></a>存储资源</h3><p>Equinix Metal 提供各种类型的<code>本地存储</code>，以及外接的<code>企业级存储</code>设备。对于本地存储，跟所有的公有云体验类似，可以根据需要的性能选择盘的类型，大小。因为是针对 bare metal，还可以从配置 RAID 卡等底层设备。对于企业级存储，订购和配置都可以在 Portal 界面中完成，也可以通过代码，完成 provisioning 的过程。</p>
-<h3 id="网络资源"><a href="#网络资源" class="headerlink" title="网络资源"></a>网络资源</h3><p>我们觉得，网络是 Equinix Metal 做得非常好的部分，毕竟 Equinix 靠提供高质量的互联起家，这部分基因也带到了 Equinix Metal. 所有的网络组件，全部实现 <code>software defined</code>，网络的搭建如同一个搭积木的过程，清晰而流畅。在 Equinix Metal 中，我们构建三层管理网络和二层数据网络，主要涉及到的组件包括：</p>
+<h3 id="I-计算资源"><a href="#I-计算资源" class="headerlink" title="I. 计算资源"></a>I. 计算资源</h3><p>即 bare metal server. 除了 server 的规格与位置等基础信息之外，与之相关联的，还有诸如订购方式，OS类型，SSH Key，Meta 数据，用户数据等。每个方面实际上是都是一个对象，可以通过 API 用代码指定或生成。</p>
+<h3 id="II-存储资源"><a href="#II-存储资源" class="headerlink" title="II. 存储资源"></a>II. 存储资源</h3><p>Equinix Metal 提供各种类型的<code>本地存储</code>，以及外接的<code>企业级存储</code>设备。对于本地存储，跟所有的公有云体验类似，可以根据需要的性能选择盘的类型，大小。因为是针对 bare metal，还可以从配置 RAID 卡等底层设备。对于企业级存储，订购和配置都可以在 Portal 界面中完成，也可以通过代码，完成 provisioning 的过程。</p>
+<h3 id="III-网络资源"><a href="#III-网络资源" class="headerlink" title="III. 网络资源"></a>III. 网络资源</h3><p>我们觉得，网络是 Equinix Metal 做得非常好的部分，毕竟 Equinix 靠提供高质量的互联起家，这部分基因也带到了 Equinix Metal. 所有的网络组件，全部实现 <code>software defined</code>，网络的搭建如同一个搭积木的过程，清晰而流畅。在 Equinix Metal 中，我们构建三层管理网络和二层数据网络，主要涉及到的组件包括：</p>
 <ul>
 <li>VLAN: 在 Equinix Metal 中的一个二层分区</li>
 <li>Metal Gateway: 用于二层网络对外通信</li>
@@ -263,6 +265,26 @@
     
 
     <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<br/>
+<br/>
+<br/>
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者:  </strong>MeeToon
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接: </strong>
+      <a href="https://mightoon.github.io/Equinix/Equinix-Part1-Introduction/" title="[Equinix] 一个跨 Co-location 和公有云的方案的落地">https://mightoon.github.io/Equinix/Equinix-Part1-Introduction/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明:  </strong>本文及本博客所有文章，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议经行许可。转载请注明作者及出处。
+  </li>
+</ul>
+</div>
+
           <div class="post-tags">
               <a href="/tags/BareMetal/" rel="tag"># BareMetal</a>
               <a href="/tags/Co-location/" rel="tag"># Co-location</a>

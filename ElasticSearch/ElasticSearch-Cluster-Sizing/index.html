@@ -18,12 +18,12 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha256-AbA177XfpSnFEvgpYu1jMygiLabzPCJCRIBtR5jGc0k=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.13.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"mightoon.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.13.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
 
     <meta name="description" content="ElasticSearch 在我们的数据中心中已经小范围使用了较长一段时间，最近准备规划一个专有的 infrastructure, 将 ES cluster 移入，并用于收集和处理整个数据中心中的所有设备和应用程序的 log. 本篇文章记录了新的 Cluster 的规模的估计以及规划的过程。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="[ElasticSearch] ES 集群规模评估">
-<meta property="og:url" content="http://example.com/ElasticSearch/ElasticSearch-Cluster-Sizing/index.html">
+<meta property="og:url" content="https://mightoon.github.io/ElasticSearch/ElasticSearch-Cluster-Sizing/index.html">
 <meta property="og:site_name" content="MeeToon&#39;s Blog">
 <meta property="og:description" content="ElasticSearch 在我们的数据中心中已经小范围使用了较长一段时间，最近准备规划一个专有的 infrastructure, 将 ES cluster 移入，并用于收集和处理整个数据中心中的所有设备和应用程序的 log. 本篇文章记录了新的 Cluster 的规模的估计以及规划的过程。">
 <meta property="og:locale" content="en_US">
@@ -34,11 +34,11 @@
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="http://example.com/ElasticSearch/ElasticSearch-Cluster-Sizing/">
+<link rel="canonical" href="https://mightoon.github.io/ElasticSearch/ElasticSearch-Cluster-Sizing/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://example.com/ElasticSearch/ElasticSearch-Cluster-Sizing/","path":"ElasticSearch/ElasticSearch-Cluster-Sizing/","title":"[ElasticSearch] ES 集群规模评估"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://mightoon.github.io/ElasticSearch/ElasticSearch-Cluster-Sizing/","path":"ElasticSearch/ElasticSearch-Cluster-Sizing/","title":"[ElasticSearch] ES 集群规模评估"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
 <title>[ElasticSearch] ES 集群规模评估 | MeeToon's Blog</title>
@@ -175,7 +175,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/ElasticSearch/ElasticSearch-Cluster-Sizing/">
+    <link itemprop="mainEntityOfPage" href="https://mightoon.github.io/ElasticSearch/ElasticSearch-Cluster-Sizing/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -316,6 +316,26 @@
     
 
     <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<br/>
+<br/>
+<br/>
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者:  </strong>MeeToon
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接: </strong>
+      <a href="https://mightoon.github.io/ElasticSearch/ElasticSearch-Cluster-Sizing/" title="[ElasticSearch] ES 集群规模评估">https://mightoon.github.io/ElasticSearch/ElasticSearch-Cluster-Sizing/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明:  </strong>本文及本博客所有文章，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议经行许可。转载请注明作者及出处。
+  </li>
+</ul>
+</div>
+
           <div class="post-tags">
               <a href="/tags/Sizing/" rel="tag"># Sizing</a>
           </div>
