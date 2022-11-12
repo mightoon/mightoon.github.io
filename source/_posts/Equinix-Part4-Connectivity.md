@@ -7,6 +7,7 @@ tags: [Network, Fabric]
 ---
 
 # 从 Equinix Metal 向外访问
+---
 Equinix Metal 数据中心向外访问的场景，大概有这几种情况：
 - 某个区域的 Equinix Metal 数据中心访问其他区域的 Equinix Metal 数据中心
 - 从 Equinix Metal 数据中心访问 Equinix IBX 数据中心
@@ -20,6 +21,7 @@ Equinix Metal 数据中心向外访问的场景，大概有这几种情况：
 第二种情况就是我们的场景，需要从 Equinix Metal 数据中心访问我们托管在 Equinix IBX 数据中心的存储设备，比较可行的方式仍然是通过 **Equinix Fabric**，这是一个全程 software definded 的体验。但如果对延时要求很高，还可以向 Equinix 申请 **Cross Connect**，需要一定的实施时间。
 
 # 跨数据中心的连接
+---
 前面的文章多次提到，Equinix 旗下的 Equinix Metal 是一个 bare metal as-a-service 数据中心，Equinix IBX 是用于托管客户的物理设备的数据中心，并且 Equinix 在他们之间架设了基础的高质量物理线路，但是对于 Equinix Metal 中客户创建的 SDN 虚拟网络，并不能天然联通到 Equinix IBX 中具体的设备，这个时候，就需要 Equinix Fabric 来完成互联。
 
 ## Equinix Fabric
@@ -54,6 +56,9 @@ Equinix Fabric 中连接创建好之后，需要等待 Equinix Metal 批准，�
 
 经过以上配置，我们在 Equinix Metal 数据中心的计算资源就可以访问我们在 IBX 中的数据了。当然，IBX 中的存储设备，也处于二层网络 VLAN 3105 之中，这是未提到的前提。
 
-从用户体验角度，吹毛求疵地讲，整个过程其实并不算很简洁，需要在两个 protal 间来回选择和确认，可能是因为 Equinix Metal 收购不久，不知道以后两者会不会融合。另外，两处需要人工介入的环节，我们其实等待了不少时间，中间也多次邮件沟通，如果能 software-defined 得再彻底一点，就更好了。
+
+# 吹毛求疵
+---
+从用户体验角度，说一下可以提升的方面。可以看到整个过程其实并不算很简洁，需要在两个 protal 间来回选择和确认，可能是因为 Equinix Metal 收购不久，不知道以后两者会不会融合。另外，两处需要人工介入的环节，我们其实等待了不少时间，中间也多次邮件沟通，如果能 software-defined 得再彻底一点，就更好了。
 
 下一篇，我们将引入 AWS 公有云，从云端消费 Equinix IBX 中的数据。
