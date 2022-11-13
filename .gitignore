@@ -1,12 +1,11 @@
-.vscode/*
-.github/
-.gitignore.bak
-db.json
 node_modules/*
 !node_modules/hexo-theme-next
 public/
 .deploy_git/
+db.json
+.vscode/*
+Thumbs.db
+*.log
+.github/
 _multiconfig.yml
 .DS_Store
-*.log
-Thumbs.db
