@@ -238,7 +238,7 @@
 <p>为了便于操控大量的数据消费者，我们通过 <code>kubernetes operator</code>，定义了管理数据消费者的逻辑，把基于不同协议（NFS, SMB, S3）的数据消费者做成 K8S 资源，并通过 controller 来实现其行为模式。同时我们开发了一个自动化框架，一方面用于自动部署 kubernetes cluster，另一方面用于配合 operator 实现对数据消费者的批量生成和管理。</p>
 <p>这里可能有个针对架构的疑问：既然 Equinix Metal 已经提供裸机的 provisioning，为什么不直接在上面部署 kubernetes 以及应用，而要在中间加上一层 vSphere Cluster？这主要因为我们的技术栈偏向于 VMWare，而且在 vSphere Cluster 上，毕竟更加灵活。</p>
 <h1 id="应用程序与-Equinix-Metal-网络的冲突"><a href="#应用程序与-Equinix-Metal-网络的冲突" class="headerlink" title="应用程序与 Equinix Metal 网络的冲突"></a>应用程序与 Equinix Metal 网络的冲突</h1><hr>
-<p>前面一篇说到，Equinix Metal 默认以 Layer 3 的方式为 server 提供可用 IP 并配置路由，所以每个 server 所分配到的 IP subnet 都是独立的，并且 server 与 server 之间的 IP subnet 相互不能有重叠。换句话说，每个 ESXi 上的 VM 只能使用所在 ESXi server 分配到的 IP subnet. 而我们的自动化框架，并不是按这样的网络条件开发的，<strong>没有处理 IP subnet 与 ESXi server 的对应关系</strong>，只是简单地让所有虚机从一个大的 pool 中获取 IP 地址。这样带来的问题是，通过我们的 automation 框架在某台 ESXi server 上生成的虚机，有可能拿到另外一台 ESXi server 的 subnet 中的 IP，这样就无法正常工作了。</p>
+<p><a href="https://mightoon.github.io/Equinix/Equinix-Part2-Deployment/">前面一篇</a>说到，Equinix Metal 默认以 Layer 3 的方式为 server 提供可用 IP 并配置路由，所以每个 server 所分配到的 IP subnet 都是独立的，并且 server 与 server 之间的 IP subnet 相互不能有重叠。换句话说，每个 ESXi 上的 VM 只能使用所在 ESXi server 分配到的 IP subnet. 而我们的自动化框架，并不是按这样的网络条件开发的，<strong>没有处理 IP subnet 与 ESXi server 的对应关系</strong>，只是简单地让所有虚机从一个大的 pool 中获取 IP 地址。这样带来的问题是，通过我们的 automation 框架在某台 ESXi server 上生成的虚机，有可能拿到另外一台 ESXi server 的 subnet 中的 IP，这样就无法正常工作了。</p>
 <h1 id="应用程序与-Equinix-Metal-网络的和解"><a href="#应用程序与-Equinix-Metal-网络的和解" class="headerlink" title="应用程序与 Equinix Metal 网络的和解"></a>应用程序与 Equinix Metal 网络的和解</h1><hr>
 <p>当然我们可以修改 automation 框架来适应这个问题，但是作为更普遍的用法，实际上应该构建一个扁平的环境容纳相关的虚机，让所有这些虚机处于网络的无差别化之中。事实上 Equinix Metal 提供了这样的网络环境，即 <code>Equinix Metal Layer 2</code>.</p>
 <p>Layer 2 并不是 Equinix Metal 的默认网络，需要手动配置。涉及到以下几个方面：</p>
@@ -256,7 +256,7 @@
 <img src="port-group.png">
 
 <p>经过以上网络调整，通过 kubernetes operator 生成的虚机，无论调配到哪个 ESXi上，都可以共享一个二层的数据网络了。 </p>
-<p>至此，经过上一篇文章和本篇描述的过程，我们位于 Equinix Metal 环境的节点，已经完全具备运行数据消费者应用的条件了。下一篇文章，将重点讨论 Equinix Metal 数据中心的应用程序如何访问 Equinix Co-location 数据中心里的数据。</p>
+<p>至此，经过<a href="https://mightoon.github.io/Equinix/Equinix-Part2-Deployment/">上一篇文章</a>和本篇描述的过程，我们位于 Equinix Metal 环境的节点，已经完全具备运行数据消费者应用的条件了。<a href="https://mightoon.github.io/Equinix/Equinix-Part4-Connectivity/">下一篇文章</a>，将重点讨论 Equinix Metal 数据中心的应用程序如何访问 Equinix Co-location 数据中心里的数据。</p>
 
     </div>
 
