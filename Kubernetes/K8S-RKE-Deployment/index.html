@@ -20,18 +20,18 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"mightoon.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.13.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="最近对数据中心的 Kubernetes 平台进行改造，由原来的单一 master 集群重新部署为高可用集群，以满足项目的业务连续性需求。该篇文章记录了通过 Rancher Kubernetes Engine (RKE) 部署 K8S 高可用集群的过程。">
+    <meta name="description" content="该篇文章是上一篇文章 Kubernetes 高可用架构分析的延续，主要讨论 Rancher 对 K8S HA 的实现方式，以及 Rancher Kubernetes Engine (RKE) 部署 K8S 高可用集群的过程。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="[Kubernetes] 用 RKE 构建 Kubernetes 高可用集群">
+<meta property="og:title" content="[Kubernetes] Kubernetes 高可用集群基于 RKE 的实现">
 <meta property="og:url" content="https://mightoon.github.io/Kubernetes/K8S-RKE-Deployment/index.html">
 <meta property="og:site_name" content="MeeToon&#39;s Blog">
-<meta property="og:description" content="最近对数据中心的 Kubernetes 平台进行改造，由原来的单一 master 集群重新部署为高可用集群，以满足项目的业务连续性需求。该篇文章记录了通过 Rancher Kubernetes Engine (RKE) 部署 K8S 高可用集群的过程。">
+<meta property="og:description" content="该篇文章是上一篇文章 Kubernetes 高可用架构分析的延续，主要讨论 Rancher 对 K8S HA 的实现方式，以及 Rancher Kubernetes Engine (RKE) 部署 K8S 高可用集群的过程。">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2020-11-06T06:47:09.000Z">
-<meta property="article:modified_time" content="2020-11-06T06:47:09.000Z">
+<meta property="article:published_time" content="2020-11-06T02:22:51.000Z">
+<meta property="article:modified_time" content="2020-11-06T02:22:51.000Z">
 <meta property="article:author" content="Mightoon">
-<meta property="article:tag" content="Rancher">
 <meta property="article:tag" content="HA">
+<meta property="article:tag" content="Rancher">
 <meta property="article:tag" content="Deployment">
 <meta name="twitter:card" content="summary">
 
@@ -40,10 +40,10 @@
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://mightoon.github.io/Kubernetes/K8S-RKE-Deployment/","path":"Kubernetes/K8S-RKE-Deployment/","title":"[Kubernetes] 用 RKE 构建 Kubernetes 高可用集群"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://mightoon.github.io/Kubernetes/K8S-RKE-Deployment/","path":"Kubernetes/K8S-RKE-Deployment/","title":"[Kubernetes] Kubernetes 高可用集群基于 RKE 的实现"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>[Kubernetes] 用 RKE 构建 Kubernetes 高可用集群 | MeeToon's Blog</title>
+<title>[Kubernetes] Kubernetes 高可用集群基于 RKE 的实现 | MeeToon's Blog</title>
   
 
 
@@ -126,7 +126,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-count">17</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -137,7 +137,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-count">26</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -189,12 +189,12 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="[Kubernetes] 用 RKE 构建 Kubernetes 高可用集群 | MeeToon's Blog">
-      <meta itemprop="description" content="最近对数据中心的 Kubernetes 平台进行改造，由原来的单一 master 集群重新部署为高可用集群，以满足项目的业务连续性需求。该篇文章记录了通过 Rancher Kubernetes Engine (RKE) 部署 K8S 高可用集群的过程。">
+      <meta itemprop="name" content="[Kubernetes] Kubernetes 高可用集群基于 RKE 的实现 | MeeToon's Blog">
+      <meta itemprop="description" content="该篇文章是上一篇文章 Kubernetes 高可用架构分析的延续，主要讨论 Rancher 对 K8S HA 的实现方式，以及 Rancher Kubernetes Engine (RKE) 部署 K8S 高可用集群的过程。">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          [Kubernetes] 用 RKE 构建 Kubernetes 高可用集群
+          [Kubernetes] Kubernetes 高可用集群基于 RKE 的实现
         </h1>
 
         <div class="post-meta-container">
@@ -205,7 +205,7 @@
       </span>
       <span class="post-meta-item-text">Posted on</span>
 
-      <time title="Created: 2020-11-06 14:47:09" itemprop="dateCreated datePublished" datetime="2020-11-06T14:47:09+08:00">2020-11-06</time>
+      <time title="Created: 2020-11-06 10:22:51" itemprop="dateCreated datePublished" datetime="2020-11-06T10:22:51+08:00">2020-11-06</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -220,7 +220,7 @@
   
 </div>
 
-            <div class="post-description">最近对数据中心的 Kubernetes 平台进行改造，由原来的单一 master 集群重新部署为高可用集群，以满足项目的业务连续性需求。该篇文章记录了通过 Rancher Kubernetes Engine (RKE) 部署 K8S 高可用集群的过程。</div>
+            <div class="post-description">该篇文章是上一篇文章 Kubernetes 高可用架构分析的延续，主要讨论 Rancher 对 K8S HA 的实现方式，以及 Rancher Kubernetes Engine (RKE) 部署 K8S 高可用集群的过程。</div>
         </div>
       </header>
 
@@ -228,7 +228,9 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        
+        <p>所谓高可用，就是多个cP, 还有没有其他要素？</p>
+<p>control plane 部署在哪里<br>control plane 如何被访问<br>    需要 nginx， 哪里<br>    control plane selection机制，endpoint相关？<br>    rancher agent 的作用？去访问 control plane ？</p>
+
     </div>
 
     
@@ -248,7 +250,7 @@
   </li>
   <li class="post-copyright-link">
       <strong>本文链接: </strong>
-      <a href="https://mightoon.github.io/Kubernetes/K8S-RKE-Deployment/" title="[Kubernetes] 用 RKE 构建 Kubernetes 高可用集群">https://mightoon.github.io/Kubernetes/K8S-RKE-Deployment/</a>
+      <a href="https://mightoon.github.io/Kubernetes/K8S-RKE-Deployment/" title="[Kubernetes] Kubernetes 高可用集群基于 RKE 的实现">https://mightoon.github.io/Kubernetes/K8S-RKE-Deployment/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明:  </strong>本文及本博客所有文章，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议经行许可。转载请注明作者及原文链接。
@@ -257,8 +259,8 @@
 </div>
 
           <div class="post-tags">
-              <a href="/tags/Rancher/" rel="tag"># Rancher</a>
               <a href="/tags/HA/" rel="tag"># HA</a>
+              <a href="/tags/Rancher/" rel="tag"># Rancher</a>
               <a href="/tags/Deployment/" rel="tag"># Deployment</a>
           </div>
 
@@ -266,8 +268,8 @@
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/ElasticSearch/ElasticSearch-Cluster-Sizing/" rel="prev" title="[ElasticSearch] ES 集群规模评估">
-                  <i class="fa fa-chevron-left"></i> [ElasticSearch] ES 集群规模评估
+                <a href="/Kubernetes/K8S-HA-Arch/" rel="prev" title="[Kubernetes] Kubernetes 高可用集群架构原理分析">
+                  <i class="fa fa-chevron-left"></i> [Kubernetes] Kubernetes 高可用集群架构原理分析
                 </a>
             </div>
             <div class="post-nav-item">

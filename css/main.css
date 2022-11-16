@@ -2057,7 +2057,7 @@ header.header {
   list-style: none;
   padding: 0.5em 1em;
   background: var(--card-bg-color);
-  border-left: 3px solid #ff2a2a;
+  border-left: 3px solid #0684bd;
   margin: 1em 0 0;
 }
 .post-tags {
@@ -2539,7 +2539,7 @@ ul.breadcrumb li:last-child {
   vertical-align: middle;
 }
 .links-of-author a::before {
-  background: #1d30ff;
+  background: #25fff7;
   display: inline-block;
   margin-right: 3px;
   transform: translateY(-2px);

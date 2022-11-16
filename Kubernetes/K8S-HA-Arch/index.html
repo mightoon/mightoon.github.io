@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha256-AbA177XfpSnFEvgpYu1jMygiLabzPCJCRIBtR5jGc0k=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"mightoon.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.13.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="最近对数据中心的 Kubernetes 平台进行改造，由原来的单一 master 集群重新部署为高可用集群，以满足项目的业务连续性需求。该篇文章通过对 Kubernetes 不同类型节点上的各种组件相互关系的分析，讨论 Kubernetes 高可用架构的原理和实现的方式。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[Kubernetes] Kubernetes 高可用集群架构原理分析">
+<meta property="og:url" content="https://mightoon.github.io/Kubernetes/K8S-HA-Arch/index.html">
+<meta property="og:site_name" content="MeeToon&#39;s Blog">
+<meta property="og:description" content="最近对数据中心的 Kubernetes 平台进行改造，由原来的单一 master 集群重新部署为高可用集群，以满足项目的业务连续性需求。该篇文章通过对 Kubernetes 不同类型节点上的各种组件相互关系的分析，讨论 Kubernetes 高可用架构的原理和实现的方式。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://d33wubrfki0l68.cloudfront.net/2475489eaf20163ec0f54ddc1d92aa8d4c87c96b/e7c81/images/docs/components-of-kubernetes.svg">
+<meta property="og:image" content="https://d33wubrfki0l68.cloudfront.net/d1411cded83856552f37911eb4522d9887ca4e83/b94b2/images/kubeadm/kubeadm-ha-topology-stacked-etcd.svg">
+<meta property="og:image" content="https://d33wubrfki0l68.cloudfront.net/ad49fffce42d5a35ae0d0cc1186b97209d86b99c/5a6ae/images/kubeadm/kubeadm-ha-topology-external-etcd.svg">
+<meta property="og:image" content="https://mightoon.github.io/Kubernetes/K8S-HA-Arch/selection.png">
+<meta property="article:published_time" content="2020-11-04T06:47:09.000Z">
+<meta property="article:modified_time" content="2020-11-04T06:47:09.000Z">
+<meta property="article:author" content="Mightoon">
+<meta property="article:tag" content="HA">
+<meta property="article:tag" content="Architecture">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://d33wubrfki0l68.cloudfront.net/2475489eaf20163ec0f54ddc1d92aa8d4c87c96b/e7c81/images/docs/components-of-kubernetes.svg">
+
+
+<link rel="canonical" href="https://mightoon.github.io/Kubernetes/K8S-HA-Arch/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://mightoon.github.io/Kubernetes/K8S-HA-Arch/","path":"Kubernetes/K8S-HA-Arch/","title":"[Kubernetes] Kubernetes 高可用集群架构原理分析"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>[Kubernetes] Kubernetes 高可用集群架构原理分析 | MeeToon's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">MeeToon's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Kubernetes-%E7%BB%84%E4%BB%B6%E7%9A%84%E5%9B%9E%E9%A1%BE"><span class="nav-number">1.</span> <span class="nav-text">Kubernetes 组件的回顾</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Control-Plane-Components%EF%BC%88%E6%8E%A7%E5%88%B6%E5%B9%B3%E9%9D%A2%EF%BC%89"><span class="nav-number">1.1.</span> <span class="nav-text">Control Plane Components（控制平面）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Node-Components-%E8%8A%82%E7%82%B9%E7%BB%84%E4%BB%B6"><span class="nav-number">1.2.</span> <span class="nav-text">Node Components (节点组件)</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Kubernetes-%E7%BB%84%E4%BB%B6%E9%97%B4%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="nav-number">2.</span> <span class="nav-text">Kubernetes 组件间的关系</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B0%83%E7%94%A8-Kubernetes-API"><span class="nav-number">2.1.</span> <span class="nav-text">调用 Kubernetes API</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%9A%E8%BF%87-API-Server-%E8%AE%BF%E9%97%AE-K8S-%E8%B5%84%E6%BA%90"><span class="nav-number">2.2.</span> <span class="nav-text">通过 API Server 访问 K8S 资源</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Kubernetes-%E9%AB%98%E5%8F%AF%E7%94%A8%E9%9B%86%E7%BE%A4%E7%9A%84%E5%8E%9F%E7%90%86"><span class="nav-number">3.</span> <span class="nav-text">Kubernetes 高可用集群的原理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8E%A7%E5%88%B6%E5%B9%B3%E9%9D%A2%E7%9A%84%E9%AB%98%E5%8F%AF%E7%94%A8%E8%80%83%E8%99%91"><span class="nav-number">3.1.</span> <span class="nav-text">控制平面的高可用考虑</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#I-API-Server"><span class="nav-number">3.1.1.</span> <span class="nav-text">I. API Server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#II-Etcd"><span class="nav-number">3.1.2.</span> <span class="nav-text">II. Etcd</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Stacked-Etcd-%E6%8B%93%E6%89%91"><span class="nav-number">3.1.2.1.</span> <span class="nav-text">Stacked Etcd 拓扑</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#External-Etcd-%E6%8B%93%E6%89%91"><span class="nav-number">3.1.2.2.</span> <span class="nav-text">External Etcd 拓扑</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#III-%E5%85%B6%E4%BB%96%E6%8E%A7%E5%88%B6%E5%B9%B3%E9%9D%A2%E7%BB%84%E4%BB%B6"><span class="nav-number">3.1.3.</span> <span class="nav-text">III. 其他控制平面组件</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Mightoon"
+      src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">Mightoon</p>
+  <div class="site-description" itemprop="description">一个长期主义实践</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">17</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://mightoon.github.io/Kubernetes/K8S-HA-Arch/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Mightoon">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="MeeToon's Blog">
+      <meta itemprop="description" content="一个长期主义实践">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="[Kubernetes] Kubernetes 高可用集群架构原理分析 | MeeToon's Blog">
+      <meta itemprop="description" content="最近对数据中心的 Kubernetes 平台进行改造，由原来的单一 master 集群重新部署为高可用集群，以满足项目的业务连续性需求。该篇文章通过对 Kubernetes 不同类型节点上的各种组件相互关系的分析，讨论 Kubernetes 高可用架构的原理和实现的方式。">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          [Kubernetes] Kubernetes 高可用集群架构原理分析
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2020-11-04 14:47:09" itemprop="dateCreated datePublished" datetime="2020-11-04T14:47:09+08:00">2020-11-04</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Kubernetes/" itemprop="url" rel="index"><span itemprop="name">Kubernetes</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+            <div class="post-description">最近对数据中心的 Kubernetes 平台进行改造，由原来的单一 master 集群重新部署为高可用集群，以满足项目的业务连续性需求。该篇文章通过对 Kubernetes 不同类型节点上的各种组件相互关系的分析，讨论 Kubernetes 高可用架构的原理和实现的方式。</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>Kubernetes 集群在我们的数据中心中已使用多年，集群上也部署了不少主流的和自研的应用程序。因为多为预研项目，或者短期方案验证，一直对集群本身的业务连续性没有太多的要求。随着我们的监控系统在整个数据中心的铺开，承载监控系统的平台层面的高可用成为不得不考虑的方面，为此我们停用了原来的单一 master 集群，重新规划了 Kubernetes HA 集群。</p>
+<h1 id="Kubernetes-组件的回顾"><a href="#Kubernetes-组件的回顾" class="headerlink" title="Kubernetes 组件的回顾"></a>Kubernetes 组件的回顾</h1><hr>
+<p>要讨论 Kubernetes 高可用集群，有必要重新回顾一下 Kubernetes 的基础组件以及组件间相互的关系。在<code>早期的文章</code>中，专门介绍过各个组件及功能。这里简单归纳。如图所示，Kubernetes 集群中包含两大部分组件</p>
+<img src="https://d33wubrfki0l68.cloudfront.net/2475489eaf20163ec0f54ddc1d92aa8d4c87c96b/e7c81/images/docs/components-of-kubernetes.svg" class="" title="K8S-components">
+
+<h2 id="Control-Plane-Components（控制平面）"><a href="#Control-Plane-Components（控制平面）" class="headerlink" title="Control Plane Components（控制平面）"></a>Control Plane Components（控制平面）</h2><p>控制平面是集群的大脑，负责资源调度，部署决策，集群事件响应等等，同时也是接收外界指令的接口。主要包括以下组件：</p>
+<ul>
+<li>kube-apiserver</li>
+<li>kube-scheduler</li>
+<li>kube-controller-manager</li>
+<li>etcd</li>
+</ul>
+<p>从 Kubernetes 的设计上，这些组件可以在任何节点上分布，但实践中，单一控制平面的集群往往会把这些组件集中在同一台节点上，即所谓的 master 节点。</p>
+<h2 id="Node-Components-节点组件"><a href="#Node-Components-节点组件" class="headerlink" title="Node Components (节点组件)"></a>Node Components (节点组件)</h2><p>Node Components会运行在集群中的每个节点上，与控制平面交互并为应用负载提供运行环境。主要包括以下组件：</p>
+<ul>
+<li>kubelet</li>
+<li>kube-proxy</li>
+<li>Container Runtime</li>
+</ul>
+<h1 id="Kubernetes-组件间的关系"><a href="#Kubernetes-组件间的关系" class="headerlink" title="Kubernetes 组件间的关系"></a>Kubernetes 组件间的关系</h1><hr>
+<p>所谓关系，主要指组件间的交互，而控制平面显然是交互的核心。组件间的绝大部分通信，是面向控制平面中 API Server 的，因为从设计上，控制平面的其他组件并没有可暴露的远程服务。</p>
+<h2 id="调用-Kubernetes-API"><a href="#调用-Kubernetes-API" class="headerlink" title="调用 Kubernetes API"></a>调用 Kubernetes API</h2><p>Kubernetes 的 API 为 Hub-and-Spoke 模式，集群中各个组件发起的 API 调用，都会指向 API Server，并进一步通过 API Server 将信息存入 etcd. 而各组件需要获取信息是，同样也利用 API Server 提供的 REST接口。通过这种模式，实现组件间交流。一些典型的场景如：</p>
+<ul>
+<li>Kubelet 调用 API 报告自生状态</li>
+<li>运行于 pod 中的分布式应用程序调用 API 了解应用集群的状态</li>
+<li>Controller-manager 通过调用 API 跟踪某种类型的 K8S 资源</li>
+<li>Scheduler 做出调度决策后调用 API 实施 pod 的绑定</li>
+</ul>
+<p>而外界的诸如 kubectl 命令行接口，或其他命令行工具，或 REST，也都会通过调用 API 来访问和控制集群中的资源。</p>
+<h2 id="通过-API-Server-访问-K8S-资源"><a href="#通过-API-Server-访问-K8S-资源" class="headerlink" title="通过 API Server 访问 K8S 资源"></a>通过 API Server 访问 K8S 资源</h2><p>另一方面，当 API Server 需要与节点通信的时候，往往通过节点上的 Kubelet. 比如：</p>
+<ul>
+<li>访问 pod 的日志</li>
+<li>执行 kubectl 的请求进入到 pod</li>
+</ul>
+<p>API Server 也可以直接与节点，pod 或服务通信，这类场景通常是利用 API Server 代理 REST 请求，实现从集群之外访问某个节点或服务。由此获取的信息直接来自节点，而绕过了 etcd.</p>
+<h1 id="Kubernetes-高可用集群的原理"><a href="#Kubernetes-高可用集群的原理" class="headerlink" title="Kubernetes 高可用集群的原理"></a>Kubernetes 高可用集群的原理</h1><hr>
+<p>我们常说，Kubernetes 从声明模式的机制上，会保证部署在集群中的应用程序(这里主要指无状态应用程序)资源的数量，以及通过各种探针，保证应用程序的可用性。所以编排于 Kubernetes 上的应用程序，一般无需专门维护高可用性。那么对于 Kubernetes 集群本身的高可用又是如何保证的呢？</p>
+<h2 id="控制平面的高可用考虑"><a href="#控制平面的高可用考虑" class="headerlink" title="控制平面的高可用考虑"></a>控制平面的高可用考虑</h2><h3 id="I-API-Server"><a href="#I-API-Server" class="headerlink" title="I. API Server"></a>I. API Server</h3><p>从上个小节 Kubernetes 组件中可以看到，API Server 作为 Kubernetes 控制平面的前端，是整个通信的核心，在集群较大时，API Server 的压力是比较大的。在高可用的实践上，首先需要消除 API Server 的单点状态。好在 Kubernetes 在架构上已经考虑了这个问题，将 API Server 设计为无状态的，也就是说，可通过部署多个实例对 API Server 进行水平扩展。而在控制平面之外，还可以配套部署负载均衡节点，平衡各个 API Server 实例的流量。</p>
+<h3 id="II-Etcd"><a href="#II-Etcd" class="headerlink" title="II. Etcd"></a>II. Etcd</h3><p>作为 Kubernetes 集群数据的后台数据库，etcd 保存整个集群的状态以及配置信息。Etcd 设计为分布式，通过 raft 协议保证多个实例之间数据的一致性。</p>
+<blockquote>
+<p>Etcd is a distributed, consistent key-value store for shared configuration and service discovery.</p>
+</blockquote>
+<p>因此，对于 etcd 集群，无需担心本身的可靠性，需要考虑的是其拓扑方式。</p>
+<h4 id="Stacked-Etcd-拓扑"><a href="#Stacked-Etcd-拓扑" class="headerlink" title="Stacked Etcd 拓扑"></a>Stacked Etcd 拓扑</h4><p>在 Stacked Etcd 拓扑中，etcd 分布式数据存储集群堆叠在控制平面节点上，作为控制平面的一个组件运行。每个控制平面节点创建一个本地 etcd 成员，该成员只与同一节点的 API Server 通信。这种拓扑的耦合度比较强，为了减少耦合失败的风险，至少需要部署三个控制平面节点。</p>
+<img src="https://d33wubrfki0l68.cloudfront.net/d1411cded83856552f37911eb4522d9887ca4e83/b94b2/images/kubeadm/kubeadm-ha-topology-stacked-etcd.svg" class="" title="stacked-etcd">
+
+<h4 id="External-Etcd-拓扑"><a href="#External-Etcd-拓扑" class="headerlink" title="External Etcd 拓扑"></a>External Etcd 拓扑</h4><p>Etcd 集群运行在独立于控制平面节点的其他节点上，从而解耦了控制平面和 etcd 成员，每个 etcd 成员可以与每个控制平面节点的 API Server 通信。</p>
+<img src="https://d33wubrfki0l68.cloudfront.net/ad49fffce42d5a35ae0d0cc1186b97209d86b99c/5a6ae/images/kubeadm/kubeadm-ha-topology-external-etcd.svg" class="" title="external-etcd">
+
+<h3 id="III-其他控制平面组件"><a href="#III-其他控制平面组件" class="headerlink" title="III. 其他控制平面组件"></a>III. 其他控制平面组件</h3><p>在 Kubernetes 架构中，Scheduler 和 Controller-manager 被设计为单实例运行，因此需要通过选举机制产生 leader. 简单的讲（以 Scheduler 为例），K8S 会对 Scheduler 组件生成 endpoint 资源, 所有的实例竞争向 endpoint 的 Annotations 中写入自己的信息，当然这个过程是有锁的（详细原理在<code>之前的文章</code>有讲到），那个成功写入信息的实例，即成为 leader. 当 leader 因为某种情况不可用时，选出下一个接管它的实例，通过这样的机制，来保证单例组件的高可用性。</p>
+<img src="selection.png">
+
+<p>下一篇文章，具体来看一下 Rancher 是如何将上述 Kubernetes 高可用性原理逐个实现的。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<br/>
+<br/>
+<br/>
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者:  </strong>MeeToon
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接: </strong>
+      <a href="https://mightoon.github.io/Kubernetes/K8S-HA-Arch/" title="[Kubernetes] Kubernetes 高可用集群架构原理分析">https://mightoon.github.io/Kubernetes/K8S-HA-Arch/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明:  </strong>本文及本博客所有文章，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议经行许可。转载请注明作者及原文链接。
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/HA/" rel="tag"># HA</a>
+              <a href="/tags/Architecture/" rel="tag"># Architecture</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/ElasticSearch/ElasticSearch-Cluster-Sizing/" rel="prev" title="[ElasticSearch] ES 集群规模评估">
+                  <i class="fa fa-chevron-left"></i> [ElasticSearch] ES 集群规模评估
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/Kubernetes/K8S-RKE-Deployment/" rel="next" title="[Kubernetes] Kubernetes 高可用集群基于 RKE 的实现">
+                  [Kubernetes] Kubernetes 高可用集群基于 RKE 的实现 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Mightoon</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
