@@ -240,31 +240,33 @@
 <h1 id="一个具体的例子"><a href="#一个具体的例子" class="headerlink" title="一个具体的例子"></a>一个具体的例子</h1><hr>
 <p>假设这样一个场景：</p>
 <blockquote>
-<p>需要对数据中心中所有交换机作一个统计，筛选出那些所有物理端口的 Ingress 流量之和大于 1Pb 的交换机。</p>
+<p>需要对数据中心中所有交换机作一个统计，筛选出那些所有物理端口的 ingress 流量之和大于 1Pb 的交换机。</p>
 </blockquote>
-<p>接下来通过 Builder 来构建这个查询，如图：<br><img src="query.png"></p>
+<p>接下来通过 Builder 来构建这个查询，如图：</p>
+<img src="query.png">
+
 <ul>
 <li>通过 metric 下拉菜单筛选出需要统计的指标 ifHCInOctets</li>
-<li>通过 label 下拉菜单，筛选出所有的交换机，以及交换机上所有的数据端口（ifName）。label 可以指定多个，共同组成逻辑“与”的关系，筛选方式也很灵活，支持正则表达式。</li>
+<li>通过 label 下拉菜单，筛选出所有的交换机，以及交换机上所有的数据端口（ifName）. 显然，label 可以指定多个，共同组成逻辑“与”的关系，筛选方式也很灵活，并且支持正则表达式</li>
 <li>然后添加对数据的处理 （Operations）<ul>
-<li>因为 Ingress 流量是一个 counter 数据，首先用 irate 转换为变化率</li>
-<li>然后以交换机（instance） 为单位，汇总每个交换机上所有物理端口的流量之和</li>
-<li>然后加上对所得出流量的一个筛选条件，保留那些总流量大于 1Pb 的交换机</li>
+<li>因为 ingress 流量是一个 counter 类型的数据，首先用 irate() 转换为变化率</li>
+<li>然后以交换机（instance） 为单位，汇总每个交换机上所有物理端口的 ingress 流量之和</li>
+<li>然后对所得出流量值经行一个条件筛选，仅保留那些总流量大于 1Pb 的交换机</li>
 </ul>
 </li>
 </ul>
-<p>这个过程完全在 UI 上的一个个模块中实现。</p>
+<p>这个过程完全在 UI 上的各个模块中实现：</p>
 <ul>
-<li>注意，当有多个 operation 时，Grafana 将按顺序计算，也就说，前一步的计算结果，作为后一步的输入。</li>
-<li>当打开 explain 后，每一个步骤都有对函数和参数的说明，相比直接写语句友好了很多。</li>
-<li>当打开 Raw query 后，可以看到生成的 PromQL 语句<blockquote>
-<p>sum by(instance) (irate(ifHCInOctets{job&#x3D;”snmp_dell”, ifName&#x3D;~”^eth.*”}[5m])) &gt; 1000000000</p>
+<li>注意，当有多个 operation 时，Grafana 将按顺序计算，也就是说，前一步的计算结果，会作为后一步的输入</li>
+<li>如上图，打开 Explain 后，每一个步骤都有对函数和参数的说明，相比直接写语句友好了很多</li>
+<li>打开 Raw query 后，可以看到生成的 PromQL 语句<blockquote>
+<p>sum by(instance) (irate(ifHCInOctets{job&#x3D;”snmp_xxx”, ifName&#x3D;~”^eth.*”}[5m])) &gt; 1024 * 1024 * 1024</p>
 </blockquote>
 </li>
 </ul>
 <p>最后通过表格呈现：<br><img src="table.png"></p>
-<h1 id="其他方面的更新"><a href="#其他方面的更新" class="headerlink" title="其他方面的更新"></a>其他方面的更新</h1><p>类似针对 Prometheus 数据源的 Query Builder， Grafana v9 针对 Loki 的 LogQL 也实现了 Builder UI. 通常，LogQL 比 PromQL 要更复杂，那么通过 Builder 来构建 LogQL query 就会有更大的获益。</p>
-<p>除此之外，Grafana v9 包括我们正在使用的 v9.2.4 在不少 visualization plugin 上都有些润物细无声的改进，而在 Grafana 主界面上，也为方便浏览加入了 dashboard 的 preview 以及 panel 的搜索等等。而我们欣喜地发现，原来在 v7 上遇到的写 query 语句时有时候输入光标乱跳的问题，已经被悄无声息地解决。总的来说，Grafana 并没有一味地堆砌新功能，倒是在易用性上持续下着硬功夫。</p>
+<h1 id="其他方面的更新"><a href="#其他方面的更新" class="headerlink" title="其他方面的更新"></a>其他方面的更新</h1><p>类似针对 Prometheus 数据源的 Query Builder， Grafana v9 针对 Loki 的 LogQL 也实现了 Builder UI. 通常，LogQL 比 PromQL 要更复杂，那么通过 Builder 来构建 LogQL Query 就会有更大的获益。</p>
+<p>除此之外，Grafana v9 包括我们正在使用的 v9.2.4 在不少 visualization plugin 上都有些润物细无声的改进，而在 Grafana 主界面上，也为方便浏览加入了 dashboard 的 preview 以及 panel 的搜索等等。同时我们欣喜地发现，原来在 v7 上遇到的写 query 语句时有时候输入光标乱跳的问题，已经被悄无声息地解决。总的来说，Grafana 并没有一味地堆砌新功能，倒是在易用性上持续下着硬功夫。</p>
 
     </div>
 
