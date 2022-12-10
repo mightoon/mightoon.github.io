@@ -115,7 +115,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#TICK-%E7%94%9F%E6%80%81"><span class="nav-number">1.</span> <span class="nav-text">TICK 生态</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Telegraf-%E4%B8%8E-Prometheus-%E7%9A%84%E5%85%BC%E5%AE%B9"><span class="nav-number">2.</span> <span class="nav-text">Telegraf 与 Prometheus 的兼容</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E6%A0%BC%E5%BC%8F%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">2.1.</span> <span class="nav-text">数据格式的问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%87%E7%AD%BE%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">2.2.</span> <span class="nav-text">标签的问题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Pull-%E4%B8%8E-Push"><span class="nav-number">3.</span> <span class="nav-text">Pull 与 Push</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Telegraf-%E7%9A%84%E5%B7%A5%E4%BD%9C%E6%96%B9%E5%BC%8F"><span class="nav-number">4.</span> <span class="nav-text">Telegraf 的工作方式</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#TICK-%E7%94%9F%E6%80%81"><span class="nav-number">1.</span> <span class="nav-text">TICK 生态</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Telegraf-%E4%B8%8E-Prometheus-%E7%9A%84%E5%85%BC%E5%AE%B9"><span class="nav-number">2.</span> <span class="nav-text">Telegraf 与 Prometheus 的兼容</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E6%A0%BC%E5%BC%8F%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">2.1.</span> <span class="nav-text">数据格式的问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%87%E7%AD%BE%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">2.2.</span> <span class="nav-text">标签的问题</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Pull-%E4%B8%8E-Push"><span class="nav-number">3.</span> <span class="nav-text">Pull 与 Push</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Telegraf-%E7%9A%84%E5%B7%A5%E4%BD%9C%E6%96%B9%E5%BC%8F"><span class="nav-number">4.</span> <span class="nav-text">Telegraf 的工作方式</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -130,7 +130,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">17</span>
+          <span class="site-state-item-count">18</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -141,7 +141,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-count">28</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -233,21 +233,24 @@
     
     <div class="post-body" itemprop="articleBody">
         <p>说起 Telegraf，其实早些时候在监控选型时有所了解，当时觉得作为数据收集端，没有 Prometheus 生态下的 exporter 用得普及，Grafana 上也只有寥寥 dashboard 可以选择，所以没有太多考虑 Telegraf. 直到最近，一个项目需要把虚拟化平台也纳入到 Prometheus 监控，而针对 VMware vSphere 的 exporter 并不是太成熟，反而在 Telegraf 的 plugin 中找到了对 vSphere 的支持，于是重新调研了 Telegraf，确实有不少可圈可点之处。</p>
-<h2 id="TICK-生态"><a href="#TICK-生态" class="headerlink" title="TICK 生态"></a>TICK 生态</h2><p>Telegraf 的并非单纯的数据收集工具，至少 Telegraf 志不仅在此。实际上 InfluxData 推出了一整个开源生态：TICK(Telegraf, InfluxDB, Chronograf, Kapacitor) 共同组成了包含数据的收集、存储、分析和展示的解决方案，这是一个可以对标 ELK 的选择。而 Telegraf 和 InfluxDB 无疑是其中相比于后两者更为重要的两个部分。 </p>
+<h1 id="TICK-生态"><a href="#TICK-生态" class="headerlink" title="TICK 生态"></a>TICK 生态</h1><hr>
+<p>Telegraf 的并非单纯的数据收集工具，至少 Telegraf 志不仅在此。实际上 InfluxData 推出了一整个开源生态：TICK(Telegraf, InfluxDB, Chronograf, Kapacitor) 共同组成了包含数据的收集、存储、分析和展示的解决方案，这是一个可以对标 ELK 的选择。而 Telegraf 和 InfluxDB 无疑是其中相比于后两者更为重要的两个部分。 </p>
 <blockquote>
 <p>Telegraf, a server-based agent, collects and sends metrics and events from databases, systems, and IoT sensors.</p>
 </blockquote>
 <p>从引用的官方描述可以看到，除了采集应用系统的指标数据，Telegraf 的采集源也包含数据库或者 IoT 的各种传感器。不同于 Prometheus 的 exporter 各自为阵，Telegraf 以一套代码，通过插件式框架，支持对各种监控对象的数据采集，以及支持多种数据处理的下一站。</p>
 <img src="https://www.influxdata.com/wp-content/uploads/Influx-1.0-Diagram_04.20.2020v2.png" class="" width="640" title="TICK">
 
-<h2 id="Telegraf-与-Prometheus-的兼容"><a href="#Telegraf-与-Prometheus-的兼容" class="headerlink" title="Telegraf 与 Prometheus 的兼容"></a>Telegraf 与 Prometheus 的兼容</h2><p>从 Telegraf 在 TICK 中的定位可以看出，它的初衷是面向 InfluxDB 生态的，采集的数据推送给 InfluxDB 最为舒服，而对接 Prometheus，虽然也是一个常用的场景，但是从原理上，可能会存在一些小问题。</p>
-<h3 id="数据格式的问题"><a href="#数据格式的问题" class="headerlink" title="数据格式的问题"></a>数据格式的问题</h3><p>Telegraf 会把收集到的数据序列化为 Prometheus 的格式，这个过程通常是将 measurement name 和 field key 拼接，作为 Prometheus 的指标的名字，而 Prometheus lable 名称则对应收集到的数据中的 tag.</p>
+<h1 id="Telegraf-与-Prometheus-的兼容"><a href="#Telegraf-与-Prometheus-的兼容" class="headerlink" title="Telegraf 与 Prometheus 的兼容"></a>Telegraf 与 Prometheus 的兼容</h1><hr>
+<p>从 Telegraf 在 TICK 中的定位可以看出，它的初衷是面向 InfluxDB 生态的，采集的数据推送给 InfluxDB 最为舒服，而对接 Prometheus，虽然也是一个常用的场景，但是从原理上，可能会存在一些小问题。</p>
+<h2 id="数据格式的问题"><a href="#数据格式的问题" class="headerlink" title="数据格式的问题"></a>数据格式的问题</h2><p>Telegraf 会把收集到的数据序列化为 Prometheus 的格式，这个过程通常是将 measurement name 和 field key 拼接，作为 Prometheus 的指标的名字，而 Prometheus lable 名称则对应收集到的数据中的 tag.</p>
 <p>而有些 input 插件，会收集 string 类型的指标数据，这对于 InfluxDB，原本没有问题，但面对 Prometheus 的时候，这类数据需要专门的转换，或者直接丢弃，因为 Prometheus 接受的数据格式为 float64. 如果 string 对于指标而言是有意义的，通常有两个方式转换成 Prometheus 识别的格式，一是通过配置 <code>string_as_label</code>, 更稳妥的方式是通过 Telegraf 提供的 processor 插件 <code>converter</code></p>
 <blockquote>
 <p>The converter processor is used to change the type of tag or field values. In addition to changing field types it can convert between fields and tags.</p>
 </blockquote>
-<h3 id="标签的问题"><a href="#标签的问题" class="headerlink" title="标签的问题"></a>标签的问题</h3><p>对于同一个监控指标，Telegraf 在采集过程中有可能会添加标签，而这个标签被允许有多个值，这在 InfluxDB 的存储模型中，能够得到正确的处理，但是同为时序数据库的 Prometheus，会严格通过标签的组合来区分不同的时序，因此同一个标签的不同的值，Prometheus 识别为不同的监控项，这样会隐形地造成与数据的采集意图的偏差。所以，这种时候需要通过 Telegraf 特定的配置，将多值的标签去掉。</p>
-<h2 id="Pull-与-Push"><a href="#Pull-与-Push" class="headerlink" title="Pull 与 Push"></a>Pull 与 Push</h2><p>Exporter 遵从 Prometheus 的 pull 架构，将抓取的指标通过类似 &#x2F;metrics 这样的 endpoint 暴露出来，供 prometheus 获取。而 Telegraf 的 output 插件的逻辑，往往依循 push 模式，把数据推到比如 InfluxDB. 为了适应 Prometheus 的模式，Telegraf 通过实例化一个 <a target="_blank" rel="noopener" href="https://github.com/influxdata/telegraf/tree/master/plugins/outputs/prometheus_client">prometheus_client</a> 来实现。</p>
+<h2 id="标签的问题"><a href="#标签的问题" class="headerlink" title="标签的问题"></a>标签的问题</h2><p>对于同一个监控指标，Telegraf 在采集过程中有可能会添加标签，而这个标签被允许有多个值，这在 InfluxDB 的存储模型中，能够得到正确的处理，但是同为时序数据库的 Prometheus，会严格通过标签的组合来区分不同的时序，因此同一个标签的不同的值，Prometheus 识别为不同的监控项，这样会隐形地造成与数据的采集意图的偏差。所以，这种时候需要通过 Telegraf 特定的配置，将多值的标签去掉。</p>
+<h1 id="Pull-与-Push"><a href="#Pull-与-Push" class="headerlink" title="Pull 与 Push"></a>Pull 与 Push</h1><hr>
+<p>Exporter 遵从 Prometheus 的 pull 架构，将抓取的指标通过类似 &#x2F;metrics 这样的 endpoint 暴露出来，供 prometheus 获取。而 Telegraf 的 output 插件的逻辑，往往依循 push 模式，把数据推到比如 InfluxDB. 为了适应 Prometheus 的模式，Telegraf 通过实例化一个 <a target="_blank" rel="noopener" href="https://github.com/influxdata/telegraf/tree/master/plugins/outputs/prometheus_client">prometheus_client</a> 来实现。</p>
 <p>Pull 与 Push 孰优孰劣，取决于应用场景，业务逻辑，以及所处的环境，一些明显的区别在于：</p>
 <ul>
 <li>Pull 模式是监控系统主导的，便于在监控方集中配置，而 Push 是被监控的应用系统主导的，需要在各个监控目标上配置。</li>
@@ -255,7 +258,8 @@
 <li>如果监控系统和被监控目标处于不同的网络安全区域，Pull 可能无法从外界进入防火墙，而 Push 流量从防火墙内部往外，一般不受限制。</li>
 <li>对于执行时间相当短的任务，当短于抓取数据的时间间隔，Pull 系统可能无法获得响应的指标，而 Push 在这一点上有比较大的自主权，这也是 Prometheus 为何提供 Push Gateway 的原因。</li>
 </ul>
-<h2 id="Telegraf-的工作方式"><a href="#Telegraf-的工作方式" class="headerlink" title="Telegraf 的工作方式"></a>Telegraf 的工作方式</h2><p>最后，说一下 Telegraf 的工作方式。可以简单地归结为 <code>plugin-driven</code>.  数据流过 Telegraf 的 plugin system，由四类主要的 plugin 处理：</p>
+<h1 id="Telegraf-的工作方式"><a href="#Telegraf-的工作方式" class="headerlink" title="Telegraf 的工作方式"></a>Telegraf 的工作方式</h1><hr>
+<p>最后，说一下 Telegraf 的工作方式。可以简单地归结为 <code>plugin-driven</code>.  数据流过 Telegraf 的 plugin system，由四类主要的 plugin 处理：</p>
 <img src="https://www.influxdata.com/wp-content/uploads/Main-Diagram_06.01.2022v1.png" class="" title="Telegraf-plugin-system">
 
 <ul>

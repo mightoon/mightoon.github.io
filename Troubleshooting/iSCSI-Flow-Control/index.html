@@ -128,7 +128,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">17</span>
+          <span class="site-state-item-count">18</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -139,7 +139,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-count">28</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -230,17 +230,20 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><blockquote>
+        <h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><hr>
+<blockquote>
 <p>在 Unity 上通过 iSCSI 跑 large sequential write IO, iSCSI offload 到网卡， 发现 performance 下降明显。</p>
 </blockquote>
-<h1 id="描述"><a href="#描述" class="headerlink" title="描述"></a>描述</h1><blockquote>
+<h1 id="描述"><a href="#描述" class="headerlink" title="描述"></a>描述</h1><hr>
+<blockquote>
 <p>当 Cisco 5020 switch 上多个 port 接受来自 host 的 connection 到 Unity CNA 的时候，产生 congestion<br>可以抓到 unity CNA 发给 cisco switch 的 pause 帧<br>但在 cisco switch 连接 host 的 port 并没有抓到 pause, 并且可以看到在 ingress port 处产生了 dropped packets<br>因过多的 re-transmission 导致了 performance 下降<br>而换作是 Juniper switch, 没有明显的 performance 降低的问题  </p>
 </blockquote>
 <p>当 host 端连接多个 initiator 到 switch，并且开启多个线程 run IO, 而 storage 端却只有一个 port 连接到 iSCSI array 的情况非常多见，这就带来了congestion 的可能。传统 Ethernet 上面，如果交换机或者 array CNA 支持802.3x的话，那么会开启 standard pause 功能。如下图中 host 不断同时发起 large sequential write IO, storage 是可以感受到 congestion 的，于是 CNA 会向 switch 发 standard pause, 让 switch 停止向它发数据, 这些 pause 帧也被捕获。</p>
 <img src="iSCSI-pete.png">
 
 
-<h1 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h1><p>首先，应该明确 iSCSI 是要跑在传统 Ethernet 上还是跑在 DCB 上，从原理上分两种情况来讨论。</p>
+<h1 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h1><hr>
+<p>首先，应该明确 iSCSI 是要跑在传统 Ethernet 上还是跑在 DCB 上，从原理上分两种情况来讨论。</p>
 <h2 id="A）"><a href="#A）" class="headerlink" title="A）"></a>A）</h2><p>如果确定了 iSCSI 跑在传统以太网上，那么就要利用也只能利用<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Ethernet_flow_control">802.3x</a>来做二层的流控，所以 Host CNA, 中途的交换机，以及 array 的 port&#x2F;SLIC 都应该打开802.3x (这是个老协议，这些设备都应该支持的)。另外，上面提到的：</p>
 <blockquote>
 <p>“ 但是在 cisco switch 连接 host initiator 的地方并没有抓到 pause ”</p>
@@ -254,7 +257,8 @@
 </ol>
 <p>这几点配置的理论依据来自于 BDC 框架下的<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Ethernet_flow_control">802.1Qbb</a>(PFC) 和 <a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/windows-hardware/drivers/network/enhanced-transmission-selection--ets--algorithm">802.1Qaz</a>(ETS), 利用 <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Link_Layer_Discovery_Protocol#Data_Center_Bridging_Capabilities_Exchange_Protocol">DCBX</a>, 通过 TLV 获取到与交换机相连的 end 设备的信息，并根据 mapping, 将 QoS 同步到 end 设备上，以实现统一的 QoS. 另外需要 host CNA, array port&#x2F;SLIC 都打开 DCB. 然后在这样的环境中，流控是 PFC 来做的，而且做的是针对 iSCSI 所在的服务等级上的<code>精细流控</code>。</p>
 <p>实验环境中，<strong>默认打开了 PFC, 而针对 cos&#x3D;3 的 traffic 进行 pause 并没有 apply 到其他的类型的 traffic</strong>. 换句话说，iSCSI traffic 并不会被识别为cos&#x3D;3, 当然也就不会被 map 到所在的 class, 因此 PFC 无法作用于 iSCSI. 同时，因为打开了 PFC, 传统 Ethernet 下的 pause 没起作用，当 ingress cache 被装满，switch 并没有发 standard pause 给 host, 而是直接将大量的数据帧 <strong>drop</strong> 掉，直接影响了性能。</p>
-<h1 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h1><ul>
+<h1 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h1><hr>
+<ul>
 <li>打开802.3x的同时，要先关掉 PFC，让全程有且仅有传统以太网流控，并且确认所有设备都能打开802.3x   或者：</li>
 <li>全程跑在 DCB 上，为 iSCSI 配置相应的 mapping, 让 PFC 做流控。当然需要事先确认所有设备（host CNA, switch, array port&#x2F;SLIC）都能支持 DCB 并正常工作。</li>
 </ul>

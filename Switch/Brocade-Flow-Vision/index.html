@@ -129,7 +129,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">17</span>
+          <span class="site-state-item-count">18</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -140,7 +140,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-count">28</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -231,16 +231,19 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <h1 id="Brocade-Flow-Vision"><a href="#Brocade-Flow-Vision" class="headerlink" title="Brocade Flow Vision"></a>Brocade Flow Vision</h1><p>Flow Vision 是 Brocade 上的用来诊断 FC SAN 的工具，主要有三个功能</p>
+        <h1 id="Brocade-Flow-Vision"><a href="#Brocade-Flow-Vision" class="headerlink" title="Brocade Flow Vision"></a>Brocade Flow Vision</h1><hr>
+<p>Flow Vision 是 Brocade 上的用来诊断 FC SAN 的工具，主要有三个功能</p>
 <ul>
 <li>监测 traffic flow</li>
 <li>复制 traffic flow 用以分析 bottleneck, bandwidth utilization, slow drain 之类</li>
 <li>主动 generate flow 用以检测 SAN 的各种 connectivity</li>
 </ul>
-<h1 id="关于-Flow"><a href="#关于-Flow" class="headerlink" title="关于 Flow"></a>关于 Flow</h1><p><code>Flow</code> 在这里指的是具有相同特征的一系列 frame，包含两方面信息：一是 port，比如他们都要通过同一个 ingress port 或 egress port，二是frame内容信息，比如他都具有相同的 source ID，Des ID，LUN 等等</p>
+<h1 id="关于-Flow"><a href="#关于-Flow" class="headerlink" title="关于 Flow"></a>关于 Flow</h1><hr>
+<p><code>Flow</code> 在这里指的是具有相同特征的一系列 frame，包含两方面信息：一是 port，比如他们都要通过同一个 ingress port 或 egress port，二是frame内容信息，比如他都具有相同的 source ID，Des ID，LUN 等等</p>
 <img src="flow.PNG" width=75%>
 
-<h1 id="Flow-Vision-Operation"><a href="#Flow-Vision-Operation" class="headerlink" title="Flow Vision Operation"></a>Flow Vision Operation</h1><p>Flow Vision 监测的对象是 flow, 一般有下面操作</p>
+<h1 id="Flow-Vision-Operation"><a href="#Flow-Vision-Operation" class="headerlink" title="Flow Vision Operation"></a>Flow Vision Operation</h1><hr>
+<p>Flow Vision 监测的对象是 flow, 一般有下面操作</p>
 <ol>
 <li>通过指定上面所说的这些参数，create flow</li>
 <li>指定 flow 的属性，是 monitor IO, 是 copy 流量，还是 generate 流量</li>
