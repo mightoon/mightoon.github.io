@@ -240,7 +240,7 @@
 <h1 id="一个具体的例子"><a href="#一个具体的例子" class="headerlink" title="一个具体的例子"></a>一个具体的例子</h1><hr>
 <p>假设这样一个场景：</p>
 <blockquote>
-<p>需要对数据中心中所有交换机作一个统计，筛选出那些所有物理端口的 ingress 流量之和大于 1Pb 的交换机。</p>
+<p>需要对数据中心中所有交换机作一个统计，筛选出那些所有物理端口的 ingress 流量之和大于 1Tb 的交换机。</p>
 </blockquote>
 <p>接下来通过 Builder 来构建这个查询，如图：</p>
 <img src="query.png">
@@ -251,7 +251,7 @@
 <li>然后添加对数据的处理 （Operations）<ul>
 <li>因为 ingress 流量是一个 counter 类型的数据，首先用 irate() 转换为变化率</li>
 <li>然后以交换机（instance） 为单位，汇总每个交换机上所有物理端口的 ingress 流量之和</li>
-<li>然后对所得出流量值经行一个条件筛选，仅保留那些总流量大于 1Pb 的交换机</li>
+<li>然后对所得出流量值进行一个条件筛选，注意这里有单位的转换，最终仅保留那些总流量大于 1Tb 的交换机</li>
 </ul>
 </li>
 </ul>
@@ -260,7 +260,7 @@
 <li>注意，当有多个 operation 时，Grafana 将按顺序计算，也就是说，前一步的计算结果，会作为后一步的输入</li>
 <li>如上图，打开 Explain 后，每一个步骤都有对函数和参数的说明，相比直接写语句友好了很多</li>
 <li>打开 Raw query 后，可以看到生成的 PromQL 语句<blockquote>
-<p>sum by(instance) (irate(ifHCInOctets{job&#x3D;”snmp_xxx”, ifName&#x3D;~”^eth.*”}[5m])) &gt; 1024 * 1024 * 1024</p>
+<p>sum by(instance) (irate(ifHCInOctets{job&#x3D;”snmp_xxx”, ifName&#x3D;~”^eth.*”}[5m])) &gt; 1024 * 1024 * 1024 * 1024 &#x2F; 8</p>
 </blockquote>
 </li>
 </ul>
@@ -290,7 +290,7 @@
       <a href="https://mightoon.github.io/Observability/Observability-Grafana-9/" title="[Observability] Grafana v9 之鸟枪换炮">https://mightoon.github.io/Observability/Observability-Grafana-9/</a>
   </li>
   <li class="post-copyright-license">
-    <strong>版权声明:  </strong>本文及本博客所有文章，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议经行许可。转载请注明作者及原文链接。
+    <strong>版权声明:  </strong>本文及本博客所有文章，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议进行许可。转载请注明作者及原文链接。
   </li>
 </ul>
 </div>

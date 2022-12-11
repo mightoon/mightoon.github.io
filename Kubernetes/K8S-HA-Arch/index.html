@@ -235,7 +235,7 @@
     <div class="post-body" itemprop="articleBody">
         <p>Kubernetes 集群在我们的数据中心中已使用多年，集群上也部署了不少主流的和自研的应用程序。因为多为预研项目，或者短期方案的验证，一直对集群本身的业务连续性没有太多硬性要求。随着我们的监控系统在整个数据中心的铺开，承载监控系统的平台层面的高可用成为不得不考虑的方面，为此我们停用了原来的单一 master 集群，重新规划了 Kubernetes HA 集群。</p>
 <h1 id="Kubernetes-组件的回顾"><a href="#Kubernetes-组件的回顾" class="headerlink" title="Kubernetes 组件的回顾"></a>Kubernetes 组件的回顾</h1><hr>
-<p>要讨论 Kubernetes 高可用集群，有必要重新回顾一下 Kubernetes 的基础组件以及组件间相互的关系。在<code>早期的文章</code>中，专门介绍过各个组件及功能。这里简单归纳。如图所示，Kubernetes 集群中包含两大部分组件</p>
+<p>要讨论 Kubernetes 高可用集群，有必要重新回顾一下 Kubernetes 的基础组件以及组件间相互的关系。在<code>早期的文章</code>中，专门介绍过各个组件及功能，这里简单归纳。如图所示，Kubernetes 集群中包含两大部分组件：</p>
 <img src="https://d33wubrfki0l68.cloudfront.net/2475489eaf20163ec0f54ddc1d92aa8d4c87c96b/e7c81/images/docs/components-of-kubernetes.svg" class="" title="K8S-components">
 
 <h2 id="Control-Plane-Components（控制平面）"><a href="#Control-Plane-Components（控制平面）" class="headerlink" title="Control Plane Components（控制平面）"></a>Control Plane Components（控制平面）</h2><p>控制平面是集群的大脑，负责资源调度，部署决策，集群事件响应等等，同时也是接收外界指令的接口。主要包括以下组件：</p>
@@ -245,7 +245,7 @@
 <li>kube-controller-manager</li>
 <li>etcd</li>
 </ul>
-<p>从 Kubernetes 的设计上，这些组件可以在任何节点上分布，但实践中，单一控制平面的集群往往会把这些组件集中在同一台节点上，也就是 master 节点。</p>
+<p>Kubernetes 的架构上，给予了这些组件相当的自由度，可以在任何节点上分布。具体到实践中，单一控制平面的集群往往会把这些组件集中在同一台节点上，也就是 master 节点。</p>
 <h2 id="Node-Components-节点组件"><a href="#Node-Components-节点组件" class="headerlink" title="Node Components (节点组件)"></a>Node Components (节点组件)</h2><p>Node Components会运行在集群中的每个节点上，与控制平面交互并为应用负载提供运行环境。主要包括以下组件：</p>
 <ul>
 <li>kubelet</li>
@@ -309,7 +309,7 @@
       <a href="https://mightoon.github.io/Kubernetes/K8S-HA-Arch/" title="[Kubernetes] Kubernetes 高可用集群架构原理分析">https://mightoon.github.io/Kubernetes/K8S-HA-Arch/</a>
   </li>
   <li class="post-copyright-license">
-    <strong>版权声明:  </strong>本文及本博客所有文章，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议经行许可。转载请注明作者及原文链接。
+    <strong>版权声明:  </strong>本文及本博客所有文章，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议进行许可。转载请注明作者及原文链接。
   </li>
 </ul>
 </div>
