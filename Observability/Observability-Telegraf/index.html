@@ -20,12 +20,12 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"mightoon.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.13.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="一个正在进行的项目，需要把数据中心里所有的虚拟化平台 infrastructure 纳入到 Prometheus 监控，找了一圈没有合适的 exporter. 了解到 Telegraf 有针对 vSphere 的插件，刚好能用上。同时对 TICK 生态稍作延展性研究，整理成本篇文章。">
+    <meta name="description" content="一个正在进行的项目，需要把数据中心里所有的虚拟化平台 infrastructure 纳入到 Prometheus 监控，找了一圈没有合适的 exporter. 了解到 Telegraf 有针对 vSphere 的插件，刚好能用上。同时对 TICK 生态稍作延展性研究，整理成本篇文章。 In a current project, we need to include all the virtuali">
 <meta property="og:type" content="article">
-<meta property="og:title" content="[Observability] 为什么需要 Telegraf">
+<meta property="og:title" content="[Observability] 为什么需要 Telegraf &lt;br&gt;[Observability] Why Telegraf is Necessary">
 <meta property="og:url" content="https://mightoon.github.io/Observability/Observability-Telegraf/index.html">
 <meta property="og:site_name" content="MeeToon&#39;s Blog">
-<meta property="og:description" content="一个正在进行的项目，需要把数据中心里所有的虚拟化平台 infrastructure 纳入到 Prometheus 监控，找了一圈没有合适的 exporter. 了解到 Telegraf 有针对 vSphere 的插件，刚好能用上。同时对 TICK 生态稍作延展性研究，整理成本篇文章。">
+<meta property="og:description" content="一个正在进行的项目，需要把数据中心里所有的虚拟化平台 infrastructure 纳入到 Prometheus 监控，找了一圈没有合适的 exporter. 了解到 Telegraf 有针对 vSphere 的插件，刚好能用上。同时对 TICK 生态稍作延展性研究，整理成本篇文章。 In a current project, we need to include all the virtuali">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://www.influxdata.com/wp-content/uploads/Influx-1.0-Diagram_04.20.2020v2.png">
 <meta property="og:image" content="https://www.influxdata.com/wp-content/uploads/Main-Diagram_06.01.2022v1.png">
@@ -43,10 +43,10 @@
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://mightoon.github.io/Observability/Observability-Telegraf/","path":"Observability/Observability-Telegraf/","title":"[Observability] 为什么需要 Telegraf"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://mightoon.github.io/Observability/Observability-Telegraf/","path":"Observability/Observability-Telegraf/","title":"[Observability] 为什么需要 Telegraf \u003cbr>[Observability] Why Telegraf is Necessary"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>[Observability] 为什么需要 Telegraf | MeeToon's Blog</title>
+<title>[Observability] 为什么需要 Telegraf <br>[Observability] Why Telegraf is Necessary | MeeToon's Blog</title>
   
 
 
@@ -193,12 +193,12 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="[Observability] 为什么需要 Telegraf | MeeToon's Blog">
-      <meta itemprop="description" content="一个正在进行的项目，需要把数据中心里所有的虚拟化平台 infrastructure 纳入到 Prometheus 监控，找了一圈没有合适的 exporter. 了解到 Telegraf 有针对 vSphere 的插件，刚好能用上。同时对 TICK 生态稍作延展性研究，整理成本篇文章。">
+      <meta itemprop="name" content="[Observability] 为什么需要 Telegraf <br>[Observability] Why Telegraf is Necessary | MeeToon's Blog">
+      <meta itemprop="description" content="一个正在进行的项目，需要把数据中心里所有的虚拟化平台 infrastructure 纳入到 Prometheus 监控，找了一圈没有合适的 exporter. 了解到 Telegraf 有针对 vSphere 的插件，刚好能用上。同时对 TICK 生态稍作延展性研究，整理成本篇文章。<br> In a current project, we need to include all the virtualization platforms' infrastructure in the data center into Prometheus monitoring, but we couldn't find a suitable exporter. After finding out that Telegraf has a plugin for vSphere, we realized it could come in handy. We also conducted a study on the extendibility of the TICK ecosystem and organized it into this article">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          [Observability] 为什么需要 Telegraf
+          [Observability] 为什么需要 Telegraf <br>[Observability] Why Telegraf is Necessary
         </h1>
 
         <div class="post-meta-container">
@@ -224,7 +224,7 @@
   
 </div>
 
-            <div class="post-description">一个正在进行的项目，需要把数据中心里所有的虚拟化平台 infrastructure 纳入到 Prometheus 监控，找了一圈没有合适的 exporter. 了解到 Telegraf 有针对 vSphere 的插件，刚好能用上。同时对 TICK 生态稍作延展性研究，整理成本篇文章。</div>
+            <div class="post-description">一个正在进行的项目，需要把数据中心里所有的虚拟化平台 infrastructure 纳入到 Prometheus 监控，找了一圈没有合适的 exporter. 了解到 Telegraf 有针对 vSphere 的插件，刚好能用上。同时对 TICK 生态稍作延展性研究，整理成本篇文章。<br> In a current project, we need to include all the virtualization platforms' infrastructure in the data center into Prometheus monitoring, but we couldn't find a suitable exporter. After finding out that Telegraf has a plugin for vSphere, we realized it could come in handy. We also conducted a study on the extendibility of the TICK ecosystem and organized it into this article</div>
         </div>
       </header>
 
@@ -289,7 +289,7 @@
   </li>
   <li class="post-copyright-link">
       <strong>本文链接: </strong>
-      <a href="https://mightoon.github.io/Observability/Observability-Telegraf/" title="[Observability] 为什么需要 Telegraf">https://mightoon.github.io/Observability/Observability-Telegraf/</a>
+      <a href="https://mightoon.github.io/Observability/Observability-Telegraf/" title="[Observability] 为什么需要 Telegraf &lt;br&gt;[Observability] Why Telegraf is Necessary">https://mightoon.github.io/Observability/Observability-Telegraf/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明:  </strong>本文及本博客所有文章，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议进行许可。转载请注明作者及原文链接。
@@ -335,7 +335,7 @@
 
 <div class="copyright">
   &copy; 
-  <span itemprop="copyrightYear">2022</span>
+  <span itemprop="copyrightYear">2023</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

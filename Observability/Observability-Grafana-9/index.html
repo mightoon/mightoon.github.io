@@ -20,12 +20,12 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"mightoon.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.13.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="前段时间收到 GrafanaCONline 2022 的邮件，才注意到 Grafana v9 在会上发布了。我们部署在数据中心的 Grafana 7.4.5 已经是快两年前的版本，于是着手升级到最新版。对比下来，v9 的一些功能确实值得一说。">
+    <meta name="description" content="前段时间收到 GrafanaCONline 2022 的邮件，才注意到 Grafana v9 在会上发布了。我们部署在数据中心的 Grafana 7.4.5 已经是快两年前的版本，于是着手升级到最新版。对比下来，v9 的一些功能确实值得一说。 Recently I received an email from GrafanaCONline 2022 and noticed that Grafana">
 <meta property="og:type" content="article">
-<meta property="og:title" content="[Observability] Grafana v9 之鸟枪换炮">
+<meta property="og:title" content="[Observability] Grafana v9 之鸟枪换炮 &lt;br&gt; [Observability] Significant Improvements in Grafana v9">
 <meta property="og:url" content="https://mightoon.github.io/Observability/Observability-Grafana-9/index.html">
 <meta property="og:site_name" content="MeeToon&#39;s Blog">
-<meta property="og:description" content="前段时间收到 GrafanaCONline 2022 的邮件，才注意到 Grafana v9 在会上发布了。我们部署在数据中心的 Grafana 7.4.5 已经是快两年前的版本，于是着手升级到最新版。对比下来，v9 的一些功能确实值得一说。">
+<meta property="og:description" content="前段时间收到 GrafanaCONline 2022 的邮件，才注意到 Grafana v9 在会上发布了。我们部署在数据中心的 Grafana 7.4.5 已经是快两年前的版本，于是着手升级到最新版。对比下来，v9 的一些功能确实值得一说。 Recently I received an email from GrafanaCONline 2022 and noticed that Grafana">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://mightoon.github.io/Observability/Observability-Grafana-9/query.png">
 <meta property="og:image" content="https://mightoon.github.io/Observability/Observability-Grafana-9/table.png">
@@ -42,10 +42,10 @@
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://mightoon.github.io/Observability/Observability-Grafana-9/","path":"Observability/Observability-Grafana-9/","title":"[Observability] Grafana v9 之鸟枪换炮"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://mightoon.github.io/Observability/Observability-Grafana-9/","path":"Observability/Observability-Grafana-9/","title":"[Observability] Grafana v9 之鸟枪换炮 \u003cbr> [Observability] Significant Improvements in Grafana v9"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>[Observability] Grafana v9 之鸟枪换炮 | MeeToon's Blog</title>
+<title>[Observability] Grafana v9 之鸟枪换炮 <br> [Observability] Significant Improvements in Grafana v9 | MeeToon's Blog</title>
   
 
 
@@ -192,12 +192,12 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="[Observability] Grafana v9 之鸟枪换炮 | MeeToon's Blog">
-      <meta itemprop="description" content="前段时间收到 GrafanaCONline 2022 的邮件，才注意到 Grafana v9 在会上发布了。我们部署在数据中心的 Grafana 7.4.5 已经是快两年前的版本，于是着手升级到最新版。对比下来，v9 的一些功能确实值得一说。">
+      <meta itemprop="name" content="[Observability] Grafana v9 之鸟枪换炮 <br> [Observability] Significant Improvements in Grafana v9 | MeeToon's Blog">
+      <meta itemprop="description" content="前段时间收到 GrafanaCONline 2022 的邮件，才注意到 Grafana v9 在会上发布了。我们部署在数据中心的 Grafana 7.4.5 已经是快两年前的版本，于是着手升级到最新版。对比下来，v9 的一些功能确实值得一说。<br> Recently I received an email from GrafanaCONline 2022 and noticed that Grafana v9 was released at the conference. The Grafana 7.4.5 that we deployed in the data center is already two years old, so we started upgrading to the latest version. After comparing, some of the features in v9 are indeed worth mentioning.">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          [Observability] Grafana v9 之鸟枪换炮
+          [Observability] Grafana v9 之鸟枪换炮 <br> [Observability] Significant Improvements in Grafana v9
         </h1>
 
         <div class="post-meta-container">
@@ -223,7 +223,7 @@
   
 </div>
 
-            <div class="post-description">前段时间收到 GrafanaCONline 2022 的邮件，才注意到 Grafana v9 在会上发布了。我们部署在数据中心的 Grafana 7.4.5 已经是快两年前的版本，于是着手升级到最新版。对比下来，v9 的一些功能确实值得一说。</div>
+            <div class="post-description">前段时间收到 GrafanaCONline 2022 的邮件，才注意到 Grafana v9 在会上发布了。我们部署在数据中心的 Grafana 7.4.5 已经是快两年前的版本，于是着手升级到最新版。对比下来，v9 的一些功能确实值得一说。<br> Recently I received an email from GrafanaCONline 2022 and noticed that Grafana v9 was released at the conference. The Grafana 7.4.5 that we deployed in the data center is already two years old, so we started upgrading to the latest version. After comparing, some of the features in v9 are indeed worth mentioning.</div>
         </div>
       </header>
 
@@ -265,7 +265,8 @@
 </li>
 </ul>
 <p>最后通过表格呈现：<br><img src="table.png"></p>
-<h1 id="其他方面的更新"><a href="#其他方面的更新" class="headerlink" title="其他方面的更新"></a>其他方面的更新</h1><p>类似针对 Prometheus 数据源的 Query Builder， Grafana v9 针对 Loki 的 LogQL 也实现了 Builder UI. 通常，LogQL 比 PromQL 要更复杂，那么通过 Builder 来构建 LogQL Query 就会有更大的获益。</p>
+<h1 id="其他方面的更新"><a href="#其他方面的更新" class="headerlink" title="其他方面的更新"></a>其他方面的更新</h1><hr>
+<p>类似针对 Prometheus 数据源的 Query Builder， Grafana v9 针对 Loki 的 LogQL 也实现了 Builder UI. 通常，LogQL 比 PromQL 要更复杂，那么通过 Builder 来构建 LogQL Query 就会有更大的获益。</p>
 <p>除此之外，Grafana v9 包括我们正在使用的 v9.2.4 在不少 visualization plugin 上都有些润物细无声的改进，而在 Grafana 主界面上，也为方便浏览加入了 dashboard 的 preview 以及 panel 的搜索等等。同时我们欣喜地发现，原来在 v7 上遇到的写 query 语句时有时候输入光标乱跳的问题，已经被悄无声息地解决。总的来说，Grafana 并没有一味地堆砌新功能，倒是在易用性上持续下着硬功夫。</p>
 
     </div>
@@ -287,7 +288,7 @@
   </li>
   <li class="post-copyright-link">
       <strong>本文链接: </strong>
-      <a href="https://mightoon.github.io/Observability/Observability-Grafana-9/" title="[Observability] Grafana v9 之鸟枪换炮">https://mightoon.github.io/Observability/Observability-Grafana-9/</a>
+      <a href="https://mightoon.github.io/Observability/Observability-Grafana-9/" title="[Observability] Grafana v9 之鸟枪换炮 &lt;br&gt; [Observability] Significant Improvements in Grafana v9">https://mightoon.github.io/Observability/Observability-Grafana-9/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明:  </strong>本文及本博客所有文章，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议进行许可。转载请注明作者及原文链接。
@@ -329,7 +330,7 @@
 
 <div class="copyright">
   &copy; 
-  <span itemprop="copyrightYear">2022</span>
+  <span itemprop="copyrightYear">2023</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

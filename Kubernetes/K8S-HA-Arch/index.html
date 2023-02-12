@@ -254,7 +254,8 @@
 </ul>
 <h1 id="Kubernetes-组件间的关系"><a href="#Kubernetes-组件间的关系" class="headerlink" title="Kubernetes 组件间的关系"></a>Kubernetes 组件间的关系</h1><hr>
 <p>所谓关系，主要指组件间的交互，而控制平面显然是交互的核心。组件间的绝大部分通信，是面向控制平面中 API Server 的，因为从设计上，控制平面的其他组件并没有可暴露的远程服务。</p>
-<h2 id="调用-Kubernetes-API"><a href="#调用-Kubernetes-API" class="headerlink" title="调用 Kubernetes API"></a>调用 Kubernetes API</h2><p>Kubernetes 集群中各个组件发起的 API 调用，都会指向 API Server，即所谓的 Hub-and-Spoke 模式。进一步，信息通过 API Server 将信息存入 etcd. 而各组件需要获取信息是，同样也利用 API Server 提供的 REST接口。通过这种模式，实现组件间交流。一些典型的场景如：</p>
+<h2 id="调用-Kubernetes-API"><a href="#调用-Kubernetes-API" class="headerlink" title="调用 Kubernetes API"></a>调用 Kubernetes API</h2><p>Kubernetes 集群中各个组件发起的 API 调用，都会指向 API Server，即所谓的 Hub-and-Spoke 模式。进一步，信息通过 API Server 将信息存入 etcd. &amp;ensp;而各组件需要获取信息是，同样也利用 API Server 提供的 REST接口。通过这种模式，实现组件间交流。</p>
+<p>一些典型的场景如：</p>
 <ul>
 <li>Kubelet 调用 API 报告自生状态</li>
 <li>运行于 pod 中的分布式应用程序调用 API 了解应用集群的状态</li>
@@ -269,7 +270,8 @@
 </ul>
 <p>API Server 也可以直接与节点，pod 或服务通信，这类场景通常是利用 API Server 代理 REST 请求，实现从集群之外访问某个节点或服务。由此获取的信息直接来自节点，而绕过了 etcd.</p>
 <h1 id="Kubernetes-高可用集群的原理"><a href="#Kubernetes-高可用集群的原理" class="headerlink" title="Kubernetes 高可用集群的原理"></a>Kubernetes 高可用集群的原理</h1><hr>
-<p>我们常说，Kubernetes 从声明模式的机制上，会保证部署在集群中的应用程序(这里主要指无状态应用程序)资源的数量，以及通过各种探针，保证应用程序的可用性。所以编排于 Kubernetes 上的应用程序，一般无需专门维护高可用性。那么对于 Kubernetes 集群本身的高可用又是如何保证的呢？</p>
+<p>我们常说，Kubernetes 从声明模式的机制上，会保证部署在集群中的应用程序(这里主要指无状态应用程序)资源的数量，以及通过各种探针，保证应用程序的可用性。所以编排于 Kubernetes 上的应用程序，一般无需专门维护高可用性。</p>
+<p>那么对于 Kubernetes 集群本身的高可用又是如何保证的呢？</p>
 <h2 id="控制平面的高可用考虑"><a href="#控制平面的高可用考虑" class="headerlink" title="控制平面的高可用考虑"></a>控制平面的高可用考虑</h2><h3 id="I-API-Server"><a href="#I-API-Server" class="headerlink" title="I. API Server"></a>I. API Server</h3><p>从上一小节 Kubernetes 组件中可以看到，API Server 作为 Kubernetes 控制平面的前端，是整个通信的核心，在集群较大时，API Server 的压力是比较大的。从高可用的实践角度，首先需要消除 API Server 的单点状态。好在 Kubernetes 在架构上已经考虑了这个问题，将 API Server 设计为无状态的，也就是说，可通过部署多个实例对 API Server 进行水平扩展。而在控制平面之外，还可以配套部署负载均衡节点，平衡各个 API Server 实例的流量。</p>
 <h3 id="II-Etcd"><a href="#II-Etcd" class="headerlink" title="II. Etcd"></a>II. Etcd</h3><p>作为 Kubernetes 集群数据的后台数据库，etcd 保存整个集群的状态以及配置信息。Etcd 设计为分布式，通过 raft 协议保证多个实例之间数据的一致性。</p>
 <blockquote>
@@ -282,7 +284,7 @@
 <h4 id="External-Etcd-拓扑"><a href="#External-Etcd-拓扑" class="headerlink" title="External Etcd 拓扑"></a>External Etcd 拓扑</h4><p>Etcd 集群运行在独立于控制平面节点的其他节点上，从而解耦了控制平面和 etcd 成员，每个 etcd 成员可以与每个控制平面节点的 API Server 通信。</p>
 <img src="https://d33wubrfki0l68.cloudfront.net/ad49fffce42d5a35ae0d0cc1186b97209d86b99c/5a6ae/images/kubeadm/kubeadm-ha-topology-external-etcd.svg" class="" title="external-etcd">
 
-<h3 id="III-其他控制平面组件"><a href="#III-其他控制平面组件" class="headerlink" title="III. 其他控制平面组件"></a>III. 其他控制平面组件</h3><p>在 Kubernetes 架构中，Scheduler 和 Controller-manager 被设计为单实例运行，因此需要通过选举机制产生 leader. 简单的讲（以 Scheduler 为例），K8S 会对 Scheduler 组件生成 endpoint 资源, 所有的实例竞争向 endpoint 的 Annotations 中写入自己的信息，当然这个过程是有锁的（详细原理在<code>之前的文章</code>有讲到），而成功写入信息的实例，即成为 leader. 一旦 leader 因为某种情况不可用时，立即选出下一个接管它的实例，通过这样的机制，来保证单例组件的高可用性。</p>
+<h3 id="III-其他控制平面组件"><a href="#III-其他控制平面组件" class="headerlink" title="III. 其他控制平面组件"></a>III. 其他控制平面组件</h3><p>在 Kubernetes 架构中，Scheduler 和 Controller-manager 被设计为单实例运行，因此需要通过选举机制产生 leader. &amp;ensp;简单的讲（以 Scheduler 为例），K8S 会对 Scheduler 组件生成 endpoint 资源, 所有的实例竞争向 endpoint 的 Annotations 中写入自己的信息，当然这个过程是有锁的（详细原理在<code>之前的文章</code>有讲到），而成功写入信息的实例，即成为 leader. &amp;ensp;一旦 leader 因为某种情况不可用时，立即选出下一个接管它的实例，通过这样的机制，来保证单例组件的高可用性。</p>
 <img src="selection.png">
 
 <p>下一篇文章，具体来看一下 Rancher 是如何将上述 Kubernetes 高可用性原理逐个实现的。</p>
@@ -351,7 +353,7 @@
 
 <div class="copyright">
   &copy; 
-  <span itemprop="copyrightYear">2022</span>
+  <span itemprop="copyrightYear">2023</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

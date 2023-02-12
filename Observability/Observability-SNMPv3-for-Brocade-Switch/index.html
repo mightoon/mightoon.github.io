@@ -22,7 +22,7 @@
 
     <meta name="description" content="在 Prometheus 生态中，往往用 SNMP exporter 监控数据中心的网络，无论是 Ethernet 网络，还是 FC Fabric, 结合相应的 MIB 库， SNMPv2 通常能够满足大多数需求，而且配置简洁，落地简单。我们在一个传统数据中心环境中，用 SNMPv2 监控 FC Fabric, 却发现无法获取 uplink 端口的性能指标数据，通过排查发现 SNMPv2 对 FC">
 <meta property="og:type" content="article">
-<meta property="og:title" content="[Observability] SNMPv3 实现 FC 虚拟网络监控">
+<meta property="og:title" content="[Observability] SNMPv3 实现 FC 虚拟网络监控 &lt;br&gt;[Observability] Implementing SNMPv3 for FC Virtual Network Monitoring ">
 <meta property="og:url" content="https://mightoon.github.io/Observability/Observability-SNMPv3-for-Brocade-Switch/index.html">
 <meta property="og:site_name" content="MeeToon&#39;s Blog">
 <meta property="og:description" content="在 Prometheus 生态中，往往用 SNMP exporter 监控数据中心的网络，无论是 Ethernet 网络，还是 FC Fabric, 结合相应的 MIB 库， SNMPv2 通常能够满足大多数需求，而且配置简洁，落地简单。我们在一个传统数据中心环境中，用 SNMPv2 监控 FC Fabric, 却发现无法获取 uplink 端口的性能指标数据，通过排查发现 SNMPv2 对 FC">
@@ -45,10 +45,10 @@
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://mightoon.github.io/Observability/Observability-SNMPv3-for-Brocade-Switch/","path":"Observability/Observability-SNMPv3-for-Brocade-Switch/","title":"[Observability] SNMPv3 实现 FC 虚拟网络监控"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://mightoon.github.io/Observability/Observability-SNMPv3-for-Brocade-Switch/","path":"Observability/Observability-SNMPv3-for-Brocade-Switch/","title":"[Observability] SNMPv3 实现 FC 虚拟网络监控 \u003cbr>[Observability] Implementing SNMPv3 for FC Virtual Network Monitoring "}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>[Observability] SNMPv3 实现 FC 虚拟网络监控 | MeeToon's Blog</title>
+<title>[Observability] SNMPv3 实现 FC 虚拟网络监控 <br>[Observability] Implementing SNMPv3 for FC Virtual Network Monitoring  | MeeToon's Blog</title>
   
 
 
@@ -195,12 +195,12 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="[Observability] SNMPv3 实现 FC 虚拟网络监控 | MeeToon's Blog">
-      <meta itemprop="description" content="在 Prometheus 生态中，往往用 SNMP exporter 监控数据中心的网络，无论是 Ethernet 网络，还是 FC Fabric, 结合相应的 MIB 库， SNMPv2 通常能够满足大多数需求，而且配置简洁，落地简单。我们在一个传统数据中心环境中，用 SNMPv2 监控 FC Fabric, 却发现无法获取 uplink 端口的性能指标数据，通过排查发现 SNMPv2 对 FC 虚拟网络的支持不足，这里总结一下出现问题的原因和处理的方式。">
+      <meta itemprop="name" content="[Observability] SNMPv3 实现 FC 虚拟网络监控 <br>[Observability] Implementing SNMPv3 for FC Virtual Network Monitoring  | MeeToon's Blog">
+      <meta itemprop="description" content="在 Prometheus 生态中，往往用 SNMP exporter 监控数据中心的网络，无论是 Ethernet 网络，还是 FC Fabric, 结合相应的 MIB 库， SNMPv2 通常能够满足大多数需求，而且配置简洁，落地简单。我们在一个传统数据中心环境中，用 SNMPv2 监控 FC Fabric, 却发现无法获取 uplink 端口的性能指标数据，通过排查发现 SNMPv2 对 FC 虚拟网络的支持不足，这里总结一下出现问题的原因和处理的方式。<br> In the Prometheus ecosystem, SNMP exporter is often used to monitor data center networks, whether it's Ethernet networks or FC Fabric. With the corresponding MIB library, SNMPv2 can usually meet most requirements, and it has a simple configuration and easy implementation. However, in a traditional data center environment, when using SNMPv2 to monitor FC Fabric, we found that we could not retrieve performance metrics data for the uplink ports. After investigating, we found that SNMPv2 does not support FC virtual networks enough. Here, we summarize the reasons for the problems and the ways to handle them.">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          [Observability] SNMPv3 实现 FC 虚拟网络监控
+          [Observability] SNMPv3 实现 FC 虚拟网络监控 <br>[Observability] Implementing SNMPv3 for FC Virtual Network Monitoring 
         </h1>
 
         <div class="post-meta-container">
@@ -226,7 +226,7 @@
   
 </div>
 
-            <div class="post-description">在 Prometheus 生态中，往往用 SNMP exporter 监控数据中心的网络，无论是 Ethernet 网络，还是 FC Fabric, 结合相应的 MIB 库， SNMPv2 通常能够满足大多数需求，而且配置简洁，落地简单。我们在一个传统数据中心环境中，用 SNMPv2 监控 FC Fabric, 却发现无法获取 uplink 端口的性能指标数据，通过排查发现 SNMPv2 对 FC 虚拟网络的支持不足，这里总结一下出现问题的原因和处理的方式。</div>
+            <div class="post-description">在 Prometheus 生态中，往往用 SNMP exporter 监控数据中心的网络，无论是 Ethernet 网络，还是 FC Fabric, 结合相应的 MIB 库， SNMPv2 通常能够满足大多数需求，而且配置简洁，落地简单。我们在一个传统数据中心环境中，用 SNMPv2 监控 FC Fabric, 却发现无法获取 uplink 端口的性能指标数据，通过排查发现 SNMPv2 对 FC 虚拟网络的支持不足，这里总结一下出现问题的原因和处理的方式。<br> In the Prometheus ecosystem, SNMP exporter is often used to monitor data center networks, whether it's Ethernet networks or FC Fabric. With the corresponding MIB library, SNMPv2 can usually meet most requirements, and it has a simple configuration and easy implementation. However, in a traditional data center environment, when using SNMPv2 to monitor FC Fabric, we found that we could not retrieve performance metrics data for the uplink ports. After investigating, we found that SNMPv2 does not support FC virtual networks enough. Here, we summarize the reasons for the problems and the ways to handle them.</div>
         </div>
       </header>
 
@@ -298,7 +298,7 @@
   </li>
   <li class="post-copyright-link">
       <strong>本文链接: </strong>
-      <a href="https://mightoon.github.io/Observability/Observability-SNMPv3-for-Brocade-Switch/" title="[Observability] SNMPv3 实现 FC 虚拟网络监控">https://mightoon.github.io/Observability/Observability-SNMPv3-for-Brocade-Switch/</a>
+      <a href="https://mightoon.github.io/Observability/Observability-SNMPv3-for-Brocade-Switch/" title="[Observability] SNMPv3 实现 FC 虚拟网络监控 &lt;br&gt;[Observability] Implementing SNMPv3 for FC Virtual Network Monitoring ">https://mightoon.github.io/Observability/Observability-SNMPv3-for-Brocade-Switch/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明:  </strong>本文及本博客所有文章，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议进行许可。转载请注明作者及原文链接。
@@ -320,8 +320,8 @@
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/AWS/AWS-S3-User-Scenario/" rel="next" title="[AWS] Amazon S3 使用场景及原理分析">
-                  [AWS] Amazon S3 使用场景及原理分析 <i class="fa fa-chevron-right"></i>
+                <a href="/AWS/AWS-S3-User-Scenario/" rel="next" title="[AWS] Amazon S3 使用场景及原理分析 <br>[AWS] Amazon S3 Scenario and Analysis">
+                  [AWS] Amazon S3 使用场景及原理分析 <br>[AWS] Amazon S3 Scenario and Analysis <i class="fa fa-chevron-right"></i>
                 </a>
             </div>
           </div>
@@ -343,7 +343,7 @@
 
 <div class="copyright">
   &copy; 
-  <span itemprop="copyrightYear">2022</span>
+  <span itemprop="copyrightYear">2023</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
