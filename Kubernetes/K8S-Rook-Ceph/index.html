@@ -22,7 +22,7 @@
 
     <meta name="description" content="在监控系统基础架构的形态上，将 Prometheus 构建在 Kubernetes 集群之上是一种典型的选择。我们的监控系统也遵循这样的最佳实践，并根据项目环境的规模，部署了多个 Prometheus 实例，而 Prometheus 实例可能在 K8S 节点间漂移，为了满足监控业务连续性的要求，每个 Prometheus 收集到的数据的存储方式，成为一个必须考虑的方面。 In the contex">
 <meta property="og:type" content="article">
-<meta property="og:title" content="[Kubernetes] 使用 Rook Ceph 为监控系统提供持久化存储 &lt;br&gt; [Kubernetes] Using Rook Ceph to Provide Persistent Storage for Monitoring System">
+<meta property="og:title" content="[Kubernetes] 使用 Rook Ceph 为监控系统提供持久化存储 &lt;br&gt; Using Rook Ceph to Provide Persistent Storage for Monitoring System">
 <meta property="og:url" content="https://mightoon.github.io/Kubernetes/K8S-Rook-Ceph/index.html">
 <meta property="og:site_name" content="MeeToon&#39;s Blog">
 <meta property="og:description" content="在监控系统基础架构的形态上，将 Prometheus 构建在 Kubernetes 集群之上是一种典型的选择。我们的监控系统也遵循这样的最佳实践，并根据项目环境的规模，部署了多个 Prometheus 实例，而 Prometheus 实例可能在 K8S 节点间漂移，为了满足监控业务连续性的要求，每个 Prometheus 收集到的数据的存储方式，成为一个必须考虑的方面。 In the contex">
@@ -44,10 +44,10 @@
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://mightoon.github.io/Kubernetes/K8S-Rook-Ceph/","path":"Kubernetes/K8S-Rook-Ceph/","title":"[Kubernetes] 使用 Rook Ceph 为监控系统提供持久化存储 \u003cbr> [Kubernetes] Using Rook Ceph to Provide Persistent Storage for Monitoring System"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://mightoon.github.io/Kubernetes/K8S-Rook-Ceph/","path":"Kubernetes/K8S-Rook-Ceph/","title":"[Kubernetes] 使用 Rook Ceph 为监控系统提供持久化存储 \u003cbr> Using Rook Ceph to Provide Persistent Storage for Monitoring System"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>[Kubernetes] 使用 Rook Ceph 为监控系统提供持久化存储 <br> [Kubernetes] Using Rook Ceph to Provide Persistent Storage for Monitoring System | MeeToon's Blog</title>
+<title>[Kubernetes] 使用 Rook Ceph 为监控系统提供持久化存储 <br> Using Rook Ceph to Provide Persistent Storage for Monitoring System | MeeToon's Blog</title>
   
 
 
@@ -194,12 +194,12 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="[Kubernetes] 使用 Rook Ceph 为监控系统提供持久化存储 <br> [Kubernetes] Using Rook Ceph to Provide Persistent Storage for Monitoring System | MeeToon's Blog">
+      <meta itemprop="name" content="[Kubernetes] 使用 Rook Ceph 为监控系统提供持久化存储 <br> Using Rook Ceph to Provide Persistent Storage for Monitoring System | MeeToon's Blog">
       <meta itemprop="description" content="在监控系统基础架构的形态上，将 Prometheus 构建在 Kubernetes 集群之上是一种典型的选择。我们的监控系统也遵循这样的最佳实践，并根据项目环境的规模，部署了多个 Prometheus 实例，而 Prometheus 实例可能在 K8S 节点间漂移，为了满足监控业务连续性的要求，每个 Prometheus 收集到的数据的存储方式，成为一个必须考虑的方面。<br> In the context of a monitoring system's infrastructure, building Prometheus on top of a Kubernetes cluster is a typical choice. Our monitoring system also follows this best practice and deploys multiple Prometheus instances based on the scale of the project environment. As Prometheus instances may drift among K8S nodes, to meet the requirement of continuous monitoring business, the storage method of data collected by each Prometheus becomes a crucial aspect to consider.">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          [Kubernetes] 使用 Rook Ceph 为监控系统提供持久化存储 <br> [Kubernetes] Using Rook Ceph to Provide Persistent Storage for Monitoring System
+          [Kubernetes] 使用 Rook Ceph 为监控系统提供持久化存储 <br> Using Rook Ceph to Provide Persistent Storage for Monitoring System
         </h1>
 
         <div class="post-meta-container">
@@ -303,7 +303,7 @@
   </li>
   <li class="post-copyright-link">
       <strong>本文链接: </strong>
-      <a href="https://mightoon.github.io/Kubernetes/K8S-Rook-Ceph/" title="[Kubernetes] 使用 Rook Ceph 为监控系统提供持久化存储 &lt;br&gt; [Kubernetes] Using Rook Ceph to Provide Persistent Storage for Monitoring System">https://mightoon.github.io/Kubernetes/K8S-Rook-Ceph/</a>
+      <a href="https://mightoon.github.io/Kubernetes/K8S-Rook-Ceph/" title="[Kubernetes] 使用 Rook Ceph 为监控系统提供持久化存储 &lt;br&gt; Using Rook Ceph to Provide Persistent Storage for Monitoring System">https://mightoon.github.io/Kubernetes/K8S-Rook-Ceph/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明:  </strong>本文及本博客所有文章，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议进行许可。转载请注明作者及原文链接。
@@ -326,8 +326,8 @@
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/Equinix/Equinix-Part1-Introduction/" rel="next" title="[Equinix] 一个跨 Co-location 和公有云的方案的落地">
-                  [Equinix] 一个跨 Co-location 和公有云的方案的落地 <i class="fa fa-chevron-right"></i>
+                <a href="/Equinix/Equinix-Part1-Introduction/" rel="next" title="[Equinix] 一个跨 Co-location 和公有云的方案的落地 <br> The Implementation of a Cross Co-location and Public Cloud Solution">
+                  [Equinix] 一个跨 Co-location 和公有云的方案的落地 <br> The Implementation of a Cross Co-location and Public Cloud Solution <i class="fa fa-chevron-right"></i>
                 </a>
             </div>
           </div>
