@@ -20,12 +20,12 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"mightoon.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.13.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="最近对数据中心的 Kubernetes 平台进行改造，由原来的单一 master 集群重新部署为高可用集群，以满足项目的业务连续性需求。该篇文章通过对 Kubernetes 不同类型节点上的各种组件相互关系的分析，讨论 Kubernetes 高可用架构的原理和实现的方式。">
+    <meta name="description" content="最近对数据中心的 Kubernetes 平台进行改造，由原来的单一 master 集群重新部署为高可用集群，以满足项目的业务连续性需求。该篇文章通过对 Kubernetes 不同类型节点上的各种组件相互关系的分析，讨论 Kubernetes 高可用架构的原理和实现的方式。 To meet the business continuity requirements of our project, we">
 <meta property="og:type" content="article">
-<meta property="og:title" content="[Kubernetes] Kubernetes 高可用集群架构原理分析">
+<meta property="og:title" content="[Kubernetes] Kubernetes 高可用集群架构原理分析 &lt;br&gt; Analysis of the Principle of Kubernetes High Availability Cluster Architecture">
 <meta property="og:url" content="https://mightoon.github.io/Kubernetes/K8S-HA-Arch/index.html">
 <meta property="og:site_name" content="MeeToon&#39;s Blog">
-<meta property="og:description" content="最近对数据中心的 Kubernetes 平台进行改造，由原来的单一 master 集群重新部署为高可用集群，以满足项目的业务连续性需求。该篇文章通过对 Kubernetes 不同类型节点上的各种组件相互关系的分析，讨论 Kubernetes 高可用架构的原理和实现的方式。">
+<meta property="og:description" content="最近对数据中心的 Kubernetes 平台进行改造，由原来的单一 master 集群重新部署为高可用集群，以满足项目的业务连续性需求。该篇文章通过对 Kubernetes 不同类型节点上的各种组件相互关系的分析，讨论 Kubernetes 高可用架构的原理和实现的方式。 To meet the business continuity requirements of our project, we">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://d33wubrfki0l68.cloudfront.net/2475489eaf20163ec0f54ddc1d92aa8d4c87c96b/e7c81/images/docs/components-of-kubernetes.svg">
 <meta property="og:image" content="https://d33wubrfki0l68.cloudfront.net/d1411cded83856552f37911eb4522d9887ca4e83/b94b2/images/kubeadm/kubeadm-ha-topology-stacked-etcd.svg">
@@ -44,10 +44,10 @@
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://mightoon.github.io/Kubernetes/K8S-HA-Arch/","path":"Kubernetes/K8S-HA-Arch/","title":"[Kubernetes] Kubernetes 高可用集群架构原理分析"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://mightoon.github.io/Kubernetes/K8S-HA-Arch/","path":"Kubernetes/K8S-HA-Arch/","title":"[Kubernetes] Kubernetes 高可用集群架构原理分析 \u003cbr> Analysis of the Principle of Kubernetes High Availability Cluster Architecture"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>[Kubernetes] Kubernetes 高可用集群架构原理分析 | MeeToon's Blog</title>
+<title>[Kubernetes] Kubernetes 高可用集群架构原理分析 <br> Analysis of the Principle of Kubernetes High Availability Cluster Architecture | MeeToon's Blog</title>
   
 
 
@@ -194,12 +194,12 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="[Kubernetes] Kubernetes 高可用集群架构原理分析 | MeeToon's Blog">
-      <meta itemprop="description" content="最近对数据中心的 Kubernetes 平台进行改造，由原来的单一 master 集群重新部署为高可用集群，以满足项目的业务连续性需求。该篇文章通过对 Kubernetes 不同类型节点上的各种组件相互关系的分析，讨论 Kubernetes 高可用架构的原理和实现的方式。">
+      <meta itemprop="name" content="[Kubernetes] Kubernetes 高可用集群架构原理分析 <br> Analysis of the Principle of Kubernetes High Availability Cluster Architecture | MeeToon's Blog">
+      <meta itemprop="description" content="最近对数据中心的 Kubernetes 平台进行改造，由原来的单一 master 集群重新部署为高可用集群，以满足项目的业务连续性需求。该篇文章通过对 Kubernetes 不同类型节点上的各种组件相互关系的分析，讨论 Kubernetes 高可用架构的原理和实现的方式。<br> To meet the business continuity requirements of our project, we have recently transformed the Kubernetes platform, with the original single-master cluster being redeployed as a high availability cluster. This article analyzes the interrelationships of various components on different types of Kubernetes nodes and discusses the principles and implementation methods of the Kubernetes HA architecture.">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          [Kubernetes] Kubernetes 高可用集群架构原理分析
+          [Kubernetes] Kubernetes 高可用集群架构原理分析 <br> Analysis of the Principle of Kubernetes High Availability Cluster Architecture
         </h1>
 
         <div class="post-meta-container">
@@ -225,7 +225,7 @@
   
 </div>
 
-            <div class="post-description">最近对数据中心的 Kubernetes 平台进行改造，由原来的单一 master 集群重新部署为高可用集群，以满足项目的业务连续性需求。该篇文章通过对 Kubernetes 不同类型节点上的各种组件相互关系的分析，讨论 Kubernetes 高可用架构的原理和实现的方式。</div>
+            <div class="post-description">最近对数据中心的 Kubernetes 平台进行改造，由原来的单一 master 集群重新部署为高可用集群，以满足项目的业务连续性需求。该篇文章通过对 Kubernetes 不同类型节点上的各种组件相互关系的分析，讨论 Kubernetes 高可用架构的原理和实现的方式。<br> To meet the business continuity requirements of our project, we have recently transformed the Kubernetes platform, with the original single-master cluster being redeployed as a high availability cluster. This article analyzes the interrelationships of various components on different types of Kubernetes nodes and discusses the principles and implementation methods of the Kubernetes HA architecture.</div>
         </div>
       </header>
 
@@ -308,7 +308,7 @@
   </li>
   <li class="post-copyright-link">
       <strong>本文链接: </strong>
-      <a href="https://mightoon.github.io/Kubernetes/K8S-HA-Arch/" title="[Kubernetes] Kubernetes 高可用集群架构原理分析">https://mightoon.github.io/Kubernetes/K8S-HA-Arch/</a>
+      <a href="https://mightoon.github.io/Kubernetes/K8S-HA-Arch/" title="[Kubernetes] Kubernetes 高可用集群架构原理分析 &lt;br&gt; Analysis of the Principle of Kubernetes High Availability Cluster Architecture">https://mightoon.github.io/Kubernetes/K8S-HA-Arch/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明:  </strong>本文及本博客所有文章，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议进行许可。转载请注明作者及原文链接。
@@ -330,8 +330,8 @@
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/Kubernetes/K8S-RKE-Deployment/" rel="next" title="[Kubernetes] Kubernetes 高可用集群基于 RKE 的实现">
-                  [Kubernetes] Kubernetes 高可用集群基于 RKE 的实现 <i class="fa fa-chevron-right"></i>
+                <a href="/Kubernetes/K8S-RKE-Deployment/" rel="next" title="[Kubernetes] Kubernetes 高可用集群基于 RKE 的实现 <br> Implementation of a High Availability Kubernetes Cluster Based on RKE">
+                  [Kubernetes] Kubernetes 高可用集群基于 RKE 的实现 <br> Implementation of a High Availability Kubernetes Cluster Based on RKE <i class="fa fa-chevron-right"></i>
                 </a>
             </div>
           </div>

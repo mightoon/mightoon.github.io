@@ -20,12 +20,12 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"mightoon.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.13.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="一个正在进行的项目，需要把数据中心里所有的虚拟化平台 infrastructure 纳入到 Prometheus 监控，找了一圈没有合适的 exporter. 了解到 Telegraf 有针对 vSphere 的插件，刚好能用上。同时对 TICK 生态稍作延展性研究，整理成本篇文章。 In a current project, we need to include all the virtuali">
+    <meta name="description" content="一个正在进行的项目，需要把数据中心里所有的虚拟化平台 infrastructure 纳入到 Prometheus 监控，找了一圈没有合适的 exporter. 了解到 Telegraf 有针对 vSphere 的插件，刚好能用上。同时对 TICK 生态稍作延展性研究，整理成本篇文章。  In a current project, we need to include all the virtual">
 <meta property="og:type" content="article">
 <meta property="og:title" content="[Observability] 为什么需要 Telegraf &lt;br&gt; Why Telegraf is Necessary">
 <meta property="og:url" content="https://mightoon.github.io/Observability/Observability-Telegraf/index.html">
 <meta property="og:site_name" content="MeeToon&#39;s Blog">
-<meta property="og:description" content="一个正在进行的项目，需要把数据中心里所有的虚拟化平台 infrastructure 纳入到 Prometheus 监控，找了一圈没有合适的 exporter. 了解到 Telegraf 有针对 vSphere 的插件，刚好能用上。同时对 TICK 生态稍作延展性研究，整理成本篇文章。 In a current project, we need to include all the virtuali">
+<meta property="og:description" content="一个正在进行的项目，需要把数据中心里所有的虚拟化平台 infrastructure 纳入到 Prometheus 监控，找了一圈没有合适的 exporter. 了解到 Telegraf 有针对 vSphere 的插件，刚好能用上。同时对 TICK 生态稍作延展性研究，整理成本篇文章。  In a current project, we need to include all the virtual">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://www.influxdata.com/wp-content/uploads/Influx-1.0-Diagram_04.20.2020v2.png">
 <meta property="og:image" content="https://www.influxdata.com/wp-content/uploads/Main-Diagram_06.01.2022v1.png">
@@ -194,7 +194,7 @@
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
       <meta itemprop="name" content="[Observability] 为什么需要 Telegraf <br> Why Telegraf is Necessary | MeeToon's Blog">
-      <meta itemprop="description" content="一个正在进行的项目，需要把数据中心里所有的虚拟化平台 infrastructure 纳入到 Prometheus 监控，找了一圈没有合适的 exporter. 了解到 Telegraf 有针对 vSphere 的插件，刚好能用上。同时对 TICK 生态稍作延展性研究，整理成本篇文章。<br> In a current project, we need to include all the virtualization platforms' infrastructure in the data center into Prometheus monitoring, but we couldn't find a suitable exporter. After finding out that Telegraf has a plugin for vSphere, we realized it could come in handy. We also conducted a study on the extendibility of the TICK ecosystem and organized it into this article">
+      <meta itemprop="description" content="一个正在进行的项目，需要把数据中心里所有的虚拟化平台 infrastructure 纳入到 Prometheus 监控，找了一圈没有合适的 exporter. 了解到 Telegraf 有针对 vSphere 的插件，刚好能用上。同时对 TICK 生态稍作延展性研究，整理成本篇文章。<br>  In a current project, we need to include all the virtualization platforms' infrastructure in the data center into Prometheus monitoring, but we couldn't find a suitable exporter. After finding out that Telegraf has a plugin for vSphere, we realized it could come in handy. We also conducted a study on the extendibility of the TICK ecosystem and organized it into this article">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
@@ -224,7 +224,7 @@
   
 </div>
 
-            <div class="post-description">一个正在进行的项目，需要把数据中心里所有的虚拟化平台 infrastructure 纳入到 Prometheus 监控，找了一圈没有合适的 exporter. 了解到 Telegraf 有针对 vSphere 的插件，刚好能用上。同时对 TICK 生态稍作延展性研究，整理成本篇文章。<br> In a current project, we need to include all the virtualization platforms' infrastructure in the data center into Prometheus monitoring, but we couldn't find a suitable exporter. After finding out that Telegraf has a plugin for vSphere, we realized it could come in handy. We also conducted a study on the extendibility of the TICK ecosystem and organized it into this article</div>
+            <div class="post-description">一个正在进行的项目，需要把数据中心里所有的虚拟化平台 infrastructure 纳入到 Prometheus 监控，找了一圈没有合适的 exporter. 了解到 Telegraf 有针对 vSphere 的插件，刚好能用上。同时对 TICK 生态稍作延展性研究，整理成本篇文章。<br>  In a current project, we need to include all the virtualization platforms' infrastructure in the data center into Prometheus monitoring, but we couldn't find a suitable exporter. After finding out that Telegraf has a plugin for vSphere, we realized it could come in handy. We also conducted a study on the extendibility of the TICK ecosystem and organized it into this article</div>
         </div>
       </header>
 

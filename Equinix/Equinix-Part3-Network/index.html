@@ -20,12 +20,12 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"mightoon.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.13.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="vSphere 集群在 Equinix Metal 中搭建起来之后，接下来就是在集群上面部署应用程序。我们的应用程序是一个简单的分布式的数据消费者，通过一套自研的 automation framework 将其部署在 vSphere 集群上。本文对该应用的部署进行展开，通过分解应用对网络的要求，调整 Equinix Metal 的网络。">
+    <meta name="description" content="vSphere 集群在 Equinix Metal 中搭建起来之后，接下来就是在集群上面部署应用程序。我们的应用程序是一个简单的分布式的数据消费者，通过一套自研的 automation framework 将其部署在 vSphere 集群上。本文对该应用的部署进行展开，通过分解应用对网络的要求，调整 Equinix Metal 的网络。 After setting up a vSphere clu">
 <meta property="og:type" content="article">
-<meta property="og:title" content="[Equinix] Bare Metal as-a-service 体验之网络重新规划">
+<meta property="og:title" content="[Equinix] Bare Metal as-a-service 体验之网络重新规划 &lt;br&gt; Network Replanning - The Experience of Bare Metal as-a-Service">
 <meta property="og:url" content="https://mightoon.github.io/Equinix/Equinix-Part3-Network/index.html">
 <meta property="og:site_name" content="MeeToon&#39;s Blog">
-<meta property="og:description" content="vSphere 集群在 Equinix Metal 中搭建起来之后，接下来就是在集群上面部署应用程序。我们的应用程序是一个简单的分布式的数据消费者，通过一套自研的 automation framework 将其部署在 vSphere 集群上。本文对该应用的部署进行展开，通过分解应用对网络的要求，调整 Equinix Metal 的网络。">
+<meta property="og:description" content="vSphere 集群在 Equinix Metal 中搭建起来之后，接下来就是在集群上面部署应用程序。我们的应用程序是一个简单的分布式的数据消费者，通过一套自研的 automation framework 将其部署在 vSphere 集群上。本文对该应用的部署进行展开，通过分解应用对网络的要求，调整 Equinix Metal 的网络。 After setting up a vSphere clu">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://mightoon.github.io/Equinix/Equinix-Part3-Network/network-type.png">
 <meta property="og:image" content="https://mightoon.github.io/Equinix/Equinix-Part3-Network/vlan1.png">
@@ -44,10 +44,10 @@
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://mightoon.github.io/Equinix/Equinix-Part3-Network/","path":"Equinix/Equinix-Part3-Network/","title":"[Equinix] Bare Metal as-a-service 体验之网络重新规划"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://mightoon.github.io/Equinix/Equinix-Part3-Network/","path":"Equinix/Equinix-Part3-Network/","title":"[Equinix] Bare Metal as-a-service 体验之网络重新规划 \u003cbr> Network Replanning - The Experience of Bare Metal as-a-Service"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>[Equinix] Bare Metal as-a-service 体验之网络重新规划 | MeeToon's Blog</title>
+<title>[Equinix] Bare Metal as-a-service 体验之网络重新规划 <br> Network Replanning - The Experience of Bare Metal as-a-Service | MeeToon's Blog</title>
   
 
 
@@ -194,12 +194,12 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="[Equinix] Bare Metal as-a-service 体验之网络重新规划 | MeeToon's Blog">
-      <meta itemprop="description" content="vSphere 集群在 Equinix Metal 中搭建起来之后，接下来就是在集群上面部署应用程序。我们的应用程序是一个简单的分布式的数据消费者，通过一套自研的 automation framework 将其部署在 vSphere 集群上。本文对该应用的部署进行展开，通过分解应用对网络的要求，调整 Equinix Metal 的网络。">
+      <meta itemprop="name" content="[Equinix] Bare Metal as-a-service 体验之网络重新规划 <br> Network Replanning - The Experience of Bare Metal as-a-Service | MeeToon's Blog">
+      <meta itemprop="description" content="vSphere 集群在 Equinix Metal 中搭建起来之后，接下来就是在集群上面部署应用程序。我们的应用程序是一个简单的分布式的数据消费者，通过一套自研的 automation framework 将其部署在 vSphere 集群上。本文对该应用的部署进行展开，通过分解应用对网络的要求，调整 Equinix Metal 的网络。<br> After setting up a vSphere cluster in Equinix Metal, the next step is to deploy applications on the cluster. Our application is a simple distributed data consumer which is deployed on the vSphere cluster through a self-developed automation framework. This article will delve into the deployment of the application and tune Equinix Metal's network by breaking down the network requirements of the application.">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          [Equinix] Bare Metal as-a-service 体验之网络重新规划
+          [Equinix] Bare Metal as-a-service 体验之网络重新规划 <br> Network Replanning - The Experience of Bare Metal as-a-Service
         </h1>
 
         <div class="post-meta-container">
@@ -225,7 +225,7 @@
   
 </div>
 
-            <div class="post-description">vSphere 集群在 Equinix Metal 中搭建起来之后，接下来就是在集群上面部署应用程序。我们的应用程序是一个简单的分布式的数据消费者，通过一套自研的 automation framework 将其部署在 vSphere 集群上。本文对该应用的部署进行展开，通过分解应用对网络的要求，调整 Equinix Metal 的网络。</div>
+            <div class="post-description">vSphere 集群在 Equinix Metal 中搭建起来之后，接下来就是在集群上面部署应用程序。我们的应用程序是一个简单的分布式的数据消费者，通过一套自研的 automation framework 将其部署在 vSphere 集群上。本文对该应用的部署进行展开，通过分解应用对网络的要求，调整 Equinix Metal 的网络。<br> After setting up a vSphere cluster in Equinix Metal, the next step is to deploy applications on the cluster. Our application is a simple distributed data consumer which is deployed on the vSphere cluster through a self-developed automation framework. This article will delve into the deployment of the application and tune Equinix Metal's network by breaking down the network requirements of the application.</div>
         </div>
       </header>
 
@@ -277,7 +277,7 @@
   </li>
   <li class="post-copyright-link">
       <strong>本文链接: </strong>
-      <a href="https://mightoon.github.io/Equinix/Equinix-Part3-Network/" title="[Equinix] Bare Metal as-a-service 体验之网络重新规划">https://mightoon.github.io/Equinix/Equinix-Part3-Network/</a>
+      <a href="https://mightoon.github.io/Equinix/Equinix-Part3-Network/" title="[Equinix] Bare Metal as-a-service 体验之网络重新规划 &lt;br&gt; Network Replanning - The Experience of Bare Metal as-a-Service">https://mightoon.github.io/Equinix/Equinix-Part3-Network/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明:  </strong>本文及本博客所有文章，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议进行许可。转载请注明作者及原文链接。
@@ -294,13 +294,13 @@
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/Equinix/Equinix-Part2-Deployment/" rel="prev" title="[Equinix] Bare Metal as-a-service 体验之虚拟化部署">
-                  <i class="fa fa-chevron-left"></i> [Equinix] Bare Metal as-a-service 体验之虚拟化部署
+                <a href="/Equinix/Equinix-Part2-Deployment/" rel="prev" title="[Equinix] Bare Metal as-a-Service 体验之虚拟化部署 <br> Virtualization Deployment - The Experience of Bare Metal as-a-Service">
+                  <i class="fa fa-chevron-left"></i> [Equinix] Bare Metal as-a-Service 体验之虚拟化部署 <br> Virtualization Deployment - The Experience of Bare Metal as-a-Service
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/Equinix/Equinix-Part4-Connectivity/" rel="next" title="[Equinix] 从 Equinix Metal 到 Equinix IBX 数据中心">
-                  [Equinix] 从 Equinix Metal 到 Equinix IBX 数据中心 <i class="fa fa-chevron-right"></i>
+                <a href="/Equinix/Equinix-Part4-Connectivity/" rel="next" title="[Equinix] 从 Equinix Metal 到 Equinix IBX 数据中心 <br> From Equinix Metal to Equinix IBX">
+                  [Equinix] 从 Equinix Metal 到 Equinix IBX 数据中心 <br> From Equinix Metal to Equinix IBX <i class="fa fa-chevron-right"></i>
                 </a>
             </div>
           </div>
